@@ -198,3 +198,5 @@ pip-log.txt
 *.vrb
 *.xdy
 *.tdo
+
+*.pdf
