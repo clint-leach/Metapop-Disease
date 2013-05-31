@@ -12,14 +12,13 @@
 \begin{document}
 
 \title{Environmental pathogen reservoirs and habitat heterogeneity in a metapopulation}
-\subtitle{Manuscript v.0}
 
-\author{Clint Leach \and Paul Cross \and Colleen Webb}
+\author{Clint B. Leach \and Paul C. Cross \and Colleen T. Webb}
 
 %\institute{}
 %\journalname{}
 
-\date{October 21, 2012}
+\date{May 30, 2013}
 
 \titlerunning{Pathogen Reservoirs}
 
@@ -28,13 +27,17 @@
 \section{Introduction}
 \label{intro}
 
-Many wildlife diseases are caused by pathogens that can persist for long periods of time in the environment.  Examples include chronic wasting disease (\cite{Miller2006}), anthrax (\cite{Dragon1995}), plague (\cite{Eisen2008}), and recently white nose syndrome (\cite{Lindner2011}), among others.  This environmental longevity can have important consequences for disease dynamics, especially in spatially structured populations.
+Many wildlife diseases are caused by pathogens that can persist, and remain infectious, for long periods of time in the environment.  Examples include chronic wasting disease (\cite{Miller2006}), anthrax (\cite{Dragon1995}), plague (\cite{Eisen2008}), and white nose syndrome (\cite{Lindner2011}), among others.  This environmental persistence creates environmental pathogen reservoirs from which hosts can become infected without direct contact with an infected individual.  This additional transmission pathway can have important consequences for disease dynamics, especially in spatially structured populations (\cite{Park2012}).
 
-In general the presence of a pathogen can have significant effects on host dynamics in a metapopulation.  Increased movement among patches in a metapopulation is thought to improve metapopulation stability and reduce the likelihood of extinction, but, as shown by \cite{Hess1996}, this can also lead to widespread infection, thereby increasing the probability of extinction.  Studies by \cite{Gog2002} and \cite{McCallum2002} add infection from an alternate host and patches resistant to the pathogen, respectively, and find that increased landscape connectivity (e.g. through increased host movement) always improves the persistence of the host population, regardless of pathogen spread.  These studies highlight the potential for important interactions between spatial structure, host movement, and pathogen transmission, and the importance of understanding these interactions for conservation and management.
+Patterns and rates of host movement also play an important role in pathogen spread through a metapopulation.  As shown by \cite{Hess1996}, for pathogens spread by direct contact alone, increased host movment enhances pathogen spread through a metapopulation.  Further studies by \cite{Gog2002} and \cite{McCallum2002} explore the role of additional transmission pathways by including background infection from an alternate host, while \cite{Park2012} includes transmission from an environmental reservoir.  These studies show that the the effect of host movement on occupancy (and pathogen spread) depends on the relative strength of the different transmission pathways and highlight the potential for patterns of host movement and pathways of pathogen transmission to interact and influence disease dynamics.   
 
-The above studies demonstrate the importance of host movement in governing metapopulation and transmission dynamics, but none incorporate patch level heterogeneity.  In particular, the quality of a habitat patch can affect its extinction and colonization probabilities, as well as its contribution to the colonization of other empty patches (\cite{Moilanen1998}).  As an example, in a study of the Glanville fritillary butterfly metapopulation, \cite{Moilanen1998} found that increased patch quality, as measured by the density of flowering plants, decreased emigration and increased immigration.  Thus, patterns of host, and therefore pathogen, movement are determined at least in part by patch quality.  It then follows that the role played by an environmental pathogen reservoir is also a function of patch quality and its distribution.
+However, the above studies assume that all patches in the metapopulation are identical, and consider movement only at the metapopulation scale.  Since environmental transmission is spatially explicit (i.e. environmental reservoirs can only infect residents of the local patch), its role in disease dynamics may depend on the attributes of the specific habitat patches in which reservoirs become established.  In particular, the quality of a habitat patch can affect its extinction and colonization probabilities, as well as its contribution to the colonization of other empty patches (\cite{Moilanen1998}).  As an example, in a study of the Glanville fritillary butterfly metapopulation, \cite{Moilanen1998} found that increased patch quality, as measured by the density of flowering plants, decreased emigration and increased immigration.  Thus, patterns of host movement, and consequently the role of environmental pathogen transmission, are determined at least in part by patch quality.  
 
-Though both disease and habitat heterogeneity have been identified independently as potentially important factors in metapopulation dynamics, how these two factors interact is poorly understood.  In particular, at the metapopulation scale, we ask how pathogen spread is influenced by environmental longevity and the variance (or heterogeneity) in the patch quality distribution.  In addition, at the patch level, we suspect that high quality habitat patches might become contaminated with the pathogen, yet still attract colonists, thereby creating an infectious trap for the host.  In this situation, low quality patches might then serve as refuges that allow susceptible hosts to escape infection.  Therefore, we are also interested in how individual patch quality affects host and pathogen dynamics.
+Many of the pathogens listed above affect spatially structured host populations (e.g. plague in prairie dog colonies), and thus understanding the consquences of environmental pathogen persistence and habitat quality for pathogen spread is critical to managing disease in these systems.  In this study, we ask how pathogen longevity (how long the pathogen can persist and remain infections in the environment), and habitat heterogeneity (the variance in the distribution of patch quality across the metapopulation) interact to influence pathogen spread through the metapopulation.  Within a metapopulation, we ask what specific role low and high quality patches play in controlling pathogen spread.  
+
+We expect pathogen spread to increase with both environmental longevity and with habitat heterogeneity.  Increased environmental longevity should provide greater opportunities for transmission, and thus should favor pathogen spread.  The role of habitat heterogeneity is likely to be more complex, emerging from the behavior of high and low quality patchs in heterogeneous metapopulations.  Specifically, we expect that high quality habitat patches, which support greater host traffic than lower quality habitat, might be more likely to form pathogen reservoirs.  As these reservoirs are undetectable to the host, we predict that high quality patches will continue to attract -- and infect -- susceptible immigrants, effectively creating an ecological trap (citations, examples?).  In addition, the greater traffic through high quality patches may further facilitate pathogen spread by positioning high quality patches as metapopulation-scale superspreaders (citation).  Similarly, we predict that low quality patches, which see relatively less host traffic, will be less likely to develop pathogen reservoirs and and thus may serve as refuges for susceptible hosts to escape infection.  
+
+To address the above questions and evaluate our hypotheses, we build on the metapopulation framework developed by \cite{Hanski1994} to develop and explore a theoretical stochastic patch occupancy model that incorporates pathogen transmission from environmental reservoirs and habitat heterogeneity.   
 
 \section{Methods}
 \label{methods}
@@ -91,7 +94,7 @@ The pathogen persisted in 404 of the 1500 simulations, spreading through the ent
 \begin{figure}
 \label{poutcome}
 \centering
-\includegraphics[height=5.5cm]{poutcome.pdf}
+\includegraphics[height=5.5cm]{metapop(full).pdf}
 \caption{Logistic regression surface showing the probability of (a) pathogen persistence, and (b) pandemic spread given persistence, as a function of pathogen environmental longevity (half-life of infectivity decay) and patch quality variance.}
 \end{figure}   
 
@@ -100,7 +103,7 @@ To separate the effects of high and low quality patches in high variance simulat
 \begin{figure}
 \label{sens}
 \centering
-\includegraphics[height=5cm]{sens.pdf}
+\includegraphics[height=5cm]{highlow(full).pdf}
 \caption{The effect of the presence of high and low quality patches on (a) mean infected occupancy and (b) mean susceptible occupancy. The black bar corresponds to a low variance metapopulation.  The \textit{+high} treatment represents the replacement of 10 unit quality patches with 10 high quality patches, while the \textit{+low} treatment represents the replacement of 10 unit quality patches with 10 low quality patches.  Error bars show $\pm$ one standard deviation.}
 \end{figure}
 
@@ -109,14 +112,14 @@ To understand the mechanism behind this effect, we look to within patch dynamics
 \begin{figure}
 \label{qualityraw}
 \centering
-\includegraphics[height=7cm]{qualityraw.pdf}
+\includegraphics[height=7cm]{qualityraw(full).pdf}
 \caption{Scatter cloud showing the proportion of time spent occupied by infecteds and susceptibles for individual patches in endemic simulations. Darker shades of blue represent higher point density. The red line represents the loess curve fit to the data.}
 \end{figure}
 
 \begin{figure}
 \label{infections}
 \centering
-\includegraphics[height=5.5cm]{infectionevents.pdf}
+\includegraphics[height=5.5cm]{infevents(full).pdf}
 \caption{Scatter cloud showing the number of infection events ($S$ to $I$ transitions) for individual patches in endemic simulations. Darker shades of blue represent higher point density. The red line represents the loess curve fit to the data.}
 \end{figure}
 
