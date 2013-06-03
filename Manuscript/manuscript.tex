@@ -6,6 +6,7 @@
 \usepackage{natbib}
 \usepackage{tabularx}
 \usepackage{lineno}
+\usepackage{hyperref}
 
 \linenumbers
 
@@ -43,37 +44,41 @@ To address the above questions and evaluate our hypotheses, we build on the meta
 \label{methods}
 
 \subsection{Model Structure}
-To address the above questions, we developed a theoretical stochastic patch occupancy model (SPOM) in which each patch can be in one of four possible states: occupied by susceptibles (S), occupied by infecteds (I), pathogen reservoir (R), and unoccupied (by both pathogen and host) (E).  State transitions are governed by host colonization, extinction, and infection rates.  Using the framework developed by \cite{Hanski1994}, the rate at which patch \emph{i}, with quality $A_i$, is colonized by individuals in state $X \in (S,I)$ is given by its connectivity:
+To address the above questions, we developed a theoretical stochastic patch occupancy model (SPOM) in which each patch can be in one of four possible states: occupied by susceptibles (S), occupied by infecteds (I), pathogen reservoir without host population (Z), and unoccupied (by both pathogen and host) ($\oslash$).  State transitions are governed by host colonization, extinction, and infection rates, where a susceptible population can become infected either through direct contact with infected immigrants, or through a local pathogen reservoir.  
+
+Building on the framework developed by \cite{Hanski1994}, the rate at which patch \emph{i}, with quality $A_i$, is colonized by individuals in state $X \in (S,I)$ is given by its connectivity:
 \begin{equation}
-S_{Xi}=A_i^{\xi_{im}} \sum_{i\neq j }X_jA_j^be^{-D d_{ij}}.
+C_{Xi}=A_i^{\xi_{im}} \sum_{i\neq j }\phi_jA_j^{\xi_{em}}e^{-D d_{ij}},
 \end{equation}
-where $X_j$ is an indicator function that is $1$ if patch $j$ is in state $X$ and is $0$ otherwise, and the other parameters are defined in Table 1.  Essentially, $S_{Xi}$ sums the colonization effort from all patches in state $X$ to patch $i$.  Infected colonists then infect susceptible patches via direct contact with probability $\delta$.  
+where $\phi_j$ is an indicator function that is $1$ if patch $j$ is in state $X$ and is $0$ otherwise; $\xi_{im}$ and $\xi_{em}$ control how rates of immigration and emigration, respectively, scale with patch quality; $D$ is the inverse of mean dispersal distance; and $d_{ij}$ is the distance between patches $i$ and $j$.  Essentially, $C_{Xi}$ sums the colonization effort from all patches in state $X$ to patch $i$.  
 
 The extinction rate of patch $i$ in state $X$ is given by:
 \begin{equation}
-E_{Xi}=\frac{e_X}{A_i^x},
+E_{Xi}=\frac{e_X}{A_i^\alpha},
 \end{equation}
-where $e_X$ is the extinction rate of a patch of unit quality in state $X$ (here we assume that $e_I>e_S$).  When an infected patch goes extinct, we assume that the infected hosts leave behind an infectious pathogen reservoir.  When susceptibles  colonize a reservoir patch, they become infected at rate:
+where $e_X$ is the extinction rate of a patch of unit quality in state $X$ (here we assume that $e_I>e_S$).  When an infected patch goes extinct, we assume that the infected hosts leave behind an infectious pathogen reservoir.  
+
+Susceptible populations are infected via direct contact with infected colonists at rate $\delta C_{Ii}$, where $\delta$ is the transmission probability.  Environmental transmission occurs when a susceptible population occupies a reservoir patch, and occurs at rate:
 \begin{equation}
 \gamma=\gamma_0exp(-rt_I),
 \end{equation}
-where $t_I$ is the time since last infected occupancy, and $r$ is the pathogen's decay rate in the environment, as determined by the pathogen's longevity.
+where $\gamma_0$ is the initial infection rate of the pathogen reservoir, $t_I$ is the time since last infected occupancy, and $r$ is the pathogen's decay rate in the environment.
 
 
 \begin{table}[h!]
 \label{parameters}      
 \caption{Parameters of SPOM model and their meanings.}
-\begin{tabular}{l p{11cm} r}
+\begin{tabular}{l p{8.5cm} r}
 Parameter & Interpretation &  Default Value\\
 \hline
 $\xi_{im}$ & Scaling parameter for effect of target patch quality on immigration & 0.5\\
-$b$ & Scaling parameter for how patch quality affects the number of colonists produced & 0.5\\
+$\xi_{em}$ & Scaling parameter for effect of target patch quality in emigration & 0.5\\
 $D$& Inverse of mean dispersal distance & 5\\
 $d_{ij}$ & Distance between patch $i$ and $j$ & 1 for all $i,j$\\
 \hline
 $e_S$ & Extinction rate of unit quality susceptible patch & 0.1\\
 $e_I$ & Extinction rate of unity quality infected patch & 0.5\\
-$x$ & Strength of environmental stochasticity & 1\\
+$\alpha$ & Strength of environmental stochasticity & 1\\
 \hline
 $\delta$ & Probability of direct infection & 0.5\\
 $\gamma_0$ & Initial rate of infection from reservoir patch & 0.5
@@ -82,9 +87,13 @@ $\gamma_0$ & Initial rate of infection from reservoir patch & 0.5
 
 \subsection{Model Implementation and Analysis}
 
-The model outlined above was parameterized (Table 2) according to the following assumptions. (1) High quality patches maintain higher population sizes and therefore produce more colonists than low quality patches and have lower extinction rates than low quality patches ($x=1$,$b=0.5$, \cite{Hanski2003}).  (2) High quality patches attract more colonists than low quality patches ($\xi_{im}=0.5$, \cite{Hanski2003}).  (3) All patches are equidistant from one another (i.e. connectivity is determined entirely by quality, $d_{ij}=1$).  In addition to these assumptions, the model was tuned so that without infection, approximately 0.75 of the metapopulation is occupied ($e_S = 0.1$, $D=5$).  Infection parameters were tuned so that the pathogen persists endemically at intermediate longevity ($e_I = 0.5$, $\delta = 0.5$, $\gamma_0 = 0.5$). 
+The model outlined above was parameterized (Table 1) according to the following assumptions. (1) High quality patches maintain higher population sizes and therefore produce more colonists than low quality patches and have lower extinction rates than low quality patches ($\xi_{im}=0.5$, $\alpha=1$, \cite{Hanski2003}).  (2) High quality patches attract more colonists than low quality patches ($\xi_{em}=0.5$, \cite{Hanski2003}).  (3)  Connectivity is determined entirely by quality ($d_{ij}=1$).  In addition to these assumptions, parameters were chosen so that without infection, approximately 0.75 of the metapopulation was occupied ($e_S = 0.1$, $D=5$), and a range of epidemiological behaviors were feasible ($e_I = 0.5$, $\delta = 0.5$, $\gamma_0 = 0.5$). 
 
-Continuous time stochastic simulations were implemented using the Gillespie algorithm (\cite{Gillespie1977}).  For each simulation, qualities for 100 patches were drawn from a uniform distribution with mean 1 and variance ranging from 0.02 to 0.2.  Pathogen longevity was also varied across simulations, ranging from 1 to 200 time steps (with values representing the half-life of the pathogen's infectivity).  For each model run (50 replicates for each of the 30 longevity-variance combinations), an entirely susceptible population was simulated until it reached a steady state, at which point a randomly chosen occupied patch was infected.  The state of the metapopulation was then tracked for 5000 time steps.  For each simulation, we recorded results at both the metapopulation level (proportion of patches in each state) and patch level (proportion of time each patch spends in each state).
+With the above parameters fixed, we explored the effects of pathogen environmental persistence and habitat heterogeneity by varying pathogen longevity (10 values from 20 to 200 time steps, with values representing the half-life of the pathogen's infectivity), and the variance of the patch quality distribution (10 values ranging from 0.02 to 0.2).  For each simulation (100 replicates for each of the 100 longevity-variance combinations), qualities for 100 patches were drawn from a uniform distribution with mean 1 and given variance. In each case, an entirely susceptible population was simulated until it reached a steady state, at which point a randomly chosen occupied patch was infected.  The state of the metapopulation was then tracked for 5000 time steps.  To address the metapopulation-level questions above, we recorded the proportion of patches in each state at the end of each simulation and classified the simulation as host extinction, disease-free (no infected populations after 5000 time steps), endemic (both susceptible and infected populations present), or pandemic (only infected populations).  In addition, to address patch-level questions, for every simulation, we recorded the quality of each patch and the proportion of time spent in each of the four states.  
+
+In the above simulations, the mean of the patch quality distribution was held constant, and thus the range was expanded symmetrically about one as the variance was increased.  To further parse out the relative roles of high and low quality patches, we performed a series of simulations where we expanded the range of the quality distribution non-symmetrically to include high and low quality patches separately.  For these simulations, we fixed longevity at an intermediate level (100) and ran 100 replicates for each of four patch quality distributions: low varaince, (range 0.75 to 1.25); intermediate variance, high quality (range 0.75 to 1.75); intermediate variance, low quality (range 0.25 to 1.25); and high variance (range 0.25 to 1.75).  
+
+Continuous time stochastic simulations were implemented in the R language (citation) using the Gillespie algorithm (\cite{Gillespie1977}).  Code is available at \url{https://github.com/clint-leach/Metapop-Disease}.
 
 \section{Results}
 \label{results}
