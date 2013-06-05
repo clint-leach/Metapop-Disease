@@ -16,8 +16,8 @@ highlow<-highlow[,-1]
 
 low<-highlow[which(highlow$treatment=="+low"),]
 high<-highlow[which(highlow$treatment=="+high"),]
-both<-highlow[which(highlow$treatment=="full"),]
-mid<-highlow[which(highlow$treatment=="low.var"),]
+full<-highlow[which(highlow$treatment=="full"),]
+low.var<-highlow[which(highlow$treatment=="low.var"),]
 
 
 outcome<-function(data){
@@ -28,20 +28,16 @@ outcome<-function(data){
   return(c(extinction,nodisease,endemic,pandemic))
 }
 
-outcomes<-rbind(
-  both.outcome<-outcome(both),
-  low.outcome<-outcome(low),
-  high.outcome<-outcome(high),
-  mid.outcome<-outcome(mid)
-  )
+outcomes<-data.frame(cbind(outcome(low.var), outcome(low), outcome(high), outcome(full)))
 
-outcomes<-as.data.frame(outcomes,row.names=c("both","low","high","mid"))
-names(outcomes)<-c("extinction","nodeisease","endemic","pandemic")
+colnames(outcomes)<-c("low.var","low","high","high.var")
 
-outcomes<-as.matrix(outcomes)
-dotchart(outcomes)
+outcomes<-cbind(factor(c("Extinction","Disease-Free","Endemic","Pandemic"), levels=c("Extinction","Disease-Free", "Endemic", "Pandemic")),stack(outcomes))
+names(outcomes)<-c("outcome", "number", "trt")
 
-dotchart(outcomes[,3:4], pch=19,lcolor="black",xlab="Number of outcomes")
+outcomes$trt<-factor(outcomes$trt, levels = c("low.var", "low", "high", "high.var"))
+
+ggplot(outcomes, aes(x=trt, y=number)) + geom_bar(stat="identity") + facet_grid(.~outcome)
 
 
 par(mfrow=c(2,4))

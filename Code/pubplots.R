@@ -10,8 +10,8 @@
 #   full = fully connected - all patches equally accessible from all other patches
 #   lattice = lattice structure - each patch has four accessible neighbors
 
-#conn<- "(full)"
-conn <- "(lattice)"
+conn <- "(full)"
+# conn <- "(lattice)"
 
 
 # Metapopulation-level results
