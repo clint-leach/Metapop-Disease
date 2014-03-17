@@ -18,15 +18,16 @@ conn <- "(full)"
 #===============================================================
 
 
-metapop <- read.csv(paste(dirname(getwd()), "/Data", "/metapop", conn, ".csv", sep=""), header=FALSE)
-names(metapop) <- c("X", "var", "longevity", "ID", "S", "I", "R", "avgS", "avgI", "avgR", "maxI", "tmaxI", "quality")
+metapop <- read.csv(paste(getwd(), "/Data", "/metapop", conn, ".csv", sep=""), header=FALSE)
+metapop <- metapop[, -1]
+names(metapop) <- c("var", "longevity", "ID", "S", "I", "R", "avgS", "avgI", "avgR", "maxI", "tmaxI", "quality")
 
 
 # Plotting logistic regression surface for prob. of pathogen persistence
 
 library(lattice)
 
-pdf(paste(dirname(getwd()), "/Manuscript", "/metapop", conn, ".pdf", sep=""), height=5, width=10)
+pdf(paste(getwd(), "/Manuscript", "/metapop", conn, ".pdf", sep=""), height=5, width=10)
 
 # Generating pathogen persistence and pandemic indicator vectors
 persists <- (metapop$I>0)
@@ -117,7 +118,7 @@ dev.off()
 # Patch level results
 #========================================================
 
-patch<-read.csv(paste(dirname(getwd()), "/Data", "/patch", conn, ".csv", sep=""), header=TRUE)
+patch<-read.csv(paste(getwd(), "/Data", "/patch", conn, ".csv", sep=""), header=TRUE)
 
 names(patch)<-c("patchID","quality","tinf","S","I","R","E","S1","S2","S3","S4","S5","S6","S7","S8","S9","S10",
                      "I1","I2","I3","I4","I5","I6","I7","I8","I9","I10",
@@ -151,3 +152,12 @@ smoothScatter(patch$quality,patch$inf,ylab="Number of infection events",xlab="Pa
 lines(loess.smooth(patch$quality,patch$inf),lwd=3,col="red")
 
 dev.off()
+
+
+#===============================================================================
+bins <- cut(patch$quality, breaks = seq(0.2, 1.8, by = 0.1), labels = seq(0.25, 1.75, by = 0.1))
+
+plot(seq(0.25, 1.75, by = 0.1), c(1:16), ylim = c(0, 10), type = "n", xlab = "Quality", ylab = "Infections")
+for(i in c(40, 80, 120, 160)){
+  lines(seq(0.25, 1.75, by = 0.1), tapply(patch$inf[patch$longevity == i], bins[patch$longevity == i], mean))  
+}

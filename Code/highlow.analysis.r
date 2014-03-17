@@ -37,7 +37,7 @@ names(outcomes)<-c("outcome", "number", "trt")
 
 outcomes$trt<-factor(outcomes$trt, levels = c("low.var", "low", "high", "high.var"))
 
-ggplot(outcomes, aes(x=trt, y=number)) + geom_bar(stat="identity") + facet_grid(.~outcome)
+ggplot(outcomes, aes(x=outcome, y=number)) + geom_bar(stat="identity") + facet_grid(.~trt)
 
 
 par(mfrow=c(2,4))
