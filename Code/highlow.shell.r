@@ -4,16 +4,21 @@
 #and write relevant data to csv.
 ###########################################################################################
 
+library(doSNOW)
+library(foreach)
+library(rlecuyer)
+
+source("highlow.runs.r")
+source("contSPOM(rates).r")
+
 #Set the number of replicates
-replicates<-100
+replicates <- 100
 
 #Setting longevity
-longevity<-100
-
+longevity <- c(20, 100, 200)
 
 #Generates a new matrix with each long-var combination repeated for the set number of replicates
-treatment<-rep(c("+high","+low","full","low.var"), replicates)
-
+treatment <- expand.grid(rep(c("+high","+low","full","low.var"), replicates), longevity)
 
 #Defines fixed inputs for diseaseSPOM
 parms<-data.frame("im"=0.5, 
@@ -27,44 +32,41 @@ parms<-data.frame("im"=0.5,
                   "xi"=1,
                   "alpha"=0)
 
-#Connectivity matrix
+# Connectivity matrix
 
-#Lattice
+# Lattice
 # library(igraph)
 # distance<-get.adjacency(graph.lattice(c(10,10),directed=F,circular=T))
 # distance<-as.matrix(distance)
 
 #Fully connected
-distance<-matrix(1,nrow=100,ncol=100)
-diag(distance)<-0
+distance <- matrix(1, nrow=100, ncol=100)
+diag(distance) <- 0
 
 
 #Initial conditions
-initial<-c(1:100)
-initial[1:50]<-"S"
-initial[51:100]<-"E"
+initial <- c(1:100)
+initial[1:50] <- "S"
+initial[51:100] <- "E"
 
-timesteps<-5000
+timesteps <- 5000
 
-#Calling requisite libraries for parallel computing
-library(doSNOW)
+# Setting up parallelization
+w <- makeCluster(2, type="SOCK")
 
-#Setting up "parallel backend"
-w<-makeCluster(2,type="SOCK")
-
-clusterSetupRNG(w,seed = c(8294, 49867, 71531,  50191, 30331, 13590))
+clusterSetupRNG(w, seed = c(8294, 49867, 71531,  50191, 30331, 13590))
 
 registerDoSNOW(w)
 
-
-#Checks that the number of workers is set up correctly.
 getDoParWorkers()
 
 #Looping through each parameter combo and calling modelrun
-out<-foreach(i = 1:length(treatment),.verbose=TRUE,.combine="rbind") %dopar% modelrun(longevity,parms,distance,initial,timesteps,treatment[i])
+out <- foreach(i = 1:dim(treatment)[1], .verbose=TRUE, .combine="rbind") %dopar% 
+  modelrun(treatment[i, 2], parms, distance, initial, timesteps, treatment[i, 1])
+
 stopCluster(w)
 
-names(out)<-c("treatment","longevity","S","I","R","avgS","avgI","avgR","maxI","tmaxI","quality0")
+
 
 
 

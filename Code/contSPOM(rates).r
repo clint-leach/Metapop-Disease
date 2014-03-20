@@ -58,15 +58,8 @@ connectivity<-(quality^im%*%t(quality^b))*exp(-D*distance)
 connectivity<-connectivity*distance
 
 #Extinction vectors
-extinctionS<-vector(mode="numeric",length=n)
-extinctionI<-vector(mode="numeric",length=n)
-
-#Calculates extinction rates
-for(i in 1:n){
-  extinctionS[i]<-es/quality[i]^x}
-for(i in 1:n){
-  extinctionI[i]<-ei/quality[i]^x}
-
+extinctionS <- es / quality ^ x
+extinctionI <- ei / quality ^ x
 
 #Generates occupancy vector for S and I
 occ.S<-vector(mode="numeric",length=timesteps)
@@ -94,7 +87,7 @@ while((ssS.index>ss.threshold|ssI.index>ss.threshold) & t<=timesteps){
   gammas[which(ti>0)]<-gamma0*exp(-r*(t-ti[which(ti>0)]))
   
   #Creates empty rates data frame
-  rates<-matrix(nrow=8*n,ncol=6)
+  rates<-matrix(nrow=8*n,ncol=5)
   rates<-as.data.frame(rates)
   
   #Fills first column with patch IDs
@@ -142,26 +135,17 @@ while((ssS.index>ss.threshold|ssI.index>ss.threshold) & t<=timesteps){
   rates[(7*n+1):(8*n),2]<-"S"
   rates[(7*n+1):(8*n),3]<-"I"
   rates[(7*n+1):(8*n),4]<-gammas*(state[t,]=="S")
-  
-  
-  #Trims unused rows and rows with 0 probability events from rates matrix
-  rates<-rates[-which(rates[,4]==0),]
-    
-  #############################################
-  #Can do with sapply
-  #Draws a random waiting time from an exp for each event
-  for(i in 1:length(rates[,1])){
-    rates[i,6]<-rexp(1,rate=rates[i,4])
-    }
-     
+       
+  rates[, 5] <- rexp(dim(rates)[1], rate = rates[, 4])
+
   #Finds the time until the first event 
-  time.advance<-min(rates[,6],na.rm=TRUE)
+  time.advance<-min(rates[,5],na.rm=TRUE)
     
   #Advances the time by that ammount
   event.times[t+1]<-event.times[t]+time.advance
      
   #Identifies which event happens first 
-  event<-which.min(rates[,6])
+  event<-which.min(rates[,5])
     
   #Copies state at time t into state at time t+1
   state[t+1,]<-state[t,]

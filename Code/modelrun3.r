@@ -26,7 +26,7 @@ modelrun<-function(longevity, variance, k, parms, distance, initial, timesteps){
   #Runs simulation without infection until it reaches steady state
 	Sonly <- diseaseSPOM(distance, quality, initial, parms, r, timesteps, 0.15)
 	Sonly <- na.omit(Sonly)
-	initial.inf <- S only[length(Sonly[, 1]), 2:101]
+	initial.inf <- Sonly[length(Sonly[, 1]), 2:101]
   
   #Randomly infects an occupied patch
 	initial.inf[sample(which(initial.inf=="S"), 1)] <- "I"
@@ -49,18 +49,19 @@ modelrun<-function(longevity, variance, k, parms, distance, initial, timesteps){
   I <- rowSums(inf) / 100
   E <- rowSums(empty) / 100
   
-  inf.events <- susc[-5001, ] * inf[-1, ]
-  susc.col <- empty[-5001, ] * susc[-1, ]
-  inf.col <- empty[-5001, ] * inf[-1, ]
-  susc.ex <- susc[-5001, ] * empty[-1, ]
-  inf.ex <- inf[-5001, ] * empty[-1, ]
+  inf.events <- susc[-(timesteps + 1), ] * inf[-1, ]
+  susc.col <- empty[-(timesteps + 1), ] * susc[-1, ]
+  inf.col <- empty[-(timesteps + 1), ] * inf[-1, ]
+  susc.ex <- susc[-(timesteps + 1), ] * empty[-1, ]
+  inf.ex <- inf[-(timesteps + 1), ] * empty[-1, ]
   
   output <- data.frame(quality, 
                        tinf = apply(inf, 2, which.max),
                        I = colSums(inf) / (timesteps + 1),
                        S = colSums(susc) / (timesteps + 1),
                        E = colSums(empty) / (timesteps + 1),
-                       inf.events = colSums(inf.events),
+                       inf.events.early = colSums(inf.events[c(1:(timesteps / 5)), ]),
+                       inf.events.tot = colSums(inf.events),
                        susc.col = colSums(susc.col),
                        inf.col = colSums(inf.col),
                        susc.ex = colSums(susc.ex),
