@@ -49,26 +49,26 @@ modelrun<-function(longevity, variance, k, parms, distance, initial, timesteps){
   I <- rowSums(inf) / 100
   E <- rowSums(empty) / 100
   
-  inf.events <- susc[-(timesteps + 1), ] * inf[-1, ]
-  susc.col <- empty[-(timesteps + 1), ] * susc[-1, ]
-  inf.col <- empty[-(timesteps + 1), ] * inf[-1, ]
-  susc.ex <- susc[-(timesteps + 1), ] * empty[-1, ]
-  inf.ex <- inf[-(timesteps + 1), ] * empty[-1, ]
+  inf.events <- susc[-(dim(output)[1]), ] * inf[-1, ]
+  susc.col <- empty[-(dim(output)[1]), ] * susc[-1, ]
+  inf.col <- empty[-(dim(output)[1]), ] * inf[-1, ]
+  susc.ex <- susc[-(dim(output)[1]), ] * empty[-1, ]
+  inf.ex <- inf[-(dim(output)[1]), ] * empty[-1, ]
   
-  output <- data.frame(quality, 
+  data <- data.frame(quality, 
                        tinf = apply(inf, 2, which.max),
-                       I = colSums(inf) / (timesteps + 1),
-                       S = colSums(susc) / (timesteps + 1),
-                       E = colSums(empty) / (timesteps + 1),
+                       I = colSums(inf) / (dim(output)[1]),
+                       S = colSums(susc) / (dim(output)[1]),
+                       E = colSums(empty) / (dim(output)[1]),
                        inf.events.early = colSums(inf.events[c(1:(timesteps / 5)), ]),
                        inf.events.tot = colSums(inf.events),
                        susc.col = colSums(susc.col),
                        inf.col = colSums(inf.col),
                        susc.ex = colSums(susc.ex),
                        inf.ex = colSums(inf.ex),
-                       Sfin = S[timesteps + 1],
-                       Ifin = I[timesteps + 1],
-                       Efin = E[timesteps + 1],
+                       Sfin = S[dim(output)[1]],
+                       Ifin = I[dim(output)[1]],
+                       Efin = E[dim(output)[1]],
                        maxI = max(I),
                        quality0 = initial.quality,
                        repID = k,
@@ -77,6 +77,6 @@ modelrun<-function(longevity, variance, k, parms, distance, initial, timesteps){
   )
   
 
-  return(output)
+  return(data)
   
 	}
