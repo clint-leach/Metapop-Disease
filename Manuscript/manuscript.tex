@@ -14,12 +14,11 @@
 
 \title{Environmental pathogen reservoirs and habitat heterogeneity in a metapopulation}
 
-\author{Clint B. Leach \and Paul C. Cross \and Colleen T. Webb}
+\author{Clinton B. Leach \and Paul C. Cross \and Colleen T. Webb}
 
 %\institute{}
 %\journalname{}
 
-\date{November 26, 2013}
 
 \titlerunning{Pathogen Reservoirs}
 
@@ -98,38 +97,41 @@ Continuous time stochastic simulations of the above model were implemented in th
 \section{Results}
 \label{results}
 
-The pathogen persisted in 6954 of the 10000 simulations, spreading through the entire susceptible host population (i.e. a pandemic) in 3734 simulations.  The probability of pathogen persistence increased substantially with pathogen longevity, though patch quality variance had relatively little effect (Figure 1a).  Within cases where the pathogen persisted however, the probability of a pandemic increased with both pathogen longevity and patch quality variance (Figure 1b).
+The pathogen persisted in 7087 of the 10000 simulations, spreading through the entire susceptible host population (i.e. a pandemic) in 3721 simulations.  Pathogen persistence increased substantially with longevity, with intermediate longevities favoring endemic disease, and high longevities facilitating pandemic dynamics (Fig~ \ref{poutcome}).  The effect of longevity, however, depended on the variance of the patch quality distribution, with low variance metapopulations favoring endemic dynamics for a wider range of longevities (Fig~ \ref{poutcome}a), and high variance metapopulations lowering the longevity required for pandemic dynamics (Fig~ \ref{poutcome}b).
 
 \begin{figure}
-\label{poutcome}
 \centering
 \includegraphics[height=5.5cm]{metapop(full).pdf}
-\caption{Logistic regression surface showing the probability of (a) pathogen persistence, and (b) pandemic spread given persistence, as a function of pathogen environmental longevity (half-life of infectivity decay) and patch quality variance.}
+\caption{Percent of simulations resulting in (a) endemic disease (both susceptibles and infecteds persist) and (b) pandemic disease (no susceptibles persist), as a function of the pathogen's environmental longevity (half-life of infectivity decay) and the variance of the patch quality distribution.}
+\label{poutcome}
 \end{figure}   
 
-To separate the effects of high and low quality patches, we explore how patch occupancy changes when high and low quality patches are included in the patch quality distribution separately.  In low variance metapopulations (where patch quality ranges from 0.75 to 1.25, corresponding to a variance of 0.02), the proportions of patches occupied by susceptible populations and infected populations are approximately equal, with occupancies of 0.26 and 0.24 respectively.  However, when the patch quality distribution is expanded to include high quality patches (range from 0.75 to 1.75), susceptible occupancy drops to nearly zero, while infected occupancy increases to approximately half of the metapopulation (Figure 2).  Conversely, when the patch quality distribution is expanded to include low quality patches (range from 0.25 to 1.25), susceptible occupancy increases to nearly half, while infected occupancy declines (Figure 2).  When both high and low quality patches are included (range from 0.25 to 1.75, corresponding to a variance of 0.2), their effects approximately cancel, reducing both susceptible and infected occupancy slightly (Figure 2).  Though overall occupancy changes little from low to high variance metapopulations, the proportion of simulations that are pandemics still increases (Figure 1), an effect that can be attributed largely to high quality patches.  However, in high variance metapopulations, the number of disease-free simulations also increases, resulting in relatively little change in mean occupancy.  \emph{Replace these results with outcome-level results for consistency.}
+To separate the influence of high and low quality patches, we explored how susceptible and infected patch occupancy changes when high and low quality patches are included separately in the patch quality distribution.  Relative to a low-variance metapopulation (patch qualities roughly between 0.75 and 1.25), shifting the distribution toward low quality patches (distribution ranging from 0.25 to 1.25) increased mean susceptible occupancy, while shifting towards high quality patches (range from 0.75 to 1.75) decreased mean susceptible occupancy, with the largest effects observed at intermediate longevities (Fig~\ref{sens}(a)).  Conversely, a shift towards low quality patches decreased infected occupancy, while a shift towards high quality patches increased infected occupancy (Fig~\ref{sens}(b)).  
+
+However, at high pathogen longevities, high quality patch distributions had a net positive effect on total occupancy relative to the other patch quality distributions (Fig~\ref{sens}(c)).  Due to their lower extinction rates, high quality patches are able to maintain stable occupancy despite widespread infection.  On the other hand, at high pathogen longevities, the positive effect of low qualtiy distributions on susceptible occupancy is overwhelmed, and low quality patches are unable to support infected occupancy, resulting in an increase in host extinction events.  Thus, the role of the patch quality distribution and the presence of high or low quality patches is generally greatest for low to intermediate pathogen longevity -- once longevity is high enough, the pathogen persists and spreads easily enough that the effects of individual patches are washed out.  Then the role of patch quality lies primarily in its effect on extinction rates, and whether infected hosts can persist.
 
 \begin{figure}
+\centering
+\includegraphics[height=7cm]{highlow(full).pdf}
+\caption{The effect of the presence of high and low quality patches on (a) mean susceptible occupancy, (b) mean infected occupancy, and (c) mean total occupancy, measured relative to  a low variance metapopulation.  Red solid lines show hiqh quality metapopulations, blue dashed show low quality, and black shows high variance.}
 \label{sens}
-\centering
-\includegraphics[height=5cm]{highlow(full).pdf}
-\caption{The effect of the presence of high and low quality patches on (a) mean infected occupancy and (b) mean susceptible occupancy. Fix to represent the correct experimental design and results.}
 \end{figure}
 
-To understand the mechanism behind this effect, we look to within patch dynamics, namely the proportion of time spent by individual patches in each of the four possible states.  We limit our analysis to high variance endemic simulations (where the pathogen persists but does not infect the entire susceptible population).  This suggests that high quality patches are more frequently occupied by both infected and susceptible populations (Figure 3).  However, while the proportion of time occupied by infecteds increases steadily with patch quality (Figure 3b), the proportion of time occupied by susceptibles plateaus (Figure 3a).  Moreover, high quality patches tend to experience a greater number of infection events than low quality patches (Figure 4).
+To understand the mechanisms behind these effects, we further examined within patch dynamics on high variance metapopulations that produced endemic dynamics.  Because of their lower extinction rate and higher recolonization rate, high quality patches support more consistent occupancy than low quality patches (Fig~\ref{simvis}).  However, as an epidemic progresses, high quality patches increasingly support infected occupants, while low quality patches support infecteds infrequently (Fig~\ref{simvis}).  In addition, while high quality patches do support susceptible occupancy, they experience a greater number of infection events (susceptible to infected transitions) than low quality patches (Fig~\ref{infections}).  This relationship becomes weaker as longevity increases, due to the fact that as longevity increases, there are fewer susceptibles remaining in the metapopulation to become infected.  
 
 \begin{figure}
-\label{qualityraw}
 \centering
-\includegraphics[height=7cm]{qualityraw(full).pdf}
-\caption{Scatter cloud showing the proportion of time spent occupied by infecteds and susceptibles for individual patches in endemic simulations. Darker shades of blue represent higher point density. The red line represents the loess curve fit to the data.}
+\includegraphics[height = 9cm]{simvis.png}
+\caption{Results from a single simulation with variance 0.2 and longevity 80.  The top panel shows total occupancy of susceptible (blue) and infected (red) patches over time.  The bottom panel shows the state -- susceptible (blue), infected (red), or unoccupied (white) -- of individual patches through time.  Patches are stacked vertically with the lowest quality ($\sim$ 0.25) at the bottom and the highest quality ($\sim$ 1.75) at the top.}
+\label{simvis}
 \end{figure}
 
+
 \begin{figure}
-\label{infections}
 \centering
 \includegraphics[height=7cm]{infevents(full).pdf}
-\caption{Scatter cloud showing the number of infection events ($S$ to $I$ transitions) for individual patches in endemic simulations. Darker shades of blue represent higher point density. The red line represents the loess curve fit to the data.}
+\caption{The number of infection events ($S$ to $I$ transitions) for individual patches in endemic simulations.  Light gray lines show smoothed fit for single simulations, while the thick black line shows the smoothed fit over all simulations.  The thin black lines show the smoothed fits for longevities of 40 (top) and 140 (bottom).}
+\label{infections}
 \end{figure}
 
 \section{Discussion}
@@ -147,7 +149,17 @@ In metapopulations without disease, high quality patches generally serve as sour
 
 Habitat fragmentation and disease represent two major threats to wildlife populations.  As we have seen, these two factors can interact in complex and interesting ways, especially when the pathogen is able to persist in the environment.  Failing to consider these interactions and their effect on the roles played by high and low quality habitat overlooks the importance of low-quality habitat for the persistence of wildlife populations and the importance of high-quality habitat for the persistence of wildlife disease.
 
+\clearpage
 
+\section{Appendix}
+
+\subsection{Sensitivity Analyses}
+
+\subsubsection{Lattice structure}
+
+\subsubsection{Extinction scaling}
+
+\subsubsection{Weak direct transmission}
 
 
 \bibliographystyle{spbasic}     

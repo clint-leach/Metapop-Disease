@@ -8,32 +8,35 @@
 #   both = high quality variance (low.var+low+high)
 #=================================================================================
 
-highlow<-read.csv("highlowlong.csv",header=TRUE)
+highlow<-read.csv(paste(getwd(), "/Data/highlow", conn, ".csv", sep = ""), header=TRUE)
 
 highlow<-highlow[,-1]
 
 par(mfrow = c(1, 3), bty = "l")
 
 S.occ <- tapply(highlow$S, list(highlow$longevity, highlow$treatment), mean)
+S.occ <- S.occ - S.occ[, 4]
 
-plot(seq(20, 200, by = 20), S.occ[, 1], type = "b", lty = 1, ylim = c(-0.5, 0.5), pch = 20, col = "red", ylab = "S occupancy", xlab = "Longevity")
-lines(seq(20, 200, by = 20), S.occ[, 2], type = "b", lty = 2, pch = 20, col = "blue")
-lines(seq(20, 200, by = 20), S.occ[, 3], type = "b", lty = 3, pch = 20, col = "black")
-lines(seq(20, 200, by = 20), S.occ[, 4], type = "b", lty = 4, pch = 20, col = "grey")
+plot(seq(20, 200, by = 20), S.occ[, 1], type = "b", lty = 1, ylim = c(-0.5, 0.5), pch = 19, col = "red", ylab = "S occupancy", xlab = "Longevity")
+lines(seq(20, 200, by = 20), S.occ[, 2], type = "b", lty = 2, pch = 19, col = "blue")
+lines(seq(20, 200, by = 20), S.occ[, 3], type = "b", lty = 3, pch = 19, col = "black")
+lines(seq(20, 200, by = 20), S.occ[, 4], type = "l", lty = 4, pch = 19, col = "grey")
 
 I.occ <- tapply(highlow$I, list(highlow$longevity, highlow$treatment), mean)
+I.occ <- I.occ - I.occ[, 4]
 
-plot(seq(20, 200, by = 20), I.occ[, 1], type = "b", lty = 1, ylim = c(-0.5, 0.5), pch = 20, col = "red", ylab = "I occupancy", xlab = "Longevity")
-lines(seq(20, 200, by = 20), I.occ[, 2], type = "b", lty = 2, pch = 20, col = "blue")
-lines(seq(20, 200, by = 20), I.occ[, 3], type = "b", lty = 3, pch = 20, col = "black")
-lines(seq(20, 200, by = 20), I.occ[, 4], type = "b", lty = 4, pch = 20, col = "grey")
+plot(seq(20, 200, by = 20), I.occ[, 1], type = "b", lty = 1, ylim = c(-0.5, 0.5), pch = 19, col = "red", ylab = "I occupancy", xlab = "Longevity")
+lines(seq(20, 200, by = 20), I.occ[, 2], type = "b", lty = 2, pch = 19, col = "blue")
+lines(seq(20, 200, by = 20), I.occ[, 3], type = "b", lty = 3, pch = 19, col = "black")
+lines(seq(20, 200, by = 20), I.occ[, 4], type = "l", lty = 4, pch = 19, col = "grey")
 
 occ <- tapply(highlow$I + highlow$S, list(highlow$longevity, highlow$treatment), mean)
+occ <- occ - occ[, 4]
 
-plot(seq(20, 200, by = 20), occ[, 1], type = "b", lty = 1, ylim = c(-0.5, 0.5), pch = 20, col = "red", ylab = "Total occupancy", xlab = "Longevity")
-lines(seq(20, 200, by = 20), occ[, 2], type = "b", lty = 2, pch = 20, col = "blue")
-lines(seq(20, 200, by = 20), occ[, 3], type = "b", lty = 3, pch = 20, col = "black")
-lines(seq(20, 200, by = 20), occ[, 4], type = "b", lty = 4, pch = 20, col = "grey")
+plot(seq(20, 200, by = 20), occ[, 1], type = "b", lty = 1, ylim = c(-0.5, 0.5), pch = 19, col = "red", ylab = "Total occupancy", xlab = "Longevity")
+lines(seq(20, 200, by = 20), occ[, 2], type = "b", lty = 2, pch = 19, col = "blue")
+lines(seq(20, 200, by = 20), occ[, 3], type = "b", lty = 3, pch = 19, col = "black")
+lines(seq(20, 200, by = 20), occ[, 4], type = "l", lty = 4, pch = 19, col = "grey")
 
 
 #Outcome analysis

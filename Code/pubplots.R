@@ -17,141 +17,136 @@ conn <- "(full)"
 # Metapopulation-level results
 #===============================================================
 
-metapop <- read.csv(paste(getwd(), "/Data", "/metapop", conn, ".csv", sep=""), header=FALSE)
-metapop <- metapop[, -1]
-names(metapop) <- c("var", "longevity", "ID", "S", "I", "R", "avgS", "avgI", "avgR", "maxI", "tmaxI", "quality")
+load(paste(getwd(), "/Data/out", conn, ".Rdata", sep = ""))
 
-
-# Plotting logistic regression surface for prob. of pathogen persistence
-
+library(gridExtra)
 library(lattice)
+
+metapop.S <- tapply(out$Sfin, list(out$longevity, out$variance), mean)
+metapop.I <- tapply(out$Ifin, list(out$longevity, out$variance), mean)
+
+metapop.pan <- tapply(out$Sfin == 0 & out$Ifin > 0, list(out$longevity, out$variance), sum) / 100
+metapop.end <- tapply(out$Sfin > 0 & out$Ifin > 0, list(out$longevity, out$variance), sum) / 100
+metapop.ext <- tapply(out$Sfin == 0 & out$Ifin == 0, list(out$longevity, out$variance), sum) / 100
+metapop.nd <- tapply(out$Sfin > 0 & out$Ifin == 0, list(out$longevity, out$variance), sum) / 100
+
+p.pan <- levelplot(metapop.pan, col.regions = brewer.pal(9, "Reds"), xlab = "Longevity", ylab = "Variance", 
+                   at = seq(0, 100, by = 12.5), colorkey = F)
+p.end <- levelplot(metapop.end, col.regions = brewer.pal(9, "Reds"), cuts = 8, xlab = "Longevity", ylab = "Variance", 
+                   at = seq(0, 100, by = 12.5), colorkey = F)
+p.ext <- levelplot(metapop.ext, col.regions = brewer.pal(9, "Reds"), cuts = 8, xlab = "Longevity", ylab = "Variance")
+p.nd <- levelplot(metapop.nd, col.regions = brewer.pal(9, "Reds"), cuts = 8, xlab = "Longevity", ylab = "Variance")
+
+key <- draw.colorkey(list(col = brewer.pal(9, "Reds"), 
+                          at = seq(0, 100, by = 12.5),
+                          labels = list(at = seq(0, 100, by = 25)),
+                          height = 0.7), 
+                     draw = F)
 
 pdf(paste(getwd(), "/Manuscript", "/metapop", conn, ".pdf", sep=""), height=5, width=10)
 
-# Generating pathogen persistence and pandemic indicator vectors
-persists <- (metapop$I>0)
-pandemic <- (metapop$I>0 & metapop$S==0)
-
-logistic.per <- glm(formula = persists ~ metapop$var*metapop$longevity, family = binomial(link = "logit"))
-logistic.pan <- glm(formula = pandemic[persists] ~ metapop$var[persists]*metapop$longevity[persists], 
-                    family = binomial(link = "logit"))
-
-p.per <- predict(logistic.per, type="response")
-p.pan <- predict(logistic.pan, type="response")
-
-plot.data <- data.frame(c(p.per, p.pan), rbind(metapop[c("var", "longevity")], metapop[persists, c("var", "longevity")]),
-                        rep(c(1,2), times = c(length(persists), sum(persists))))
-names(plot.data) <- c("p", "var", "longevity", "perpan")
-
-trellis.par.set("axis.line", list(col="transparent"), las=0)
-wireframe(p ~ var + longevity | perpan, data=plot.data,
-          scales = list(arrows=FALSE, cex=1.2, col="black", tck=1.4, z = list(distance=1.2)),
-          xlab = list(label="variance", cex=1.2, font=2, rot=30),
-          ylab = list(label="longevity", cex=1.2, font=2, rot=320),
-          zlab = list(label="Probability of outcome", cex=1.2, font=2, rot=93),
-          layout = c(2, 1), strip=F,
-          shade=F, col="gray50")
+grid.arrange(p.end, p.pan, key, ncol = 3, widths = c(0.45, 0.45, 0.1))
 
 dev.off()
+
+#===============================================================================
+
+# Plotting logistic regression surface for prob. of pathogen persistence
+# (no longer in use -- needless level of abstraction from actual results)
+
+# # Generating pathogen persistence and pandemic indicator vectors
+# persists <- (metapop$I>0)
+# pandemic <- (metapop$I>0 & metapop$S==0)
+# 
+# logistic.per <- glm(formula = persists ~ metapop$var*metapop$longevity, family = binomial(link = "logit"))
+# logistic.pan <- glm(formula = pandemic[persists] ~ metapop$var[persists]*metapop$longevity[persists], 
+#                     family = binomial(link = "logit"))
+# 
+# p.per <- predict(logistic.per, type="response")
+# p.pan <- predict(logistic.pan, type="response")
+# 
+# plot.data <- data.frame(c(p.per, p.pan), rbind(metapop[c("var", "longevity")], metapop[persists, c("var", "longevity")]),
+#                         rep(c(1,2), times = c(length(persists), sum(persists))))
+# names(plot.data) <- c("p", "var", "longevity", "perpan")
+# 
+# trellis.par.set("axis.line", list(col="transparent"), las=0)
+# wireframe(p ~ var + longevity | perpan, data=plot.data,
+#           scales = list(arrows=FALSE, cex=1.2, col="black", tck=1.4, z = list(distance=1.2)),
+#           xlab = list(label="variance", cex=1.2, font=2, rot=30),
+#           ylab = list(label="longevity", cex=1.2, font=2, rot=320),
+#           zlab = list(label="Probability of outcome", cex=1.2, font=2, rot=93),
+#           layout = c(2, 1), strip=F,
+#           shade=F, col="gray50")
+# 
+# dev.off()
 
 
 # High/low sensitivity analysis results
 #===============================================================
 
-highlow <- read.csv(paste(dirname(getwd()), "/Data", "/highlow", conn, ".csv", sep=""), header=TRUE)
+highlow<-read.csv(paste(getwd(), "/Data/highlow", conn, ".csv", sep = ""), header=TRUE)
 
-pdf(paste(dirname(getwd()), "/Manuscript","/highlow", conn, ".pdf", sep=""), height=6, width=10)
+highlow<-highlow[,-1]
 
-#Calculating means for each treatment group
-mean.S <- tapply(highlow$S, highlow$treatment, mean)
-mean.I <- tapply(highlow$I, highlow$treatment, mean)
+pdf(paste(getwd(), "/Manuscript", "/highlow", conn, ".pdf", sep=""), height=5, width=10)
 
-#Fitting linear models and computing Scheffe simultaneous confidence intervals
-lm.S <- lm(S~as.factor(treatment), data=highlow)
-MSE.S <- sum(lm.S$residuals^2)/396
-spread.S <- sqrt(MSE.S*0.02*3*qf(0.95, 3, 396))
+par(mfrow = c(1, 3), bty = "l")
 
-lm.I <- lm(I~as.factor(treatment), data=highlow)
-MSE.I <- sum(lm.I$residuals^2)/396
-spread.I <- sqrt(MSE.I*0.02*3*qf(0.95, 3, 396))
+S.occ <- tapply(highlow$S, list(highlow$longevity, highlow$treatment), mean)
+S.occ <- S.occ - S.occ[, 4]
 
-#Plotting
+plot(seq(20, 200, by = 20), S.occ[, 1], type = "b", lty = 1, ylim = c(-0.5, 0.5), pch = 19, col = "red", ylab = "S occupancy", xlab = "Longevity")
+lines(seq(20, 200, by = 20), S.occ[, 2], type = "b", lty = 2, pch = 19, col = "blue")
+lines(seq(20, 200, by = 20), S.occ[, 3], type = "b", lty = 3, pch = 19, col = "black")
+lines(seq(20, 200, by = 20), S.occ[, 4], type = "l", lty = 4, pch = 19, col = "grey")
 
-library(ggplot2)
+I.occ <- tapply(highlow$I, list(highlow$longevity, highlow$treatment), mean)
+I.occ <- I.occ - I.occ[, 4]
 
-df<-data.frame(
-  trt<-factor(c("low var","+ high/low","+ high/low","+ both")),
-  y<-c(mean.S["low.var"],mean.S["+high"],mean.S["+low"],mean.S["full"],
-       mean.I["low.var"],mean.I["+high"],mean.I["+low"],mean.I["full"]),
-  group<-factor(rep(c("control","+high","+low","control"),2)),
-  se<-c(rep(spread.S,4),rep(spread.I,4)),
-  case<-rep(c("Susceptible","Infected"),each=4)
-)
+plot(seq(20, 200, by = 20), I.occ[, 1], type = "b", lty = 1, ylim = c(-0.5, 0.5), pch = 19, col = "red", ylab = "I occupancy", xlab = "Longevity")
+lines(seq(20, 200, by = 20), I.occ[, 2], type = "b", lty = 2, pch = 19, col = "blue")
+lines(seq(20, 200, by = 20), I.occ[, 3], type = "b", lty = 3, pch = 19, col = "black")
+lines(seq(20, 200, by = 20), I.occ[, 4], type = "l", lty = 4, pch = 19, col = "grey")
 
-names(df)<-c("treatment","occ","group","se","case")
+occ <- tapply(highlow$I + highlow$S, list(highlow$longevity, highlow$treatment), mean)
+occ <- occ - occ[, 4]
 
-limits <- aes(ymax = occ + se, ymin = occ - se)
-
-p <- ggplot(df, aes(colour=group, y=occ,x=treatment)) + geom_point(size=5)
-p <- p + geom_errorbar(limits, width=0.2, size=1)
-p <- p+facet_grid(.~case)
-p <- p + theme(axis.title.x=element_text(colour="black", size=20),
-               axis.text.x=element_text(colour="black", size=20),
-               axis.text.y=element_text(colour="black", size=20),
-               axis.title.y=element_text(size=20, angle=90, vjust=0.25),
-               panel.grid.minor=element_blank(), 
-               panel.grid.major=element_blank(),
-               panel.background=element_rect(fill="white"),
-               legend.text=element_text(size=20),
-               strip.text.x=element_blank(),
-               strip.background=element_rect(fill="white",colour="white"),
-               axis.line=element_line(),
-               panel.border=element_rect(colour=c("black","black","white","white"),fill=NA))
-
-p<-p+xlim(c("low var","+ high/low","+ both"))+xlab("")+ylab("Occupancy")
-p+scale_colour_manual(values=c("control"="black","+high"="blue","+low"="red"),name="",breaks=c("+high","+low"))
+plot(seq(20, 200, by = 20), occ[, 1], type = "b", lty = 1, ylim = c(-0.5, 0.5), pch = 19, col = "red", ylab = "Total occupancy", xlab = "Longevity")
+lines(seq(20, 200, by = 20), occ[, 2], type = "b", lty = 2, pch = 19, col = "blue")
+lines(seq(20, 200, by = 20), occ[, 3], type = "b", lty = 3, pch = 19, col = "black")
+lines(seq(20, 200, by = 20), occ[, 4], type = "l", lty = 4, pch = 19, col = "grey")
 
 dev.off()
-
 
 # Patch level results
 #========================================================
 
-patch<-read.csv(paste(getwd(), "/Data", "/patch", conn, ".csv", sep=""), header=TRUE)
-
-names(patch)<-c("patchID","quality","tinf","S","I","R","E","S1","S2","S3","S4","S5","S6","S7","S8","S9","S10",
-                     "I1","I2","I3","I4","I5","I6","I7","I8","I9","I10",
-                     "R1","R2","R3","R4","R5","R6","R7","R8","R9","R10",
-                     "E1","E2","E3","E4","E5","E6","E7","E8","E9","E10",
-                     "ext","col","inf","repID","Sfin","Ifin","Rfin","longevity","variance")
-
-
 #Filter patch data to include only endemic cases
-patch<-out[which(out$Ifin>0 & out$Sfin>0), ]
+patch<-out[which(out$Ifin>0 & out$Sfin > 0), ]
 
 #Filter patch data to include only high variance runs
 patch<-patch[which(abs(patch$variance - 0.2) < 0.01),]
 
-#Plotting proportion of time occupied by susceptibles and infecteds as a function of quality
-
-pdf(paste(dirname(getwd()), "/Manuscript", "/qualityraw", conn, ".pdf", sep=""), height=5, width=10)
-
-par(mfrow=c(1,2),cex=1)
-
-smoothScatter(patch$quality,patch$S,ylab="Proportion of time occupied by susceptibles",xlab="Patch Quality")
-lines(loess.smooth(patch$quality,patch$S),lwd=2,col="red")
-smoothScatter(patch$quality,patch$I,ylab="Proportion of time occupied by infecteds",xlab="Patch Quality")
-lines(loess.smooth(patch$quality,patch$I),lwd=2,col="red")
-
-dev.off()
-
-pdf(paste(dirname(getwd()), "/Manuscript", "/infevents", conn, ".pdf", sep=""), height=5, width=5)
-
-par(mfrow=c(1,1),cex=1)
-smoothScatter(patch$quality,patch$inf.events.tot,ylab="Number of infection events",xlab="Patch Quality")
-lines(loess.smooth(patch$quality,patch$inf.events.tot),lwd=3,col="red")
-
-dev.off()
+# #Plotting proportion of time occupied by susceptibles and infecteds as a function of quality
+# 
+# pdf(paste(dirname(getwd()), "/Manuscript", "/qualityraw", conn, ".pdf", sep=""), height=5, width=10)
+# 
+# par(mfrow=c(1,2),cex=1)
+# 
+# smoothScatter(patch$quality,patch$S,ylab="Proportion of time occupied by susceptibles",xlab="Patch Quality")
+# lines(loess.smooth(patch$quality,patch$S),lwd=2,col="red")
+# smoothScatter(patch$quality,patch$I,ylab="Proportion of time occupied by infecteds",xlab="Patch Quality")
+# lines(loess.smooth(patch$quality,patch$I),lwd=2,col="red")
+# 
+# dev.off()
+# 
+# pdf(paste(dirname(getwd()), "/Manuscript", "/infevents", conn, ".pdf", sep=""), height=5, width=5)
+# 
+# par(mfrow=c(1,1),cex=1)
+# smoothScatter(patch$quality,patch$inf.events.tot,ylab="Number of infection events",xlab="Patch Quality")
+# lines(loess.smooth(patch$quality,patch$inf.events.tot),lwd=3,col="red")
+# 
+# dev.off()
 
 
 #===============================================================================
@@ -167,15 +162,23 @@ for(i in c(40, 60, 80, 100)){
 # Showing simulation-level variability
 
 # Number of infection events
+library(scales)
+
 reps <- unique(patch$repID)
-plot(patch$quality, patch$inf.events.early, type = "n", ylab = "Number of infection events", xlab = "Patch quality")
+
+par(mfrow = c(1, 1))
+plot(patch$quality, patch$inf.events.early, type = "n", ylab = "Number of infection events", xlab = "Patch quality", bty = "l")
 for(i in 1:length(reps)){
   sim <- patch[patch$repID == reps[i], ]
   lines(loess.smooth(sim$quality, sim$inf.events.tot), type = "l", col = alpha("gray", 0.3))
 }
 lines(loess.smooth(patch$quality, patch$inf.events.tot), lwd = 2, col = "black")
-lines(loess.smooth(patch$quality[patch$longevity == 40], patch$inf.events.tot[patch$longevity == 40]), lwd = 1.5, col = "black")
-lines(loess.smooth(patch$quality[patch$longevity == 100], patch$inf.events.tot[patch$longevity == 100]), lwd = 1.5, col = "black")
+lines(loess.smooth(patch$quality[patch$longevity == 40], patch$inf.events.tot[patch$longevity == 40]), lwd = 1, col = "black")
+lines(loess.smooth(patch$quality[patch$longevity == 60], patch$inf.events.tot[patch$longevity == 60]), lwd = 1, col = "black")
+lines(loess.smooth(patch$quality[patch$longevity == 80], patch$inf.events.tot[patch$longevity == 80]), lwd = 1, col = "black")
+lines(loess.smooth(patch$quality[patch$longevity == 100], patch$inf.events.tot[patch$longevity == 100]), lwd = 1, col = "black")
+lines(loess.smooth(patch$quality[patch$longevity == 120], patch$inf.events.tot[patch$longevity == 120]), lwd = 1, col = "black")
+lines(loess.smooth(patch$quality[patch$longevity == 140], patch$inf.events.tot[patch$longevity == 140]), lwd = 1, col = "black")
 
 par(mfrow = c(2, 2))
 
