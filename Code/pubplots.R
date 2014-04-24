@@ -10,8 +10,9 @@
 #   full = fully connected - all patches equally accessible from all other patches
 #   lattice = lattice structure - each patch has four accessible neighbors
 
-conn <- "(full)"
+# conn <- "(full)"
 # conn <- "(lattice)"
+conn <- "(x0)"
 
 
 # Metapopulation-level results
@@ -21,6 +22,7 @@ load(paste(getwd(), "/Data/out", conn, ".Rdata", sep = ""))
 
 library(gridExtra)
 library(lattice)
+library(RColorBrewer)
 
 metapop.S <- tapply(out$Sfin, list(out$longevity, out$variance), mean)
 metapop.I <- tapply(out$Ifin, list(out$longevity, out$variance), mean)
@@ -164,6 +166,8 @@ for(i in c(40, 60, 80, 100)){
 # Number of infection events
 library(scales)
 
+pdf(paste(getwd(), "/Manuscript", "/infevents", conn, ".pdf", sep=""), height=6, width=8)
+
 reps <- unique(patch$repID)
 
 par(mfrow = c(1, 1))
@@ -179,6 +183,8 @@ lines(loess.smooth(patch$quality[patch$longevity == 80], patch$inf.events.tot[pa
 lines(loess.smooth(patch$quality[patch$longevity == 100], patch$inf.events.tot[patch$longevity == 100]), lwd = 1, col = "black")
 lines(loess.smooth(patch$quality[patch$longevity == 120], patch$inf.events.tot[patch$longevity == 120]), lwd = 1, col = "black")
 lines(loess.smooth(patch$quality[patch$longevity == 140], patch$inf.events.tot[patch$longevity == 140]), lwd = 1, col = "black")
+
+dev.off()
 
 par(mfrow = c(2, 2))
 

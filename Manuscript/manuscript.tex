@@ -27,7 +27,20 @@
 \section{Introduction}
 \label{intro}
 
-Many wildlife diseases are caused by pathogens that can persist, and remain infectious, for long periods of time in the environment.  Examples include chronic wasting disease (\cite{Miller2006}), anthrax (\cite{Dragon1995}), plague (\cite{Eisen2008}), and white nose syndrome (\cite{Lindner2011}), among others.  This environmental persistence creates environmental pathogen reservoirs from which hosts can become infected without direct contact with an infected individual.  This additional transmission pathway can have important consequences for disease dynamics, especially in spatially structured populations (\cite{Park2012}). 
+Many wildlife diseases are caused by pathogens that can persist, and remain infectious, for long periods of time in the environment.  Examples include chronic wasting disease (\cite{Miller2006}), anthrax (\cite{Dragon1995}), plague (\cite{Eisen2008}), and white nose syndrome (\cite{Lindner2011}), among others.  This environmental persistence creates environmental pathogen reservoirs from which hosts can become infected without direct contact with an infected individual.  
+
+
+\cite{Almberg2011} find in models of CWD that increasing prior survival increases pathogen spread (using a number of measures) relative to a model that only accounts for direct transmission; highlights importance of accounting for environmental transmission.
+
+\cite{Breban2009} find that including environmental transmission better explains AIV in North American waterfowl than direct transmission only, and that it allows for persistence in cases where direct transmission alone would not.
+
+\cite{Clancy2005} shows that environmental transmission facilitates pathogen persistence compared to models with direct transmission only.
+
+\cite{Fuller2012} quantify persistence time baculovirus in gypsy moths and suggest that quantifying persistence times in empirical systems and including those estimates in models offers greater understanding of disease spread.  (should read this more carefully)
+
+\cite{Sharp2011} model CWD and find that as longevity increases, critical carrying capacities (that trigger disease persistence first, and then stable limit cycles and recurrent epidemics) are reduced, and thus populations are more susceptible to disease outbreaks.  Also suggest that management efforts that increase carrying capacity (e.g. high quality habitat) can facilitate disease persistence and possibly destabilize the population.
+
+
 
 Since environmental transmission is spatially explicit (i.e. environmental reservoirs can only infect residents of the local patch), its role in disease dynamics may depend on the attributes of the specific habitat patches in which reservoirs become established.  In particular, the quality of a habitat patch can affect its extinction and colonization probabilities, as well as its contribution to the colonization of other empty patches (\cite{Moilanen1998}).  Thus, we expect that patterns of host movement, and consequently the effect of environmental pathogen transmission, are determined at least in part by patch quality.  
 
@@ -163,10 +176,78 @@ Spatial structure and disease spread represent two major factors influencing the
 
 \subsubsection{Lattice structure}
 
-\subsubsection{Extinction scaling}
+\begin{figure}[h!]
+\centering
+\includegraphics[height=5.5cm]{metapop(x0).pdf}
+\caption{Percent of simulations resulting in (a) endemic disease (both susceptibles and infecteds persist) and (b) pandemic disease (no susceptibles persist), as a function of the pathogen's environmental longevity (half-life of infectivity decay) and the variance of the patch quality distribution.}
+\label{poutcome_x0}
+\end{figure}   
 
-\subsubsection{Weak direct transmission}
+\begin{figure}
+\centering
+\includegraphics[height=7cm]{highlow(x0).pdf}
+\caption{The effect of the presence of high and low quality patches on (a) mean susceptible occupancy, (b) mean infected occupancy, and (c) mean total occupancy, measured relative to  a low variance metapopulation.  Red solid lines show hiqh quality metapopulations, blue dashed show low quality, and black shows high variance.}
+\label{sens_x0}
+\end{figure}
 
+\begin{figure}
+\centering
+\includegraphics[height=7cm]{infevents(x0).pdf}
+\caption{The number of infection events ($S$ to $I$ transitions) for individual patches in endemic simulations.  Light gray lines show smoothed fit for single simulations, while the thick black line shows the smoothed fit over all simulations.  The thin black lines show the smoothed fits for longevities of 40 (top) and 140 (bottom).}
+\label{infections_x0}
+\end{figure}
+
+\clearpage
+
+\subsubsection{Extinction scaling, $\alpha = 0$}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[height=5.5cm]{metapop(x0).pdf}
+\caption{Percent of simulations resulting in (a) endemic disease (both susceptibles and infecteds persist) and (b) pandemic disease (no susceptibles persist), as a function of the pathogen's environmental longevity (half-life of infectivity decay) and the variance of the patch quality distribution.}
+\label{poutcome_x0}
+\end{figure}   
+
+\begin{figure}
+\centering
+\includegraphics[height=7cm]{highlow(x0).pdf}
+\caption{The effect of the presence of high and low quality patches on (a) mean susceptible occupancy, (b) mean infected occupancy, and (c) mean total occupancy, measured relative to  a low variance metapopulation.  Red solid lines show hiqh quality metapopulations, blue dashed show low quality, and black shows high variance.}
+\label{sens_x0}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[height=7cm]{infevents(x0).pdf}
+\caption{The number of infection events ($S$ to $I$ transitions) for individual patches in endemic simulations.  Light gray lines show smoothed fit for single simulations, while the thick black line shows the smoothed fit over all simulations.  The thin black lines show the smoothed fits for longevities of 40 (top) and 140 (bottom).}
+\label{infections_x0}
+\end{figure}
+
+\clearpage
+
+\subsubsection{Weak direct transmission, $\delta = 0.1$}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[height=5.5cm]{metapop(x0).pdf}
+\caption{Percent of simulations resulting in (a) endemic disease (both susceptibles and infecteds persist) and (b) pandemic disease (no susceptibles persist), as a function of the pathogen's environmental longevity (half-life of infectivity decay) and the variance of the patch quality distribution.}
+\label{poutcome_x0}
+\end{figure}   
+
+\begin{figure}
+\centering
+\includegraphics[height=7cm]{highlow(x0).pdf}
+\caption{The effect of the presence of high and low quality patches on (a) mean susceptible occupancy, (b) mean infected occupancy, and (c) mean total occupancy, measured relative to  a low variance metapopulation.  Red solid lines show hiqh quality metapopulations, blue dashed show low quality, and black shows high variance.}
+\label{sens_x0}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[height=7cm]{infevents(x0).pdf}
+\caption{The number of infection events ($S$ to $I$ transitions) for individual patches in endemic simulations.  Light gray lines show smoothed fit for single simulations, while the thick black line shows the smoothed fit over all simulations.  The thin black lines show the smoothed fits for longevities of 40 (top) and 140 (bottom).}
+\label{infections_x0}
+\end{figure}
+
+\clearpage
 
 \bibliographystyle{spbasic}     
 \bibliography{metapop}   % name your BibTeX data base
