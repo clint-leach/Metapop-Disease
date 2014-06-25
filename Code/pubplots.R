@@ -13,6 +13,7 @@
 # conn <- "(full)"
 # conn <- "(lattice)"
 conn <- "(x0)"
+# conn <- "(delta)"
 
 
 # Metapopulation-level results
@@ -174,7 +175,7 @@ par(mfrow = c(1, 1))
 plot(patch$quality, patch$inf.events.early, type = "n", ylab = "Number of infection events", xlab = "Patch quality", bty = "l")
 for(i in 1:length(reps)){
   sim <- patch[patch$repID == reps[i], ]
-  lines(loess.smooth(sim$quality, sim$inf.events.tot), type = "l", col = alpha("gray", 0.3))
+  try(lines(loess.smooth(sim$quality, sim$inf.events.tot), type = "l", col = alpha("gray", 0.3)))
 }
 lines(loess.smooth(patch$quality, patch$inf.events.tot), lwd = 2, col = "black")
 lines(loess.smooth(patch$quality[patch$longevity == 40], patch$inf.events.tot[patch$longevity == 40]), lwd = 1, col = "black")

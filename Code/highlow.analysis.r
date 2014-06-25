@@ -44,28 +44,28 @@ lines(seq(20, 200, by = 20), occ[, 4], type = "l", lty = 4, pch = 19, col = "gre
 par(mfrow = c(1, 4), bty = "l")
 pandemic <- tapply(highlow$S == 0 & highlow$I > 0, list(highlow$longevity, highlow$treatment), sum)
 
-plot(seq(20, 200, by = 20), pandemic[, 1], type = "b", lty = 1, ylim = c(-100, 100), pch = 20, col = "red", xlab = "Longevity", ylab = "Pandemics")
+plot(seq(20, 200, by = 20), pandemic[, 1], type = "b", lty = 1, ylim = c(0, 100), pch = 20, col = "red", xlab = "Longevity", ylab = "Pandemics")
 lines(seq(20, 200, by = 20), pandemic[, 2], type = "b", lty = 2, pch = 20, col = "blue")
 lines(seq(20, 200, by = 20), pandemic[, 3], type = "b", lty = 3, pch = 20, col = "black")
 lines(seq(20, 200, by = 20), pandemic[, 4], type = "b", lty = 4, pch = 20, col = "grey")
 
 endemic <- tapply(highlow$S > 0 & highlow$I > 0, list(highlow$longevity, highlow$treatment), sum)
 
-plot(seq(20, 200, by = 20), endemic[, 1], type = "b", lty = 1, ylim = c(-100, 100), pch = 20, col = "red", xlab = "Longevity", ylab = "Endemics")
+plot(seq(20, 200, by = 20), endemic[, 1], type = "b", lty = 1, ylim = c(0, 100), pch = 20, col = "red", xlab = "Longevity", ylab = "Endemics")
 lines(seq(20, 200, by = 20), endemic[, 2], type = "b", lty = 2, pch = 20, col = "blue")
 lines(seq(20, 200, by = 20), endemic[, 3], type = "b", lty = 3, pch = 20, col = "black")
 lines(seq(20, 200, by = 20), endemic[, 4], type = "b", lty = 4, pch = 20, col = "grey")
 
 nodisease <- tapply(highlow$S > 0 & highlow$I == 0, list(highlow$longevity, highlow$treatment), sum)
 
-plot(seq(20, 200, by = 20), nodisease[, 1], type = "b", lty = 1, ylim = c(-100, 100), pch = 20, col = "red", xlab = "Longevity", ylab = "No disease")
+plot(seq(20, 200, by = 20), nodisease[, 1], type = "b", lty = 1, ylim = c(0, 100), pch = 20, col = "red", xlab = "Longevity", ylab = "No disease")
 lines(seq(20, 200, by = 20), nodisease[, 2], type = "b", lty = 2, pch = 20, col = "blue")
 lines(seq(20, 200, by = 20), nodisease[, 3], type = "b", lty = 3, pch = 20, col = "black")
 lines(seq(20, 200, by = 20), nodisease[, 4], type = "b", lty = 4, pch = 20, col = "grey")
 
 extinct <- tapply(highlow$S == 0 & highlow$I == 0, list(highlow$longevity, highlow$treatment), sum)
 
-plot(seq(20, 200, by = 20), extinct[, 1], type = "b", lty = 1, ylim = c(-100, 100), pch = 20, col = "red", xlab = "Longevity", ylab = "Extinctions")
+plot(seq(20, 200, by = 20), extinct[, 1], type = "b", lty = 1, ylim = c(0, 100), pch = 20, col = "red", xlab = "Longevity", ylab = "Extinctions")
 lines(seq(20, 200, by = 20), extinct[, 2], type = "b", lty = 2, pch = 20, col = "blue")
 lines(seq(20, 200, by = 20), extinct[, 3], type = "b", lty = 3, pch = 20, col = "black")
 lines(seq(20, 200, by = 20), extinct[, 4], type = "b", lty = 4, pch = 20, col = "grey")
