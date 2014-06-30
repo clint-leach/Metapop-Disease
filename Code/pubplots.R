@@ -10,9 +10,9 @@
 #   full = fully connected - all patches equally accessible from all other patches
 #   lattice = lattice structure - each patch has four accessible neighbors
 
-# conn <- "(full)"
+conn <- "(full)"
 # conn <- "(lattice)"
-conn <- "(x0)"
+# conn <- "(x0)"
 # conn <- "(delta)"
 
 
@@ -34,11 +34,13 @@ metapop.ext <- tapply(out$Sfin == 0 & out$Ifin == 0, list(out$longevity, out$var
 metapop.nd <- tapply(out$Sfin > 0 & out$Ifin == 0, list(out$longevity, out$variance), sum) / 100
 
 p.pan <- levelplot(metapop.pan, col.regions = brewer.pal(9, "Reds"), xlab = "Longevity", ylab = "Variance", 
-                   at = seq(0, 100, by = 12.5), colorkey = F)
+                   at = seq(0, 100, by = 12.5), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
 p.end <- levelplot(metapop.end, col.regions = brewer.pal(9, "Reds"), cuts = 8, xlab = "Longevity", ylab = "Variance", 
-                   at = seq(0, 100, by = 12.5), colorkey = F)
-p.ext <- levelplot(metapop.ext, col.regions = brewer.pal(9, "Reds"), cuts = 8, xlab = "Longevity", ylab = "Variance")
-p.nd <- levelplot(metapop.nd, col.regions = brewer.pal(9, "Reds"), cuts = 8, xlab = "Longevity", ylab = "Variance")
+                   at = seq(0, 100, by = 12.5), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9))
+p.ext <- levelplot(metapop.ext, col.regions = brewer.pal(9, "Reds"), cuts = 8, xlab = "Longevity", ylab = "Variance",
+                   scales = list(at = c(1, 3, 5, 7, 9))
+p.nd <- levelplot(metapop.nd, col.regions = brewer.pal(9, "Reds"), cuts = 8, xlab = "Longevity", ylab = "Variance",
+                  scales = list(at = c(1, 3, 5, 7, 9))
 
 key <- draw.colorkey(list(col = brewer.pal(9, "Reds"), 
                           at = seq(0, 100, by = 12.5),

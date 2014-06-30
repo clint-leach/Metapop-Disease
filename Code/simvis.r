@@ -9,7 +9,7 @@ parms<-data.frame("im"=0.5, #Controls how a patch imports colonists
                   "x"=1,
                   "es"=0.1,
                   "ei"=0.5,
-                  "delta"=0.5,
+                  "delta"=0.1,
                   "gamma0"=0.5,
                   "alpha"=0)
 
@@ -24,7 +24,7 @@ initial[51:100]<-"E"
 
 timesteps<-5000
 
-longevity <- 80
+longevity <- 180
 variance <- 0.2
 
 #===============================================================================
