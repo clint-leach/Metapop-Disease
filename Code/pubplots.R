@@ -11,9 +11,9 @@
 #   lattice = lattice structure - each patch has four accessible neighbors
 
 conn <- "(full)"
-# conn <- "(lattice)"
-# conn <- "(x0)"
-# conn <- "(delta)"
+conn <- "(lattice)"
+conn <- "(x0)"
+conn <- "(delta)"
 
 
 # Metapopulation-level results
@@ -98,25 +98,25 @@ pdf(paste(getwd(), "/Manuscript", "/highlow", conn, ".pdf", sep=""), height=5, w
 par(mfrow = c(1, 3), bty = "l")
 
 S.occ <- tapply(highlow$S, list(highlow$longevity, highlow$treatment), mean)
-S.occ <- S.occ - S.occ[, 4]
+# S.occ <- S.occ - S.occ[, 4]
 
-plot(seq(20, 200, by = 20), S.occ[, 1], type = "b", lty = 1, ylim = c(-0.5, 0.5), pch = 19, col = "red", ylab = "S occupancy", xlab = "Longevity")
+plot(seq(20, 200, by = 20), S.occ[, 1], type = "b", lty = 1, ylim = c(0, 1), pch = 19, col = "red", ylab = "S occupancy", xlab = "Longevity")
 lines(seq(20, 200, by = 20), S.occ[, 2], type = "b", lty = 2, pch = 19, col = "blue")
 lines(seq(20, 200, by = 20), S.occ[, 3], type = "b", lty = 3, pch = 19, col = "black")
 lines(seq(20, 200, by = 20), S.occ[, 4], type = "l", lty = 4, pch = 19, col = "grey")
 
 I.occ <- tapply(highlow$I, list(highlow$longevity, highlow$treatment), mean)
-I.occ <- I.occ - I.occ[, 4]
+# I.occ <- I.occ - I.occ[, 4]
 
-plot(seq(20, 200, by = 20), I.occ[, 1], type = "b", lty = 1, ylim = c(-0.5, 0.5), pch = 19, col = "red", ylab = "I occupancy", xlab = "Longevity")
+plot(seq(20, 200, by = 20), I.occ[, 1], type = "b", lty = 1, ylim = c(0, 1), pch = 19, col = "red", ylab = "I occupancy", xlab = "Longevity")
 lines(seq(20, 200, by = 20), I.occ[, 2], type = "b", lty = 2, pch = 19, col = "blue")
 lines(seq(20, 200, by = 20), I.occ[, 3], type = "b", lty = 3, pch = 19, col = "black")
 lines(seq(20, 200, by = 20), I.occ[, 4], type = "l", lty = 4, pch = 19, col = "grey")
 
 occ <- tapply(highlow$I + highlow$S, list(highlow$longevity, highlow$treatment), mean)
-occ <- occ - occ[, 4]
+# occ <- occ - occ[, 4]
 
-plot(seq(20, 200, by = 20), occ[, 1], type = "b", lty = 1, ylim = c(-0.5, 0.5), pch = 19, col = "red", ylab = "Total occupancy", xlab = "Longevity")
+plot(seq(20, 200, by = 20), occ[, 1], type = "b", lty = 1, ylim = c(0, 1), pch = 19, col = "red", ylab = "Total occupancy", xlab = "Longevity")
 lines(seq(20, 200, by = 20), occ[, 2], type = "b", lty = 2, pch = 19, col = "blue")
 lines(seq(20, 200, by = 20), occ[, 3], type = "b", lty = 3, pch = 19, col = "black")
 lines(seq(20, 200, by = 20), occ[, 4], type = "l", lty = 4, pch = 19, col = "grey")
