@@ -27,23 +27,30 @@ library(RColorBrewer)
 
 metapop.S <- tapply(out$Sfin, list(out$longevity, out$variance), mean)
 metapop.I <- tapply(out$Ifin, list(out$longevity, out$variance), mean)
+metapop.occ <- tapply(out$Sfin + out$Ifin, list(out$longevity, out$variance), mean)
+maxI <- tapply(out$maxI, list(out$longevity, out$variance), mean)
+
+sd.S <- tapply(out$Sfin, list(out$longevity, out$variance), sd)
+sd.I <- tapply(out$Ifin, list(out$longevity, out$variance), sd)
+sd.maxI <- tapply(out$maxI, list(out$longevity, out$variance), sd)
 
 metapop.pan <- tapply(out$Sfin == 0 & out$Ifin > 0, list(out$longevity, out$variance), sum) / 100
 metapop.end <- tapply(out$Sfin > 0 & out$Ifin > 0, list(out$longevity, out$variance), sum) / 100
 metapop.ext <- tapply(out$Sfin == 0 & out$Ifin == 0, list(out$longevity, out$variance), sum) / 100
 metapop.nd <- tapply(out$Sfin > 0 & out$Ifin == 0, list(out$longevity, out$variance), sum) / 100
 
-p.pan <- levelplot(metapop.pan, col.regions = brewer.pal(9, "Reds"), xlab = "Longevity", ylab = "Variance", 
-                   at = seq(0, 100, by = 12.5), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
-p.end <- levelplot(metapop.end, col.regions = brewer.pal(9, "Reds"), cuts = 8, xlab = "Longevity", ylab = "Variance", 
-                   at = seq(0, 100, by = 12.5), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9))
-p.ext <- levelplot(metapop.ext, col.regions = brewer.pal(9, "Reds"), cuts = 8, xlab = "Longevity", ylab = "Variance",
-                   scales = list(at = c(1, 3, 5, 7, 9))
-p.nd <- levelplot(metapop.nd, col.regions = brewer.pal(9, "Reds"), cuts = 8, xlab = "Longevity", ylab = "Variance",
-                  scales = list(at = c(1, 3, 5, 7, 9))
+cols <- colorRampPalette(brewer.pal(9, "Reds"))(100)
+p.pan <- levelplot(metapop.pan, col.regions = cols, xlab = "Longevity", ylab = "Variance", 
+                   at = seq(0, 100, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
+p.end <- levelplot(metapop.end, col.regions = cols, xlab = "Longevity", ylab = "Variance", 
+                   at = seq(0, 100, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
+p.ext <- levelplot(metapop.ext, col.regions = cols, xlab = "Longevity", ylab = "Variance",
+                   at = seq(0, 100, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
+p.nd <- levelplot(metapop.nd, col.regions = cols, xlab = "Longevity", ylab = "Variance",
+                  at = seq(0, 100, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
 
-key <- draw.colorkey(list(col = brewer.pal(9, "Reds"), 
-                          at = seq(0, 100, by = 12.5),
+key <- draw.colorkey(list(col = cols, 
+                          at = seq(0, 100, by = 1),
                           labels = list(at = seq(0, 100, by = 25)),
                           height = 0.7), 
                      draw = F)
