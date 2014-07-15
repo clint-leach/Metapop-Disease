@@ -55,12 +55,28 @@ key <- draw.colorkey(list(col = cols,
                           height = 0.7), 
                      draw = F)
 
-pdf(paste(getwd(), "/Manuscript", "/metapop", conn, ".pdf", sep=""), height=5, width=10)
-
 grid.arrange(p.end, p.pan, key, ncol = 3, widths = c(0.45, 0.45, 0.1))
 
-dev.off()
+cols <- colorRampPalette(brewer.pal(9, "Reds"))(100)
 
+S <- levelplot(metapop.S, col.regions = cols, xlab = "Longevity", ylab = "Variance",
+               at = seq(0, 1, by = 0.01), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
+I <- levelplot(metapop.I, col.regions = cols, xlab = "Longevity", ylab = "Variance",
+               at = seq(0, 1, by = 0.01), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
+occ <- levelplot(metapop.occ, col.regions = cols, xlab = "Longevity", ylab = "Variance",
+               at = seq(0, 1, by = 0.01), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
+
+key <- draw.colorkey(list(col = cols, 
+                          at = seq(0, 1, by = 0.01),
+                          labels = list(at = seq(0, 1, by = 0.25)),
+                          height = 0.7), 
+                     draw = F)
+
+pdf(paste(getwd(), "/Manuscript", "/metapop", conn, ".pdf", sep=""), height=5, width=14)
+
+grid.arrange(S, I, occ, key, ncol = 4, widths = c(0.3, 0.3, 0.3, 0.1))
+
+dev.off()
 #===============================================================================
 
 # Plotting logistic regression surface for prob. of pathogen persistence
@@ -129,6 +145,18 @@ lines(seq(20, 200, by = 20), occ[, 3], type = "b", lty = 3, pch = 19, col = "bla
 lines(seq(20, 200, by = 20), occ[, 4], type = "l", lty = 4, pch = 19, col = "grey")
 
 dev.off()
+
+par(mfrow = c(1, 2))
+
+plot(seq(20, 200, by = 20), maxI[, 1], type = "b", lty = 1, ylim = c(0, 1), pch = 19, col = "red", ylab = "Max I", xlab = "Longevity")
+lines(seq(20, 200, by = 20), maxI[, 2], type = "b", lty = 2, pch = 19, col = "blue")
+lines(seq(20, 200, by = 20), maxI[, 3], type = "b", lty = 3, pch = 19, col = "black")
+lines(seq(20, 200, by = 20), maxI[, 4], type = "l", lty = 4, pch = 19, col = "grey")
+
+plot(seq(20, 200, by = 20), tmaxI[, 1], type = "b", lty = 1, ylim = c(0, 120), pch = 19, col = "red", ylab = "Time to Max I", xlab = "Longevity")
+lines(seq(20, 200, by = 20), tmaxI[, 2], type = "b", lty = 2, pch = 19, col = "blue")
+lines(seq(20, 200, by = 20), tmaxI[, 3], type = "b", lty = 3, pch = 19, col = "black")
+lines(seq(20, 200, by = 20), tmaxI[, 4], type = "l", lty = 4, pch = 19, col = "grey")
 
 # Patch level results
 #========================================================
