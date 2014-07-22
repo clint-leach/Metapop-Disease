@@ -8,6 +8,12 @@
 #   both = high quality variance (low.var+low+high)
 #=================================================================================
 
+conn <- "(full)"
+conn <- "(lattice)"
+conn <- "(x0)"
+conn <- "(delta)"
+
+
 highlow<-read.csv(paste(getwd(), "/Data/highlow", conn, ".csv", sep = ""), header=TRUE)
 
 highlow<-highlow[,-1]
