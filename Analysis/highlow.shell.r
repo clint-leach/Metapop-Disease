@@ -21,16 +21,14 @@ longevity <- c(20, 100, 200)
 treatment <- expand.grid(rep(c("+high","+low","full","low.var"), replicates), longevity)
 
 #Defines fixed inputs for diseaseSPOM
-parms<-data.frame("im"=0.5, 
-                  "b"=0.5, 
-                  "D"=5, 
-                  "x"=1,
-                  "es"=0.1,
-                  "ei"=0.5,
-                  "delta"=0.5,
-                  "gamma0"=0.5,
-                  "xi"=1,
-                  "alpha"=0)
+parms<-data.frame("xi_im" = 0.5, 
+                  "xi_em" = 0.5,      
+                  "D" = 5, 
+                  "alpha" = 1,
+                  "es" = 0.1,
+                  "ei" = 0.5,
+                  "delta" = 0.5,
+                  "gamma0" = 0.5)
 
 # Connectivity matrix
 

@@ -32,18 +32,15 @@ simID<-c(1:length(par.reps[,1]))
 par.reps<-cbind(par.reps,simID)
 
 
-
 #Defines fixed inputs for diseaseSPOM
-parms<-data.frame("im"=0.5, #Controls how a patch imports colonists
-                  "b"=0.5,  #Controls how a patch exports colonists      
-                  "D"=5, 
-                  "y"=10,
-                  "x"=1,
-                  "es"=0.1,
-                  "ei"=0.5,
-                  "delta"=0.5,
-                  "gamma0"=0.5,
-                  "alpha"=0)
+parms<-data.frame("xi_im" = 0.5, 
+                  "xi_em" = 0.5,      
+                  "D" = 5, 
+                  "alpha" = 1,
+                  "es" = 0.1,
+                  "ei" = 0.5,
+                  "delta" = 0.5,
+                  "gamma0" = 0.5)
   
 #Fully connected matrix
 distance<-matrix(1,nrow=100,ncol=100)
