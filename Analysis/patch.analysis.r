@@ -4,7 +4,7 @@
 # Select model parameterization to analyze
 conn <- "(full)"
 conn <- "(lattice)"
-conn <- "(x0)"
+conn <- "(alpha0)"
 conn <- "(delta)"
 
 load(paste(getwd(), "/Output/out", conn, ".Rdata", sep = ""))

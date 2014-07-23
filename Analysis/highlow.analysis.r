@@ -8,7 +8,7 @@
 # Choose which parameterization to explore
 conn <- "(full)"      
 conn <- "(lattice)"
-conn <- "(x0)"
+conn <- "(alpha0)"
 conn <- "(delta)"
 
 # Read in model output
