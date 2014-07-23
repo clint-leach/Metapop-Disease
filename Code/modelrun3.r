@@ -1,19 +1,40 @@
-#############################################################################################
-#modelrun function that takes in longevity and variance values, runs the SPOM without infection
-#until steady state, then introduces infection on a randomly selected occupied patch and runs SPOM for
-#an additional 2000 time steps.  Collects the relevant occupancy data from diseaseSPOM output
-#and writes to csv file. Same as modelrun, but with number of replicates as an input and steady
-#state threshold.
 
-#Changes as of 01/2012
-  #Proportion of time in each state calculations corrected 12/20/11
-  #Number of state transitions for each patch added
-  #Unique simulation ID added to both metapop and patch-level data
-  #Patch quality drawn from uniform instead of gamma distribution
-  #Initial infected patch has to be occupied
-#############################################################################################
-
-modelrun<-function(longevity, variance, k, parms, distance, initial, timesteps){
+modelrun <- function(longevity, variance, k, parms, distance, initial, timesteps){
+  # Takes in longevity and variance values, runs the SPOM without infection
+  # until steady state, then introduces infection on a randomly selected occupied patch,
+  # calls SPOM model and generates output.
+  #
+  # Args:
+  #   longevity: value for pathogen longevity in environment, half-life of infectivity
+  #   variance: variance of patch quality distribution (uniform with mean 1)
+  #   k: replicate ID
+  #   parms: named numeric vector of parameter values
+  #   distance: nxn between patch distance matrix
+  #   initial: character vector giving initial state of each patch
+  #   timesteps: number of timesteps to run SPOM for
+  #
+  # Returns:
+  #   n x 19 dataframe giving patch-level results from simulation
+  #     quality: quality of patch
+  #     tinf: time to first infection
+  #     I: proportion of time patch infected
+  #     S: proportion of time patch susceptible
+  #     E: proportion of time patch empty
+  #     inf.events.early: number of infection events in first fifth of sim
+  #     inf.events.tot: total number of infection events
+  #     susc.col: number of susceptible colonization events
+  #     inf.col: number of infected colonization events
+  #     susc.ex: number of susceptible extinction events
+  #     inf.ex: number of infected extinction events
+  #     Sfin: final susceptible occupancy
+  #     Ifin: final infectious occupancy
+  #     Efin: final empty occupancy
+  #     maxI: maximum infectious occupancy
+  #     quality0: quality of initially infected patch
+  #     repID: replicate ID
+  #     longevity: pathogen environemental longevity
+  #     variance: variance of patch quality distribution
+  
   
 	#Generates quality vector with desired variance
   max <- 0.5 * sqrt(12 * variance) + 1
