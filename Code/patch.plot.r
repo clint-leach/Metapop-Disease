@@ -1,8 +1,8 @@
 patch.plot <- function(conn){
   
   library(scales)
-  
-  load(paste(getwd(), "/Data/out", conn, ".Rdata", sep = ""))
+
+  load(paste(getwd(), "/Output/out", conn, ".Rdata", sep = ""))
   
   #Filter patch data to include only endemic cases
   patch<-out[which(out$Ifin>0 & out$Sfin > 0), ]

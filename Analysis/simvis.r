@@ -81,7 +81,7 @@ levels(state$color) <- c("white", "red", "white", "blue")
 p1 <- ggplot(state, aes(x = Time, y = Patch)) + geom_tile(fill = state$color, alpha = 0.5) + 
               scale_fill_identity() + 
               scale_x_continuous(expand = c(0, 0)) +
-              scale_y_continuous(expand = c(0, 0)) +
+              scale_y_continuous(expression(Patch ~ Quality ~ symbol('\256')), expand = c(0, 0)) +
               theme_classic()
 
 
@@ -94,8 +94,11 @@ p2 <- ggplot(tseries, aes(x = Time, y = Occupancy, group = class, color = class,
               scale_x_continuous(labels = NULL, expand = c(0, 0)) +
               scale_y_continuous(expand = c(0, 0))
 
+png("Manuscript/simvis.png", width = 836, height = 506)
+
 grid.arrange(p2, p1, ncol = 1, heights = c(0.25, 0.75))
 
+dev.off()
 
 # MoMA version
 p1 + theme(line = element_blank(), text = element_blank())

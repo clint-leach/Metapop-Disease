@@ -4,7 +4,7 @@ metapop.plot <- function(conn){
   library(lattice)
   library(RColorBrewer)
   
-  load(paste(getwd(), "/Data/out", conn, ".Rdata", sep = ""))
+  load(paste(getwd(), "/Output/out", conn, ".Rdata", sep = ""))
   
   metapop.S <- tapply(out$Sfin, list(out$longevity, out$variance), mean)
   metapop.I <- tapply(out$Ifin, list(out$longevity, out$variance), mean)
