@@ -8,8 +8,8 @@ library(foreach)
 library(doSNOW)
 library(rlecuyer)
 
-source("modelrun3.r")
-source("contSPOM(rates).r")
+source("Code/modelrun3.r")
+source("Code/contSPOM(rates).r")
 
 #Set the number of replicates
 replicates <- 100

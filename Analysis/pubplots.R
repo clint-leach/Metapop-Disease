@@ -1,10 +1,10 @@
-
+# Script to generate all plots for manuscript
 
 models <- c("(full)", "(lattice)", "(x0)", "(delta)")
 
-source(paste(getwd(), "/Code/metapop.plot.r", sep = ""))
-source(paste(getwd(), "/Code/highlow.plot.r", sep = ""))
-source(paste(getwd(), "/Code/patch.plot.r", sep = ""))
+source("Code/metapop.plot.r")
+source("Code/highlow.plot.r")
+source("Code/patch.plot.r")
 
 
 for(i in 1:length(models)){

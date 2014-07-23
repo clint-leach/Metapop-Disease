@@ -1,22 +1,23 @@
-#=================================================================================
-#
-#Code to analyze results from highlow scripts -- sensitivity analyses the remove
-#high or low quality patches.  The treatment names are as follows:
-#  low.var = missing highest and lowest 10 patches (replaced with 1)
-#   low = low quality patches added to mid 
-#   high = high quality patches added to mid 
-#   both = high quality variance (low.var+low+high)
-#=================================================================================
+# Code to analyze results from highlow scripts, in which the patch quality distribution
+# varies asymmetrically around 1.  The four distributions explored are:
+#   low var: patch qualities between 0.75 and 1.25
+#   intermediate var, high quality: 0.75 - 1.75
+#   intermediate var, low quality: 0.25 - 1.25
+#   high var: 0.25 - 1.75
 
-conn <- "(full)"
+# Choose which parameterization to explore
+conn <- "(full)"      
 conn <- "(lattice)"
 conn <- "(x0)"
 conn <- "(delta)"
 
-
-highlow<-read.csv(paste(getwd(), "/Data/highlow", conn, ".csv", sep = ""), header=TRUE)
+# Read in model output
+highlow<-read.csv(paste(getwd(), "/Output/highlow", conn, ".csv", sep = ""), header=TRUE)
 
 highlow<-highlow[,-1]
+
+#===============================================================================
+# Plotting mean occupancy as a function of longevity and treatment
 
 par(mfrow = c(1, 3), bty = "l")
 
@@ -44,10 +45,11 @@ lines(seq(20, 200, by = 20), occ[, 2], type = "b", lty = 2, pch = 19, col = "blu
 lines(seq(20, 200, by = 20), occ[, 3], type = "b", lty = 3, pch = 19, col = "black")
 lines(seq(20, 200, by = 20), occ[, 4], type = "l", lty = 4, pch = 19, col = "grey")
 
-
-#Outcome analysis
+#===============================================================================
+# Plotting proportion of different epidemiological outcomes
 
 par(mfrow = c(1, 4), bty = "l")
+
 pandemic <- tapply(highlow$S == 0 & highlow$I > 0, list(highlow$longevity, highlow$treatment), sum)
 
 plot(seq(20, 200, by = 20), pandemic[, 1], type = "b", lty = 1, ylim = c(0, 100), pch = 20, col = "red", xlab = "Longevity", ylab = "Pandemics")
@@ -80,6 +82,8 @@ lines(seq(20, 200, by = 20), extinct[, 4], type = "b", lty = 4, pch = 20, col = 
 
 #===============================================================================
 # Analysis and plots for a single longevity
+
+highlow <- highlow[highlow$longevity == 100, ]
 
 low<-highlow[which(highlow$treatment=="+low"),]
 high<-highlow[which(highlow$treatment=="+high"),]

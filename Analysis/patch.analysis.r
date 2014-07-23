@@ -1,22 +1,22 @@
-# Patch level results
-#========================================================
+# Patch level results -- scripts to analyze patch-level data from full simulation
+# model.
 
+# Select model parameterization to analyze
 conn <- "(full)"
 conn <- "(lattice)"
 conn <- "(x0)"
 conn <- "(delta)"
 
-load(paste(getwd(), "/Data/out", conn, ".Rdata", sep = ""))
+load(paste(getwd(), "/Output/out", conn, ".Rdata", sep = ""))
 
 #Filter patch data to include only endemic cases
 patch<-out[which(out$Ifin>0 & out$Sfin > 0), ]
 
 #Filter patch data to include only high variance runs
-patch<-patch[which(abs(patch$variance - 0.2) < 0.01),]
+patch<-patch[which(abs(patch$variance - 0.2) < 0.01), ]
 
-#Plotting proportion of time occupied by susceptibles and infecteds as a function of quality
-
-pdf(paste(dirname(getwd()), "/Manuscript", "/qualityraw", conn, ".pdf", sep=""), height=5, width=10)
+#===============================================================================
+#Plotting scatter cloud ofproportion of time occupied by susceptibles and infecteds as a function of quality
 
 par(mfrow=c(1,2),cex=1)
 
@@ -25,16 +25,11 @@ lines(loess.smooth(patch$quality,patch$S),lwd=2,col="red")
 smoothScatter(patch$quality,patch$I,ylab="Proportion of time occupied by infecteds",xlab="Patch Quality")
 lines(loess.smooth(patch$quality,patch$I),lwd=2,col="red")
 
-dev.off()
 
-pdf(paste(dirname(getwd()), "/Manuscript", "/infevents", conn, ".pdf", sep=""), height=5, width=5)
-
+# Plotting scatter cloud of number of infection events
 par(mfrow=c(1,1),cex=1)
 smoothScatter(patch$quality,patch$inf.events.tot,ylab="Number of infection events",xlab="Patch Quality")
 lines(loess.smooth(patch$quality,patch$inf.events.tot),lwd=3,col="red")
-
-dev.off()
-
 
 #===============================================================================
 # Figures to show how longevity affects role of quality
@@ -46,12 +41,12 @@ for(i in c(40, 60, 80, 100)){
 }
 
 
+#===============================================================================
 # Showing simulation-level variability
 
 # Number of infection events
-library(scales)
 
-pdf(paste(getwd(), "/Manuscript", "/infevents", conn, ".pdf", sep=""), height=6, width=8)
+library(scales)
 
 reps <- unique(patch$repID)
 
@@ -69,7 +64,6 @@ lines(loess.smooth(patch$quality[patch$longevity == 100], patch$inf.events.tot[p
 lines(loess.smooth(patch$quality[patch$longevity == 120], patch$inf.events.tot[patch$longevity == 120]), lwd = 1, col = "black")
 lines(loess.smooth(patch$quality[patch$longevity == 140], patch$inf.events.tot[patch$longevity == 140]), lwd = 1, col = "black")
 
-dev.off()
 
 par(mfrow = c(2, 2))
 
@@ -83,6 +77,7 @@ lines(loess.smooth(patch$quality, patch$inf.ex), lwd = 2, col = "black")
 lines(loess.smooth(patch$quality[patch$longevity == 40], patch$inf.ex[patch$longevity == 40]), lwd = 1.5, col = "black")
 lines(loess.smooth(patch$quality[patch$longevity == 100], patch$inf.ex[patch$longevity == 100]), lwd = 1.5, col = "black")
 
+
 # Number of susceptible extinction events
 plot(patch$quality, patch$susc.ex, type = "n", ylab = "Number of susceptible extinctions", xlab = "Patch quality")
 for(i in 1:length(reps)){
@@ -93,6 +88,7 @@ lines(loess.smooth(patch$quality, patch$susc.ex), lwd = 2, col = "black")
 lines(loess.smooth(patch$quality[patch$longevity == 40], patch$susc.ex[patch$longevity == 40]), lwd = 1.5, col = "black")
 lines(loess.smooth(patch$quality[patch$longevity == 100], patch$susc.ex[patch$longevity == 100]), lwd = 1.5, col = "black")
 
+
 # Infected colonizations
 plot(patch$quality, patch$inf.col, type = "n", ylab = "Number of infected colonizations", xlab = "Patch quality")
 for(i in 1:length(reps)){
@@ -102,6 +98,7 @@ for(i in 1:length(reps)){
 lines(loess.smooth(patch$quality, patch$inf.col), lwd = 2, col = "black")
 lines(loess.smooth(patch$quality[patch$longevity == 40], patch$inf.col[patch$longevity == 40]), lwd = 1.5, col = "black")
 lines(loess.smooth(patch$quality[patch$longevity == 100], patch$inf.col[patch$longevity == 100]), lwd = 1.5, col = "black")
+
 
 # Susceptible colonizations
 plot(patch$quality, patch$inf.col, type = "n", ylab = "Number of susceptible colonizations", xlab = "Patch quality")

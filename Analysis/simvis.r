@@ -1,5 +1,7 @@
 
-source("contSPOM(rates).r")
+# Code to generate visualization of a single simulation run
+
+source("Code/contSPOM(rates).r")
 
 # Defines fixed inputs for diseaseSPOM
 parms<-data.frame("im"=0.5, #Controls how a patch imports colonists
