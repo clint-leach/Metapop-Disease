@@ -13,11 +13,14 @@ metapop.plot <- function(conn){
   cols <- colorRampPalette(brewer.pal(9, "Reds"))(100)
   
   S <- levelplot(metapop.S, col.regions = cols, xlab = "Longevity", ylab = "Variance",
-                 at = seq(0, 1, by = 0.01), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
+                 at = seq(0, 1, by = 0.01), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)),
+                 main = list("a", just = "left", x = 0.05))
   I <- levelplot(metapop.I, col.regions = cols, xlab = "Longevity", ylab = "Variance",
-                 at = seq(0, 1, by = 0.01), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
+                 at = seq(0, 1, by = 0.01), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)),
+                 main = list("b", just = "left", x = 0.05))
   occ <- levelplot(metapop.occ, col.regions = cols, xlab = "Longevity", ylab = "Variance",
-                   at = seq(0, 1, by = 0.01), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
+                   at = seq(0, 1, by = 0.01), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)),
+                   main = list("c", just = "left", x = 0.05))
   
   key <- draw.colorkey(list(col = cols, 
                             at = seq(0, 1, by = 0.01),
