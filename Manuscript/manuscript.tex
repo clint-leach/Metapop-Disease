@@ -42,15 +42,15 @@ Many, if not all, of the pathogens listed above affect spatially structured host
 \subsection{Model Structure}
 
 \begin{table}
-\caption{State transitions and their rates for patch $i$ in a metapopulation simulation.  $S$ denotes occupied by  susceptible hosts, $I$ denotes occupied infectious hosts, and $\emptyset$ denotes unoccupied by the host.  All patches are characterized by an environmental infection rate, $\gamma_i$, which is non-zero only if the patch has been previously occupied by infectious hosts.}
-\begin{tabular}{lr}
-State Transition & Rate \\
+\caption{State transitions and their rates for patch $i$ in a metapopulation simulation.  $S$ denotes occupied by  susceptible hosts, $I$ denotes occupied infectious hosts, and $\emptyset$ denotes unoccupied by the host.  All patches are characterized by an environmental infection rate, $\gamma(\tau_i)$, which is non-zero only if the patch has been previously occupied by infectious hosts.}
+\begin{tabular}{llr}
+State Transition & Process &  Rate \\
 \hline
-$S \rightarrow I$ & $\delta C_{Ii} + \gamma_i$\\
-$S \rightarrow \emptyset $ & $e_{Si}$\\
-$I \rightarrow \emptyset $ & $e_{Ii}$ \\
-$\emptyset \rightarrow S$ & $C_{Si}$\\
-$\emptyset \rightarrow I$ & $C_{Ii}$\\
+$S \rightarrow I$ & Infection (from contact or reservoir) & $\delta \lambda_{Ii} + \gamma(\tau_i)$\\
+$S \rightarrow \emptyset $ & Extinction (of susceptible) & $\epsilon_{Si}$\\
+$I \rightarrow \emptyset $ & Extinction (of infectious) &  $\epsilon_{Ii}$ \\
+$\emptyset \rightarrow S$ & Colonization (by susceptibles) & $\lambda_{Si}$\\
+$\emptyset \rightarrow I$ & Colonization (by infectious) & $\lambda_{Ii}$\\
 \label{transitions}
 \end{tabular}
 \end{table}
@@ -59,22 +59,22 @@ To address the above questions, we developed a stochastic patch occupancy model 
 
 Building on the framework developed by \cite{Hanski2003}, the rate at which patch \emph{i}, with quality $A_i$, is colonized by individuals in state $X \in (S,I)$ is given by its connectivity:
 \begin{equation}
-C_{Xi}=A_i^{\xi_{im}} \sum_{i\neq j }\phi_jA_j^{\xi_{em}}e^{-D d_{ij}},
+\lambda_{Xi}=A_i^{\xi_{im}} \sum_{i\neq j }\phi_jA_j^{\xi_{em}}\exp(-D d_{ij}),
 \label{connectivity}
 \end{equation}
 where $\phi_j$ is an indicator function that is $1$ if patch $j$ is in state $X$ and is $0$ otherwise; $\xi_{im}$ and $\xi_{em}$ control how rates of immigration and emigration, respectively, scale with patch quality; $D$ is the inverse of mean dispersal distance; and $d_{ij}$ is the distance between patches $i$ and $j$.  Essentially, $C_{Xi}$ sums the colonization effort from all patches in state $X$ to patch $i$.  
 
 The extinction rate of patch $i$ in state $X$ is given by:
 \begin{equation}
-E_{Xi}=\frac{e_X}{A_i^\alpha},
+\epsilon_{Xi}=\frac{\mu_X}{A_i^\alpha},
 \end{equation}
-where $e_X$ is the extinction rate of a patch of unit quality in state $X$ (here we assume that $e_I \geq e_S$ to account for disease-induced mortality), and $\alpha$ controls how extinction rate scales with patch quality.  When an infectious population goes extinct, we assume that the hosts leave behind an infectious pathogen reservoir on the patch.  
+where $\mu_X$ is the extinction rate of a patch of unit quality in state $X$ (here we assume that $\mu_I \geq \mu_S$ to account for disease-induced mortality), and $\alpha$ controls how extinction rate scales with patch quality.  When an infectious population goes extinct, we assume that the hosts leave behind an infectious pathogen reservoir on the patch.  
 
-Susceptible populations are infected via direct contact with infectious colonists at rate $\delta C_{Ii}$, where $\delta$ is the direct transmission probability.  In addition, environmental transmission can take place when a susceptible population occupies a previously infected patch, and occurs at rate:
+Susceptible populations are infected via direct contact with infectious colonists at rate $\delta \lambda_{Ii}$, where $\delta$ is the direct transmission probability.  In addition, environmental transmission can take place when a susceptible population occupies a previously infected patch, and occurs at rate:
 \begin{equation}
-\gamma_i=\gamma_0exp(-rt_{Ii}),
+\gamma(\tau_i)=\gamma_0exp(-r\tau_{i}),
 \end{equation}
-where $\gamma_0$ is the initial infection rate of the pathogen reservoir, $t_{Ii}$ is the time since last infectious occupancy ($t_{Ii} = \infty$, and thus $\gamma_i = 0$, if the patch has never been occupied by infectious hosts), and $r$ is the pathogen's decay rate in the environment.
+where $\gamma_0$ is the initial infection rate of the pathogen reservoir, $\tau_{i}$ is the time since last infectious occupancy ($\tau_{i} = \infty$, and thus $\gamma(\tau_i) = 0$, if the patch has never been occupied by infectious hosts), and $r$ is the pathogen's decay rate in the environment.
 
 
 \begin{table}[h!]   
@@ -87,8 +87,8 @@ $\xi_{em}$ & Scaling parameter for effect of target patch quality on emigration 
 $D$& Inverse of mean dispersal distance & 5 & 2 & -- & --\\
 $d_{ij}$ & Distance between patch $i$ and $j$ & 1 $\forall i \neq j$ & 1 $\forall i, j$ neighbors & -- & --\\
 \hline
-$e_S$ & Extinction rate of unit quality susceptible patch & 0.1 & -- & -- & --\\
-$e_I$ & Extinction rate of unity quality infectious patch & 0.5 & -- & -- & --\\
+$\mu_S$ & Extinction rate of unit quality susceptible patch & 0.1 & -- & -- & --\\
+$\mu_I$ & Extinction rate of unity quality infectious patch & 0.5 & -- & -- & --\\
 $\alpha$ & Strength of environmental stochasticity & 1 & -- & 0 & --\\
 \hline
 $\delta$ & Probability of direct infection & 0.5 & -- & -- & 0.1\\

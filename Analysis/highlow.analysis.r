@@ -278,7 +278,7 @@ p<-p+facet_grid(.~case)
 p+scale_colour_manual(values=c("control"="black","+high"="blue","+low"="red"),name="",breaks=c("+high","+low"))
 
 
-#==================================================================================================
+#===============================================================================
 
 #Digging into the role of initial quality
 
@@ -287,3 +287,18 @@ lines(loess.smooth(both$quality0,both$S))
 
 plot(both$quality0,both$I)
 lines(loess.smooth(both$quality0,both$I))
+
+#===============================================================================
+
+par(mfrow = c(1, 4))
+
+for(i in c("(full)", "(lattice)", "(alpha0)", "(delta)")){
+  
+  highlow<-read.csv(paste(getwd(), "/Output/highlow", i, ".csv", sep = ""), header=TRUE)
+  occ <- tapply(highlow$I + highlow$S, list(highlow$longevity, highlow$treatment), mean)
+  
+  plot(seq(20, 200, by = 20), occ[, 1] - occ[, 2], type = "b", pch = 19, main = i, bty = "l",
+       ylim = c(-0.2, 0.4), xlab = "longevity", ylab = "High quality occupancy - low quality occupancy")
+  abline(h = 0, col = "red")
+  
+}
