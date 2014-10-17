@@ -77,7 +77,7 @@ diseaseSPOM <- function(distance, quality, initial, parms, r, timesteps, ss.thre
     connectivityI <- connectivity %*% (state[t ,] == "I")
     
     # Updates infectivity of reservoirs 
-    gammas[which(ti > 0)] <- gamma0 * exp(-r * (t - ti[which(ti > 0)]))
+    gammas[which(ti > 0)] <- gamma0 * exp(-r * (event.times[t] - ti[which(ti > 0)]))
     
     # Creates empty rates data frame
     rates <- matrix(nrow=8*n, ncol=5)
@@ -153,7 +153,7 @@ diseaseSPOM <- function(distance, quality, initial, parms, r, timesteps, ss.thre
     # If the event creates a reservoir, drops the event time into ti, the reservoir
     # creation time vector, for that patch  
     if(rates[event, 2] == "I" & rates[event, 3] == "R") 
-      ti[rates[event, 1]] <- t
+      ti[rates[event, 1]] <- event.times[t+1]
         
     # Updates occupancy vector
     occ.S[t+1] <- length(which(state[t+1, ] == "S")) / n

@@ -9,25 +9,25 @@ highlow.plot <- function(conn){
   pdf(paste(getwd(), "/Manuscript", "/highlow", conn, ".pdf", sep=""), height=5, width=10)
   
   par(mfrow = c(1, 3), bty = "l")
-  plot(seq(20, 200, by = 20), S.occ[, 1], type = "b", lty = 1, ylim = c(0, 1), pch = 19, col = "red", 
+  plot(rownames(S.occ), S.occ[, 1], type = "b", lty = 1, ylim = c(0, 1), pch = 19, col = "red", 
        ylab = "S occupancy", xlab = "Longevity", main = title("a", adj = 0))
-  lines(seq(20, 200, by = 20), S.occ[, 2], type = "b", lty = 1, pch = 19, col = "blue")
-  lines(seq(20, 200, by = 20), S.occ[, 3], type = "b", lty = 1, pch = 19, col = "black")
-  lines(seq(20, 200, by = 20), S.occ[, 4], type = "b", lty = 1, pch = 19, col = "grey")
+  lines(rownames(S.occ), S.occ[, 2], type = "b", lty = 1, pch = 19, col = "blue")
+  lines(rownames(S.occ), S.occ[, 3], type = "b", lty = 1, pch = 19, col = "black")
+  lines(rownames(S.occ), S.occ[, 4], type = "b", lty = 1, pch = 19, col = "grey")
   
-  plot(seq(20, 200, by = 20), I.occ[, 1], type = "b", lty = 1, ylim = c(0, 1), pch = 19, col = "red", 
+  plot(rownames(I.occ), I.occ[, 1], type = "b", lty = 1, ylim = c(0, 1), pch = 19, col = "red", 
        ylab = "I occupancy", xlab = "Longevity", main = title("b", adj = 0))
-  lines(seq(20, 200, by = 20), I.occ[, 2], type = "b", lty = 1, pch = 19, col = "blue")
-  lines(seq(20, 200, by = 20), I.occ[, 3], type = "b", lty = 1, pch = 19, col = "black")
-  lines(seq(20, 200, by = 20), I.occ[, 4], type = "b", lty = 1, pch = 19, col = "grey")
+  lines(rownames(I.occ), I.occ[, 2], type = "b", lty = 1, pch = 19, col = "blue")
+  lines(rownames(I.occ), I.occ[, 3], type = "b", lty = 1, pch = 19, col = "black")
+  lines(rownames(I.occ), I.occ[, 4], type = "b", lty = 1, pch = 19, col = "grey")
   
   occ <- tapply(highlow$I + highlow$S, list(highlow$longevity, highlow$treatment), mean)
   
-  plot(seq(20, 200, by = 20), occ[, 1], type = "b", lty = 1, ylim = c(0, 1), pch = 19, col = "red",
+  plot(rownames(occ), occ[, 1], type = "b", lty = 1, ylim = c(0, 1), pch = 19, col = "red",
        ylab = "Total occupancy", xlab = "Longevity", main = title("c", adj = 0))
-  lines(seq(20, 200, by = 20), occ[, 2], type = "b", lty = 1, pch = 19, col = "blue")
-  lines(seq(20, 200, by = 20), occ[, 3], type = "b", lty = 1, pch = 19, col = "black")
-  lines(seq(20, 200, by = 20), occ[, 4], type = "b", lty = 1, pch = 19, col = "grey")
+  lines(rownames(occ), occ[, 2], type = "b", lty = 1, pch = 19, col = "blue")
+  lines(rownames(occ), occ[, 3], type = "b", lty = 1, pch = 19, col = "black")
+  lines(rownames(occ), occ[, 4], type = "b", lty = 1, pch = 19, col = "grey")
   
   dev.off()
 }

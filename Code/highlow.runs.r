@@ -48,8 +48,9 @@ modelrun <- function(longevity, parms, distance, initial, timesteps, treatment){
   }
 
   
-  # Converts longevity (half-life) to decay rate
-  r <- log(2) / longevity
+  #Converts longevity (half-life in units of occupancy time) to decay rate in natural time
+  long.nat <- longevity / parms$es
+  r <- log(2) / long.nat
   
   # Runs simulation without infection until it reaches steady state
   Sonly <- diseaseSPOM(distance, quality, initial, parms, r, timesteps, 0.15)

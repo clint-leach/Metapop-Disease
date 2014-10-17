@@ -15,7 +15,8 @@ source("Code/contSPOM(rates).r")
 replicates <- 100
 
 #Setting longevity
-longevity <- seq(20, 200, by = 20)
+longevity <- seq(-1, 1, length.out = 10)
+longevity <- 10 ^ longevity
 
 #Generates a new matrix with each long-var combination repeated for the set number of replicates
 treatment <- expand.grid(rep(c("+high","+low","full","low.var"), replicates), longevity)
