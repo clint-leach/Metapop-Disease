@@ -295,10 +295,15 @@ par(mfrow = c(1, 4))
 for(i in c("(full)", "(lattice)", "(alpha0)", "(delta)")){
   
   highlow<-read.csv(paste(getwd(), "/Output/highlow", i, ".csv", sep = ""), header=TRUE)
+  
+  S.occ <- tapply(highlow$S, list(highlow$longevity, highlow$treatment), mean)
+  I.occ <- tapply(highlow$I, list(highlow$longevity, highlow$treatment), mean)
   occ <- tapply(highlow$I + highlow$S, list(highlow$longevity, highlow$treatment), mean)
   
   plot(seq(20, 200, by = 20), occ[, 1] - occ[, 2], type = "b", pch = 19, main = i, bty = "l",
        ylim = c(-0.2, 0.4), xlab = "longevity", ylab = "High quality occupancy - low quality occupancy")
   abline(h = 0, col = "red")
-  
+
 }
+
+

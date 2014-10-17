@@ -47,6 +47,7 @@ distance<-matrix(1,nrow=100,ncol=100)
 diag(distance)<-0
 
 #Lattice matrix (on a torus)
+# library(igraph)
 # distance<-get.adjacency(graph.lattice(c(10,10),directed=F,circular=T))
 # distance<-as.matrix(distance)
 

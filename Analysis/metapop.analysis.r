@@ -52,13 +52,13 @@ metapop.ext <- tapply(out$Sfin == 0 & out$Ifin == 0, list(out$longevity, out$var
 metapop.nd <- tapply(out$Sfin > 0 & out$Ifin == 0, list(out$longevity, out$variance), sum) / 100
 
 cols <- colorRampPalette(brewer.pal(9, "Reds"))(100)
-p.pan <- levelplot(metapop.pan, col.regions = cols, xlab = "Longevity", ylab = "Variance", 
+p.pan <- levelplot(metapop.pan, col.regions = cols, xlab = "Longevity", ylab = "Variance", main = "Pandemics",
                    at = seq(0, 100, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
-p.end <- levelplot(metapop.end, col.regions = cols, xlab = "Longevity", ylab = "Variance", 
+p.end <- levelplot(metapop.end, col.regions = cols, xlab = "Longevity", ylab = "Variance", main = "Endemics", 
                    at = seq(0, 100, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
-p.ext <- levelplot(metapop.ext, col.regions = cols, xlab = "Longevity", ylab = "Variance",
+p.ext <- levelplot(metapop.ext, col.regions = cols, xlab = "Longevity", ylab = "Variance", main = "Extinctions",
                    at = seq(0, 100, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
-p.nd <- levelplot(metapop.nd, col.regions = cols, xlab = "Longevity", ylab = "Variance",
+p.nd <- levelplot(metapop.nd, col.regions = cols, xlab = "Longevity", ylab = "Variance", main = "Disease-free",
                   at = seq(0, 100, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
 
 key <- draw.colorkey(list(col = cols, 
@@ -67,7 +67,7 @@ key <- draw.colorkey(list(col = cols,
                           height = 0.7), 
                      draw = F)
 
-grid.arrange(p.end, p.pan, key, ncol = 3, widths = c(0.45, 0.45, 0.1))
+grid.arrange(p.nd, p.end, p.pan, p.ext, key, ncol = 5, widths = c(0.225, 0.225, 0.225, 0.225, 0.1))
 
 #===============================================================================
 # Plotting logistic regression surface for prob. of pathogen persistence

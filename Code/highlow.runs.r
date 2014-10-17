@@ -26,7 +26,6 @@ modelrun <- function(longevity, parms, distance, initial, timesteps, treatment){
   #     tmaxI: time to maximum infectious occupancy
   #     quality0: quality of initially infected patch
   
-  names(output) <- c("treatment", "longevity", "S", "I", "R", "avgS", "avgI", "avgR", "maxI", "tmaxI", "quality0")
   
   out.max <- 0.5 * sqrt(12 * 0.2) + 1
   out.min <- 2 - out.max
