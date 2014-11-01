@@ -15,7 +15,7 @@ source("Code/contSPOM(rates).r")
 replicates <- 100
 
 #Setting longevity
-longevity <- seq(-1, 1, length.out = 10)
+longevity <- seq(-1, 0.5, length.out = 10)
 longevity <- 10 ^ longevity
 
 #Generates a new matrix with each long-var combination repeated for the set number of replicates

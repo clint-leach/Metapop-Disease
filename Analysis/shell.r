@@ -15,7 +15,7 @@ source("Code/contSPOM(rates).r")
 replicates <- 100
 
 #Generating vectors of longevity and variance values to use
-longevity <- seq(-1, 1, length.out = 10)
+longevity <- seq(-1, 0.5, length.out = 10)
 longevity <- 10 ^ longevity
 
 variance <- seq(0.02, 0.2, by=0.02)
