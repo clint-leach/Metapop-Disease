@@ -308,4 +308,39 @@ for(i in c("(full)", "(lattice)", "(alpha0)", "(delta)", "(ei)")){
 
 }
 
+#===============================================================================
 
+sub <- highlow[highlow$treatment %in% c("+high", "+low"), ]
+
+p <- ggplot(sub, aes(x = factor(log10(longevity)), y = S+I))
+
+p <- p + theme(axis.title.x=element_text(colour="black",size=20),
+          axis.text.x=element_text(colour="black",size=20),
+          axis.text.y=element_text(colour="black",size=20),
+          axis.title.y=element_text(size=20,angle=90,vjust=0.25),
+          panel.grid.minor=element_blank(),
+          panel.grid.major=element_blank(),
+          panel.background=element_rect(fill="white"),
+          legend.text=element_text(size=20))
+
+p<-p+xlab("log(longevity)")+ylab("Occupancy") 
+
+p + geom_boxplot(aes(fill = factor(treatment)))
+
+
+library(ggplot2)
+
+sub$occ <- sub$S + sub$I
+
+occ.high <- sub[sub$treatment == "+high", c("longevity", "occ")]
+occ.low <- sub[sub$treatment == "+low", c("longevity", "occ")]
+occ <- cbind(occ.high, occ.low$occ)
+names(occ) <- c("longevity", "high", "low")
+
+p <- ggplot(occ)
+
+p <- p + 
+     geom_density(aes(x = high, y = ..density..), fill = "red", binwidth = 0.05) + 
+     geom_density(aes(x = low, y = -..density..), fill = "blue", binwidth = 0.05)
+
+p + facet_grid(. ~ longevity) + coord_flip()

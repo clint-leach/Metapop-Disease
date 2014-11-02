@@ -6,6 +6,7 @@ conn <- "(full)"
 conn <- "(lattice)"
 conn <- "(alpha0)"
 conn <- "(delta)"
+conn <- "(ei)"
 
 load(paste(getwd(), "/Output/out", conn, ".Rdata", sep = ""))
 
