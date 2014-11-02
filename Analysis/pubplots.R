@@ -1,6 +1,6 @@
 # Script to generate all plots for manuscript
 
-models <- c("(full)", "(lattice)", "(alpha0)", "(delta)")
+models <- c("(full)", "(lattice)", "(alpha0)", "(delta)", "(ei)")
 
 source("Code/metapop.plot.r")
 source("Code/highlow.plot.r")

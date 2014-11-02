@@ -293,54 +293,63 @@ lines(loess.smooth(both$quality0,both$I))
 #===============================================================================
 
 par(mfrow = c(1, 5))
+sim <- c("(full)", "(lattice)", "(alpha0)", "(delta)", "(ei)")
+label <- c("a", "b", "c", "d","e")
 
-for(i in c("(full)", "(lattice)", "(alpha0)", "(delta)", "(ei)")){
+highlow<-read.csv(paste(getwd(), "/Output/highlow",sim[1], ".csv", sep = ""), header=TRUE)
+
+longevity <- sort(unique(highlow$longevity))
+
+S.occ <- tapply(highlow$S, list(highlow$longevity, highlow$treatment), median)
+I.occ <- tapply(highlow$I, list(highlow$longevity, highlow$treatment), median)
+occ <- tapply(highlow$I + highlow$S, list(highlow$longevity, highlow$treatment), median)
+
+plot(log10(longevity), occ[, 1] - occ[, 2], type = "b", pch = 19, bty = "l",
+    ylim = c(-0.4, 0.5), xlab = "log(longevity)", ylab = "High quality occupancy - low quality occupancy",
+    main = title(label[1], adj = 0),
+    cex.lab = 1.2)
+
+abline(h = 0, col = "red")
+
+for(i in 2:5){
   
-  highlow<-read.csv(paste(getwd(), "/Output/highlow", i, ".csv", sep = ""), header=TRUE)
+  highlow<-read.csv(paste(getwd(), "/Output/highlow",sim[i], ".csv", sep = ""), header=TRUE)
   
-  S.occ <- tapply(highlow$S, list(highlow$longevity, highlow$treatment), mean)
-  I.occ <- tapply(highlow$I, list(highlow$longevity, highlow$treatment), mean)
-  occ <- tapply(highlow$I + highlow$S, list(highlow$longevity, highlow$treatment), mean)
+  longevity <- sort(unique(highlow$longevity))
   
-  plot(log10(longevity), occ[, 1] - occ[, 2], type = "b", pch = 19, main = i, bty = "l",
-       ylim = c(-0.3, 0.5), xlab = "longevity", ylab = "High quality occupancy - low quality occupancy")
+  S.occ <- tapply(highlow$S, list(highlow$longevity, highlow$treatment), median)
+  I.occ <- tapply(highlow$I, list(highlow$longevity, highlow$treatment), median)
+  occ <- tapply(highlow$I + highlow$S, list(highlow$longevity, highlow$treatment), median)
+  
+  plot(log10(longevity), occ[, 1] - occ[, 2], type = "b", pch = 19, bty = "l",
+       ylim = c(-0.4, 0.5), xlab = "log(longevity)", ylab = "", yaxt = "n",
+       main = title(label[i], adj = 0),
+       cex.lab = 1.2)
+  Axis(side= 2, labels = F)
+  
   abline(h = 0, col = "red")
 
 }
 
 #===============================================================================
+# Occupancy boxplots
+
+library(ggplot2)
+library(gridExtra)
 
 sub <- highlow[highlow$treatment %in% c("+high", "+low"), ]
 
-p <- ggplot(sub, aes(x = factor(log10(longevity)), y = S+I))
+p.S <- ggplot(sub, aes(x = factor(log10(longevity)), y = S))
+p.S <- p.S + xlab("log(longevity)") + ylab("S occupancy") + theme(legend.position = "none") + theme_bw()
+p.S <- p.S + geom_boxplot(aes(fill = factor(treatment)))
 
-p <- p + theme(axis.title.x=element_text(colour="black",size=20),
-          axis.text.x=element_text(colour="black",size=20),
-          axis.text.y=element_text(colour="black",size=20),
-          axis.title.y=element_text(size=20,angle=90,vjust=0.25),
-          panel.grid.minor=element_blank(),
-          panel.grid.major=element_blank(),
-          panel.background=element_rect(fill="white"),
-          legend.text=element_text(size=20))
+p.I <- ggplot(sub, aes(x = factor(log10(longevity)), y = I))
+p.I <- p.I + xlab("log(longevity)") + ylab("I occupancy") + theme(legend.position = "none")
+p.I <- p.I + geom_boxplot(aes(fill = factor(treatment)))
 
-p<-p+xlab("log(longevity)")+ylab("Occupancy") 
+p.occ <- ggplot(sub, aes(x = factor(log10(longevity)), y = S + I))
+p.occ <- p.occ + xlab("log(longevity)") + ylab("Total occupancy") + theme(legend.position = "none")
+p.occ <- p.occ + geom_boxplot(aes(fill = factor(treatment)))
 
-p + geom_boxplot(aes(fill = factor(treatment)))
+grid.arrange(p.S, p.I, p.occ, ncol = 3)
 
-
-library(ggplot2)
-
-sub$occ <- sub$S + sub$I
-
-occ.high <- sub[sub$treatment == "+high", c("longevity", "occ")]
-occ.low <- sub[sub$treatment == "+low", c("longevity", "occ")]
-occ <- cbind(occ.high, occ.low$occ)
-names(occ) <- c("longevity", "high", "low")
-
-p <- ggplot(occ)
-
-p <- p + 
-     geom_density(aes(x = high, y = ..density..), fill = "red", binwidth = 0.05) + 
-     geom_density(aes(x = low, y = -..density..), fill = "blue", binwidth = 0.05)
-
-p + facet_grid(. ~ longevity) + coord_flip()
