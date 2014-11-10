@@ -1,0 +1,111 @@
+\documentclass{article} 
+\usepackage{graphicx}
+
+\title{Supplementary Figures}
+
+\begin{document}
+
+\maketitle
+
+\section{Occupancy results for symmetric quality distributions}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[height=5.5cm]{figure/metapop(full).pdf}
+\caption{Default model parameterization.  Mean occupancy of (a) susceptible patches, (b) infectious patches, and (c) both, as a function of the pathogen's environmental longevity (half-life of infectivity decay, measured in units of expected occupancy time of a susceptible population on a unit quality patch) and the variance of the patch quality distribution.}
+\label{poutcome}
+\end{figure}   
+
+\begin{figure}[h!]
+\centering
+\includegraphics[height=5.5cm]{figure/metapop(lattice).pdf}
+\caption{Metapopulation with lattice structure and local movement.  Mean occupancy of (a) susceptible patches, (b) infectious patches, and (c) both, as a function of the pathogen's environmental longevity (half-life of infectivity decay, measured in units of expected occupancy time of a susceptible population on a unit quality patch) and the variance of the patch quality distribution.}
+\label{poutcome_lattice}
+\end{figure}   
+
+\begin{figure}[h!]
+\centering
+\includegraphics[height=5.5cm]{figure/metapop(alpha0).pdf}
+\caption{High environmental stochasticity ($\alpha = 0$).  Mean occupancy of (a) susceptible patches, (b) infectious patches, and (c) both, as a function of the pathogen's environmental longevity (half-life of infectivity decay, measured in units of expected occupancy time of a susceptible population on a unit quality patch) and the variance of the patch quality distribution.}
+\label{poutcome_x0}
+\end{figure}   
+
+\begin{figure}[h!]
+\centering
+\includegraphics[height=5.5cm]{figure/metapop(delta).pdf}
+\caption{Reservoir transmission dominant ($\delta = 0.1$).  Mean occupancy of (a) susceptible patches, (b) infectious patches, and (c) both, as a function of the pathogen's environmental longevity (half-life of infectivity decay, measured in units of expected occupancy time of a susceptible population on a unit quality patch) and the variance of the patch quality distribution.}
+\label{poutcome_delta}
+\end{figure}   
+
+\begin{figure}[h!]
+\centering
+\includegraphics[height=5.5cm]{figure/metapop(ei).pdf}
+\caption{High disease-induced mortality ($\mu_I = 1$).  Mean occupancy of (a) susceptible patches, (b) infectious patches, and (c) both, as a function of the pathogen's environmental longevity (half-life of infectivity decay, measured in units of expected occupancy time of a susceptible population on a unit quality patch) and the variance of the patch quality distribution.}
+\label{poutcome_ei}
+\end{figure}   
+
+\clearpage
+
+\section{Occupancy results for asymmetric quality distributions}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[height=7cm]{figure/highlow(lattice).pdf}
+\caption{Metapopulation with lattice structure and local movement.  The effect of the presence of high and low quality patches on (a) mean susceptible occupancy, (b) mean infectious occupancy, and (c) mean total occupancy.  Red lines show high quality metapopulations (patch qualities roughly between 0.75 and 1.75), blue lines show low quality metapopulations (patch qualities roughly between 0.25 and 1.25).}
+\label{sens_lattice}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[height=6cm]{figure/highlow(alpha0).pdf}
+\caption{High environmental stochasticity ($\alpha = 0$).  The effect of the presence of high and low quality patches on (a) mean susceptible occupancy, (b) mean infectious occupancy, and (c) mean total occupancy.  Red lines show high quality metapopulations (patch qualities roughly between 0.75 and 1.75), blue lines show low quality metapopulations (patch qualities roughly between 0.25 and 1.25).}
+\label{sens_x0}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[height=6cm]{figure/highlow(delta).pdf}
+\caption{Reservoir transmission dominant ($\delta = 0.1$).  The effect of the presence of high and low quality patches on (a) mean susceptible occupancy, (b) mean infectious occupancy, and (c) mean total occupancy.  Red lines show high quality metapopulations (patch qualities roughly between 0.75 and 1.75), blue lines show low quality metapopulations (patch qualities roughly between 0.25 and 1.25).}
+\label{sens_delta}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[height=6cm]{figure/highlow(ei).pdf}
+\caption{High disease-induced mortality ($\mu_I = 1$).  The effect of the presence of high and low quality patches on (a) mean susceptible occupancy, (b) mean infectious occupancy, and (c) mean total occupancy.  Red lines show high quality metapopulations (patch qualities roughly between 0.75 and 1.75), blue lines show low quality metapopulations (patch qualities roughly between 0.25 and 1.25).}
+\label{sens_ei}
+\end{figure}
+
+\clearpage
+
+\section{Patch-level infection events}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[height=7cm]{figure/infevents(lattice).pdf}
+\caption{Metapopulation with lattice structure and local movement.  The number of infection events ($S$ to $I$ transitions) for individual patches in endemic simulations.  Light gray lines show the smoothed fit for single simulations, while the thick black line shows the smoothed trend over all simulations.}
+\label{infections_lattice}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[height=7cm]{figure/infevents(alpha0).pdf}
+\caption{High environmental stochasticity ($\alpha = 0$).  The number of infection events ($S$ to $I$ transitions) for individual patches in endemic simulations.  Light gray lines show the smoothed fit for single simulations, while the thick black line shows the smoothed trend over all simulations.}
+\label{infections_x0}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[height=7cm]{figure/infevents(delta).pdf}
+\caption{Reservoir transmission dominant ($\delta = 0.1$).  The number of infection events ($S$ to $I$ transitions) for individual patches in endemic simulations.  Light gray lines show the smoothed fit for single simulations, while the thick black line shows the smoothed trend over all simulations.}
+\label{infections_delta}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[height=7cm]{figure/infevents(ei).pdf}
+\caption{High disease-induced mortality ($\mu_I = 1$).  The number of infection events ($S$ to $I$ transitions) for individual patches in endemic simulations.  Light gray lines show the smoothed fit for single simulations, while the thick black line shows the smoothed trend over all simulations.}
+\label{infections_ei}
+\end{figure}
+
+\end{document}

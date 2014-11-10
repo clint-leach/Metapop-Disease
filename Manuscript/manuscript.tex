@@ -1,13 +1,12 @@
-%
 \documentclass{article} 
 
 \usepackage{amsmath}
 \usepackage{graphicx}
-\usepackage{natbib}
 \usepackage{tabularx}
 \usepackage{lineno}
 \usepackage{hyperref}
 \usepackage{color}
+\usepackage{authblk}
 
 \linenumbers
 
@@ -15,13 +14,20 @@
 
 \title{Modelling the creation of ecological traps by environmentally persistent pathogens}
 
-\author{Clinton B. Leach \and Paul C. Cross \and Colleen T. Webb}
+\author[1]{Clinton B. Leach$^*$}
+\author[1]{Colleen T. Webb}
+\affil[1]{Department of Biology, Graduate Degree Program in Ecology, Colorado State University, Fort Collins, CO, USA}
+\author[2]{Paul C. Cross}
+\affil[2]{Northern Rocky Mountain Science Center, US Geological Survey, Bozeman, Montana, USA}
+\affil[*]{Corresponding author: clint.leach@colostate.edu}
 
 
 \maketitle
 
 
+\begin{quote}
 This draft manuscript is distributed solely for purposes of scientific peer review.  Its content is deliberative and pre decisional, so it must not be disclosed or released by reviewers.  Because the manuscript has not yet been approved for publication by the U.S. Geological Survey (USGS), it does not represent any official USGS finding or policy.
+\end{quote}
 
 
 
@@ -45,19 +51,6 @@ Many, if not all, of the pathogens listed above affect spatially structured host
 
 \subsection{Model Structure}
 
-\begin{table}
-\caption{State transitions and their rates for patch $i$ in a metapopulation simulation.  $S$ denotes occupied by  susceptible hosts, $I$ denotes occupied infectious hosts, and $\emptyset$ denotes unoccupied by the host.  All patches are characterized by an environmental infection rate, $\gamma(\tau_i)$, where $\tau_i$ is the time since the patch was last occupied by infectious individuals.}
-\begin{tabular}{llr}
-State Transition & Process &  Rate \\
-\hline
-$S \rightarrow I$ & Infection (from contact or reservoir) & $\delta C_{Ii} + \gamma(\tau_i)$\\
-$S \rightarrow \emptyset $ & Extinction (of susceptible) & $E_{Si}$\\
-$I \rightarrow \emptyset $ & Extinction (of infectious) &  $E_{Ii}$ \\
-$\emptyset \rightarrow S$ & Colonization (by susceptibles) & $C_{Si}$\\
-$\emptyset \rightarrow I$ & Colonization (by infectious) & $C_{Ii}$\\
-\label{transitions}
-\end{tabular}
-\end{table}
 
 To address the above questions, we developed a stochastic patch occupancy model (SPOM) in which each patch can be in one of three possible states: occupied by susceptible hosts (S), occupied by infectious hosts (I), and unoccupied by the host ($\emptyset$).  State transitions are governed by host colonization, extinction, and infection rates, where a susceptible population can become infectious either through direct contact with infectious immigrants, or through a local pathogen reservoir (Table~\ref{transitions}).
 
@@ -80,27 +73,6 @@ Susceptible populations are infected via direct contact with infectious colonist
 \end{equation}
 where $\gamma_0$ is the initial infection rate of the pathogen reservoir, $\tau_{i}$ is the time since last infectious occupancy ($\tau_{i} = \infty$, and thus $\gamma(\tau_i) = 0$, if the patch has never been occupied by infectious hosts), and $r$ is the pathogen's decay rate in the environment.
 
-
-\begin{table}[h!]   
-\caption{Parameters of the SPOM model, their meaning, and the values assigned under different parameterizations.  Empty cells indicate the same value as the default parameterization.}
-\begin{tabular}{l p{5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm}}
-Parameter & Interpretation &  Default & Local movement & High env. stoch. & Dominant reservoir trans. & High disease mortality \\
-\hline
-$\xi_{im}$ & Scaling parameter for effect of target patch quality on immigration & 0.5 & -- & -- & -- & --\\
-$\xi_{em}$ & Scaling parameter for effect of target patch quality on emigration & 0.5 & -- & -- & --& --\\
-$D$& Inverse of mean dispersal distance & 5 & 2 & -- & -- & --\\
-$d_{ij}$ & Distance between patch $i$ and $j$ & 1 $\forall i \neq j$ & 1 $\forall i, j$ neighbors & -- & -- & --\\
-\hline
-$\mu_S$ & Extinction rate of unit quality susceptible patch & 0.1 & -- & -- & -- & --\\
-$\mu_I$ & Extinction rate of unity quality infectious patch & 0.5 & -- & -- & -- & 1\\
-$\alpha$ & Strength of environmental stochasticity & 1 & -- & 0 & -- & --\\
-\hline
-$\delta$ & Probability of direct infection & 0.5 & -- & -- & 0.1 & --\\
-$\gamma_0$ & Initial rate of infection from reservoir patch & 0.5 & -- & -- & -- & --
-\end{tabular}
-\label{params}
-\end{table}
-
 \subsection{Model Parameterization}
 
 The model outlined above was parameterized in five different ways to explore the consequences of different assumptions (Table~\ref{params}).  The default model was parameterized  according to the following assumptions. (1) High quality patches maintain higher population sizes and therefore produce more colonists than low quality patches and have lower extinction rates than low quality patches ($\xi_{im}=0.5$, $\alpha=1$, \cite{Hanski2003}).  (2) High quality patches attract more colonists than low quality patches ($\xi_{em}=0.5$, \cite{Hanski2003}).  (3)  Connectivity among patches is determined entirely by quality ($d_{ij}=1$ for all $i \neq j$).  In addition to these assumptions, parameters were chosen so that without infection, approximately 0.75 of the metapopulation was occupied ($\mu_S = 0.1$, $D=5$), and a range of epidemiological behaviors -- disease-free, endemic disease, and pandemic disease (i.e. all host populations infectious) -- was feasible, depending on the pathogen's environmental longevity ($\mu_I = 0.5$, $\delta = 0.5$, $\gamma_0 = 0.5$). 
@@ -118,44 +90,15 @@ Continuous time stochastic simulations of the above model were implemented in th
 \section{Results}
 \label{results}
 
-In the baseline parameterization, infectious occupancy increased substantially with longevity, while susceptible and total occupancy decreased (Fig~ \ref{poutcome}).  However, increasing the variance of the patch quality distribution around a mean of 1 had relatively little effect on average occupancy (Fig~\ref{poutcome}).  The four alternative parameterizations (models with local movement, high environmental stochasticity, dominant reservoir transmission, and high disease-induced mortality) produced qualitatively similar results, though pathogen spread in these models was generally more limited (Figs~\ref{poutcome_lattice}, \ref{poutcome_x0}, \ref{poutcome_delta}, \ref{poutcome_ei}).
+In the baseline parameterization, infectious occupancy increased substantially with longevity, while susceptible and total occupancy decreased (Supplemental).  However, increasing the variance of the patch quality distribution around a mean of 1 had relatively little effect on average occupancy (Supplemental).  The four alternative parameterizations (models with local movement, high environmental stochasticity, dominant reservoir transmission, and high disease-induced mortality) produced qualitatively similar results, though pathogen spread in these models was generally more limited (Supplemental).
 
-We found that distributions with more low quality habitat (distribution ranging from 0.25 to 1.25) increased mean susceptible occupancy, while distributions with more high quality habitat (range from 0.75 to 1.75) decreased mean susceptible occupancy, with the largest differences observed at intermediate longevities (Fig~\ref{sens}(a)).  Conversely, low quality habitat distributions decreased infectious occupancy, while high quality distributions increased infectious occupancy (Fig~\ref{sens}(b)).  These general trends were consistent across the four other parameterizations (Figs~\ref{sens_lattice}, \ref{sens_x0}, \ref{sens_delta}, \ref{sens_ei}).  
+We found that distributions with more low quality habitat (distribution ranging from 0.25 to 1.25) increased mean susceptible occupancy, while distributions with more high quality habitat (range from 0.75 to 1.75) decreased mean susceptible occupancy, with the largest differences observed at intermediate longevities (Fig~\ref{sens}(a)).  Conversely, low quality habitat distributions decreased infectious occupancy, while high quality distributions increased infectious occupancy (Fig~\ref{sens}(b)).  These general trends were consistent across the four other parameterizations (Supplemental).  
 
 However, despite facilitating pathogen spread, at high pathogen longevities, high quality patch distributions had a net positive effect on total occupancy relative to low quality distributions (Fig~\ref{sens}(c)).  Due to their lower extinction rates and high connectivity, high quality patches were able to maintain stable occupancy despite the widespread infection facilitated by high pathogen longevity.  On the other hand, though low quality patch distributions inhibited pathogen spread at intermediate longevities, when high pathogen longevities led to pandemic dynamics, low quality distributions were unable to support infectious occupancy, resulting in an increase in host extinction events and a decrease in mean total occupancy.  
 
 The other model parameterizations produced a similar qualitative pattern, with the differences between total occupancy on high and low quality patches generally producing a "u" shape as a function of pathogen longevity (Fig~\ref{highvlow}).  However, the five parameterizations differed in the magnitude and sign of this general relationship.  High environmental stochasticity (i.e. $\alpha = 0$) produced very similar results to the default model, though with a larger positive effect of low quality habitat at intermediate longevity (Fig~\ref{highvlow}(c)).  In simulations with reservoir transmission the dominant infection pathway ($\delta = 0.1$), the high quality patch distributions always produced occupancy higher than (or equal to ) the low quality patch distributions (Fig~\ref{highvlow}(d)), while in the models with local movement or high disease-induced mortality, low quality patch distributions actually produced higher occupancies than high quality distributions at high longevities (Fig~\ref{highvlow}(b, e)).
 
-\begin{figure}
-\centering
-\includegraphics[height=7cm]{highlow(full).pdf}
-\caption{The effect of the presence of high and low quality patches on (a) median susceptible occupancy, (b) median infectious occupancy, and (c) median total occupancy.  Red lines show hiqh quality metapopulations (patch qualities roughly between 0.75 and 1.75), blue lines show low quality metapopulations (patch qualities roughly between 0.25 and 1.25).}
-\label{sens}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[height = 6cm]{highvlow.pdf}
-\caption{Differences between the median total occupancy of high quality patch distributions (quality between 0.75 and 1.75) and low quality patch distributions (quality between 0.25 to 1.25) across the five different model parameterizations. (a) default model, (b) local movement, (c) high environmental stochasticity, (d) dominant reservoir transmission, (e) high disease-induced mortality.}
-\label{highvlow}
-\end{figure}
-
-To understand the mechanisms behind these effects, we further examined within patch infection dynamics.  To compare across the full range of patch qualities, and to ensure the opportunity for both suscepible and infectious occupancy, we limit this analysis to high variance metapopulations (with qualities ranging from 0.25 to 1.75) that produced endemic dynamics.  Because of their lower extinction rate and higher recolonization rate, high quality patches supported more consistent occupancy than low quality patches (Fig~\ref{simvis}).  However, as the epidemic progressed, high quality patches increasingly supported infectious occupants, while low quality patches supported infectious hosts only briefly and infrequently (Fig~\ref{simvis}).  In addition, while high quality patches did support susceptible occupancy, they experienced a greater number of infection events (susceptible to infectious transitions) than low quality patches (Fig~\ref{infections}).  A similar trend was observed across the other parameterizations, though the observed relationship between patch quality and number of infection events was shallower for the lattice and weak direct infection models (Figs~\ref{infections_lattice}, \ref{infections_x0}, \ref{infections_delta}, \ref{infections_ei}).
-
-\begin{figure}
-\centering
-\includegraphics[height = 9cm]{simvis.png}
-\caption{Results from a single representative simulation with variance 0.2 and longevity of 0.3 times the expected residence time of a susceptible population on a unit quality patch.  The top panel shows total occupancy of susceptible (blue) and infectious (red) patches over time.  The bottom panel shows the state -- susceptible (blue), infectious (red), or unoccupied (white) -- of individual patches through time.  Patches are stacked vertically with the lowest quality ($\sim$ 0.25) at the bottom and the highest quality ($\sim$ 1.75) at the top.}
-\label{simvis}
-\end{figure}
-
-
-\begin{figure}
-\centering
-\includegraphics[height=7cm]{infevents(full).pdf}
-\caption{The number of infection events ($S$ to $I$ transitions) for individual patches in endemic simulations.  Light gray lines show smoothed fit for single simulations, while the thick black line shows the smoothed trend over all simulations.}
-\label{infections}
-\end{figure}
+To understand the mechanisms behind these effects, we further examined within patch infection dynamics.  To compare across the full range of patch qualities, and to ensure the opportunity for both suscepible and infectious occupancy, we limit this analysis to high variance metapopulations (with qualities ranging from 0.25 to 1.75) that produced endemic dynamics.  Because of their lower extinction rate and higher recolonization rate, high quality patches supported more consistent occupancy than low quality patches (Fig~\ref{simvis}).  However, as the epidemic progressed, high quality patches increasingly supported infectious occupants, while low quality patches supported infectious hosts only briefly and infrequently (Fig~\ref{simvis}).  In addition, while high quality patches did support susceptible occupancy, they experienced a greater number of infection events (susceptible to infectious transitions) than low quality patches (Fig~\ref{infections}).  A similar trend was observed across the other parameterizations, though the observed relationship between patch quality and number of infection events was shallower for the lattice and weak direct infection models (Supplemental).
 
 
 \section{Discussion}
@@ -191,119 +134,72 @@ CBL would like to thank members of the Webb Lab, past and present, for several r
 
 Any mention of trade, product, or firm names is for descriptive purposes only and does not imply endorsement by the U.S. Government.
 
-
 \clearpage
 
-\section{Appendix}
-
-\subsection{Occupancy results for symmetric quality distributions}
-
-\begin{figure}[h!]
-\centering
-\includegraphics[height=5.5cm]{metapop(full).pdf}
-\caption{Default model parameterization.  Mean occupancy of (a) susceptible patches, (b) infectious patches, and (c) both, as a function of the pathogen's environmental longevity (half-life of infectivity decay, measured in units of expected occupancy time of a susceptible population on a unit quality patch) and the variance of the patch quality distribution.}
-\label{poutcome}
-\end{figure}   
-
-\begin{figure}[h!]
-\centering
-\includegraphics[height=5.5cm]{metapop(lattice).pdf}
-\caption{Metapopulation with lattice structure and local movement.  Mean occupancy of (a) susceptible patches, (b) infectious patches, and (c) both, as a function of the pathogen's environmental longevity (half-life of infectivity decay, measured in units of expected occupancy time of a susceptible population on a unit quality patch) and the variance of the patch quality distribution.}
-\label{poutcome_lattice}
-\end{figure}   
-
-\begin{figure}[h!]
-\centering
-\includegraphics[height=5.5cm]{metapop(alpha0).pdf}
-\caption{High environmental stochasticity ($\alpha = 0$).  Mean occupancy of (a) susceptible patches, (b) infectious patches, and (c) both, as a function of the pathogen's environmental longevity (half-life of infectivity decay, measured in units of expected occupancy time of a susceptible population on a unit quality patch) and the variance of the patch quality distribution.}
-\label{poutcome_x0}
-\end{figure}   
-
-\begin{figure}[h!]
-\centering
-\includegraphics[height=5.5cm]{metapop(delta).pdf}
-\caption{Reservoir transmission dominant ($\delta = 0.1$).  Mean occupancy of (a) susceptible patches, (b) infectious patches, and (c) both, as a function of the pathogen's environmental longevity (half-life of infectivity decay, measured in units of expected occupancy time of a susceptible population on a unit quality patch) and the variance of the patch quality distribution.}
-\label{poutcome_delta}
-\end{figure}   
-
-\begin{figure}[h!]
-\centering
-\includegraphics[height=5.5cm]{metapop(ei).pdf}
-\caption{High disease-induced mortality ($\mu_I = 1$).  Mean occupancy of (a) susceptible patches, (b) infectious patches, and (c) both, as a function of the pathogen's environmental longevity (half-life of infectivity decay, measured in units of expected occupancy time of a susceptible population on a unit quality patch) and the variance of the patch quality distribution.}
-\label{poutcome_ei}
-\end{figure}   
-
-\clearpage
-
-\subsection{Occupancy results for asymmetric quality distributions}
-
-\begin{figure}[h!]
-\centering
-\includegraphics[height=7cm]{highlow(lattice).pdf}
-\caption{Metapopulation with lattice structure and local movement.  The effect of the presence of high and low quality patches on (a) mean susceptible occupancy, (b) mean infectious occupancy, and (c) mean total occupancy.  Red lines show high quality metapopulations (patch qualities roughly between 0.75 and 1.75), blue lines show low quality metapopulations (patch qualities roughly between 0.25 and 1.25).}
-\label{sens_lattice}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[height=7cm]{highlow(alpha0).pdf}
-\caption{High environmental stochasticity ($\alpha = 0$).  The effect of the presence of high and low quality patches on (a) mean susceptible occupancy, (b) mean infectious occupancy, and (c) mean total occupancy.  Red lines show high quality metapopulations (patch qualities roughly between 0.75 and 1.75), blue lines show low quality metapopulations (patch qualities roughly between 0.25 and 1.25).}
-\label{sens_x0}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[height=7cm]{highlow(delta).pdf}
-\caption{Reservoir transmission dominant ($\delta = 0.1$).  The effect of the presence of high and low quality patches on (a) mean susceptible occupancy, (b) mean infectious occupancy, and (c) mean total occupancy.  Red lines show high quality metapopulations (patch qualities roughly between 0.75 and 1.75), blue lines show low quality metapopulations (patch qualities roughly between 0.25 and 1.25).}
-\label{sens_delta}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[height=7cm]{highlow(ei).pdf}
-\caption{High disease-induced mortality ($\mu_I = 1$).  The effect of the presence of high and low quality patches on (a) mean susceptible occupancy, (b) mean infectious occupancy, and (c) mean total occupancy.  Red lines show high quality metapopulations (patch qualities roughly between 0.75 and 1.75), blue lines show low quality metapopulations (patch qualities roughly between 0.25 and 1.25).}
-\label{sens_ei}
-\end{figure}
-
-\clearpage
-
-\subsection{Patch-level infection events}
-
-\begin{figure}[h!]
-\centering
-\includegraphics[height=7cm]{infevents(lattice).pdf}
-\caption{Metapopulation with lattice structure and local movement.  The number of infection events ($S$ to $I$ transitions) for individual patches in endemic simulations.  Light gray lines show the smoothed fit for single simulations, while the thick black line shows the smoothed trend over all simulations.}
-\label{infections_lattice}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[height=7cm]{infevents(alpha0).pdf}
-\caption{High environmental stochasticity ($\alpha = 0$).  The number of infection events ($S$ to $I$ transitions) for individual patches in endemic simulations.  Light gray lines show the smoothed fit for single simulations, while the thick black line shows the smoothed trend over all simulations.}
-\label{infections_x0}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[height=7cm]{infevents(delta).pdf}
-\caption{Reservoir transmission dominant ($\delta = 0.1$).  The number of infection events ($S$ to $I$ transitions) for individual patches in endemic simulations.  Light gray lines show the smoothed fit for single simulations, while the thick black line shows the smoothed trend over all simulations.}
-\label{infections_delta}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[height=7cm]{infevents(ei).pdf}
-\caption{High disease-induced mortality ($\mu_I = 1$).  The number of infection events ($S$ to $I$ transitions) for individual patches in endemic simulations.  Light gray lines show the smoothed fit for single simulations, while the thick black line shows the smoothed trend over all simulations.}
-\label{infections_ei}
-\end{figure}
-
-
-\clearpage
-
-\bibliographystyle{spbasic}     
+\bibliographystyle{vancouver}     
 \bibliography{metapop}   % name your BibTeX data base
 
+\clearpage
 
+\begin{figure}
+\caption{The effect of the presence of high and low quality patches on (a) median susceptible occupancy, (b) median infectious occupancy, and (c) median total occupancy.  Red lines show hiqh quality metapopulations (patch qualities roughly between 0.75 and 1.75), blue lines show low quality metapopulations (patch qualities roughly between 0.25 and 1.25).}
+\label{sens}
+\end{figure}
+
+\begin{figure}
+\centering
+\caption{Differences between the median total occupancy of high quality patch distributions (quality between 0.75 and 1.75) and low quality patch distributions (quality between 0.25 to 1.25) across the five different model parameterizations. (a) default model, (b) local movement, (c) high environmental stochasticity, (d) dominant reservoir transmission, (e) high disease-induced mortality.}
+\label{highvlow}
+\end{figure}
+
+\begin{figure}
+\centering
+\caption{Results from a single representative simulation with variance 0.2 and longevity of 0.3 times the expected residence time of a susceptible population on a unit quality patch.  The top panel shows total occupancy of susceptible (blue) and infectious (red) patches over time.  The bottom panel shows the state -- susceptible (blue), infectious (red), or unoccupied (white) -- of individual patches through time.  Patches are stacked vertically with the lowest quality ($\sim$ 0.25) at the bottom and the highest quality ($\sim$ 1.75) at the top.}
+\label{simvis}
+\end{figure}
+
+
+\begin{figure}
+\centering
+\caption{The number of infection events ($S$ to $I$ transitions) for individual patches in endemic simulations.  Light gray lines show smoothed fit for single simulations, while the thick black line shows the smoothed trend over all simulations.}
+\label{infections}
+\end{figure}
+
+\clearpage
+
+\begin{table}
+\caption{State transitions and their rates for patch $i$ in a metapopulation simulation.  $S$ denotes occupied by  susceptible hosts, $I$ denotes occupied infectious hosts, and $\emptyset$ denotes unoccupied by the host.  All patches are characterized by an environmental infection rate, $\gamma(\tau_i)$, where $\tau_i$ is the time since the patch was last occupied by infectious individuals.}
+\begin{tabular}{llr}
+State Transition & Process &  Rate \\
+\hline
+$S \rightarrow I$ & Infection (from contact or reservoir) & $\delta C_{Ii} + \gamma(\tau_i)$\\
+$S \rightarrow \emptyset $ & Extinction (of susceptible) & $E_{Si}$\\
+$I \rightarrow \emptyset $ & Extinction (of infectious) &  $E_{Ii}$ \\
+$\emptyset \rightarrow S$ & Colonization (by susceptibles) & $C_{Si}$\\
+$\emptyset \rightarrow I$ & Colonization (by infectious) & $C_{Ii}$\\
+\label{transitions}
+\end{tabular}
+\end{table}
+
+\begin{table}[h!]   
+\caption{Parameters of the SPOM model, their meaning, and the values assigned under different parameterizations.  Empty cells indicate the same value as the default parameterization.}
+\begin{tabular}{l p{4cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm}}
+Parameter & Interpretation &  Default & Local movement & High env. stoch. & Dominant reservoir trans. & High disease mortality \\
+\hline
+$\xi_{im}$ & Scaling parameter for effect of target patch quality on immigration & 0.5 & -- & -- & -- & --\\
+$\xi_{em}$ & Scaling parameter for effect of target patch quality on emigration & 0.5 & -- & -- & --& --\\
+$D$& Inverse of mean dispersal distance & 5 & 2 & -- & -- & --\\
+$d_{ij}$ & Distance between patch $i$ and $j$ & 1 $\forall i \neq j$ & 1 $\forall i, j$ neighbors & -- & -- & --\\
+\hline
+$\mu_S$ & Extinction rate of unit quality susceptible patch & 0.1 & -- & -- & -- & --\\
+$\mu_I$ & Extinction rate of unity quality infectious patch & 0.5 & -- & -- & -- & 1\\
+$\alpha$ & Strength of environmental stochasticity & 1 & -- & 0 & -- & --\\
+\hline
+$\delta$ & Probability of direct infection & 0.5 & -- & -- & 0.1 & --\\
+$\gamma_0$ & Initial rate of infection from reservoir patch & 0.5 & -- & -- & -- & --
+\end{tabular}
+\label{params}
+\end{table}
 
 
 
