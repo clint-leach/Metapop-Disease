@@ -304,7 +304,7 @@ S.occ <- tapply(highlow$S, list(highlow$longevity, highlow$treatment), median)
 I.occ <- tapply(highlow$I, list(highlow$longevity, highlow$treatment), median)
 occ <- tapply(highlow$I + highlow$S, list(highlow$longevity, highlow$treatment), median)
 
-plot(log10(longevity), occ[, 1] - occ[, 2], type = "b", pch = 19, bty = "l",
+plot(log10(longevity), occ[, "+high"] - occ[, "+low"], type = "b", pch = 19, bty = "l",
     ylim = c(-0.4, 0.5), xlab = "log(longevity)", ylab = "High quality occupancy - low quality occupancy",
     main = title(label[1], adj = 0),
     cex.lab = 1.2)
@@ -321,7 +321,7 @@ for(i in 2:5){
   I.occ <- tapply(highlow$I, list(highlow$longevity, highlow$treatment), median)
   occ <- tapply(highlow$I + highlow$S, list(highlow$longevity, highlow$treatment), median)
   
-  plot(log10(longevity), occ[, 1] - occ[, 2], type = "b", pch = 19, bty = "l",
+  plot(log10(longevity), occ[, "+high"] - occ[, "+low"], type = "b", pch = 19, bty = "l",
        ylim = c(-0.4, 0.5), xlab = "log(longevity)", ylab = "", yaxt = "n",
        main = title(label[i], adj = 0),
        cex.lab = 1.2)

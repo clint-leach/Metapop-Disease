@@ -4,7 +4,7 @@ metapop.plot <- function(conn){
   library(lattice)
   library(RColorBrewer)
   
-  load(paste(getwd(), "/Output/out", conn, ".Rdata", sep = ""))
+  load(paste(getwd(), "/Output/out", conn, ".RData", sep = ""))
   
   labels <- signif(log10(longevity), 2)[c(1, 3, 5, 7, 9)]
   

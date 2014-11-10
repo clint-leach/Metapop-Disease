@@ -201,3 +201,4 @@ pip-log.txt
 
 *.pdf
 
+.Rproj.user
