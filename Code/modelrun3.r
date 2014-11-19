@@ -17,11 +17,10 @@ modelrun <- function(longevity, variance, k, parms, distance, initial, timesteps
   #   n x 19 dataframe giving patch-level results from simulation
   #     quality: quality of patch
   #     tinf: time to first infection
-  #     I: proportion of time patch infected
-  #     S: proportion of time patch susceptible
-  #     E: proportion of time patch empty
-  #     inf.events.early: number of infection events in first fifth of sim
-  #     inf.events.tot: total number of infection events
+  #     I: proportion of time patch infected over last 500 time steps
+  #     S: proportion of time patch susceptible over last 500 time steps
+  #     E: proportion of time patch empty over last 500 time steps
+  #     inf.events: number of infection events
   #     susc.col: number of susceptible colonization events
   #     inf.col: number of infected colonization events
   #     susc.ex: number of susceptible extinction events
@@ -34,7 +33,6 @@ modelrun <- function(longevity, variance, k, parms, distance, initial, timesteps
   #     repID: replicate ID
   #     longevity: pathogen environemental longevity
   #     variance: variance of patch quality distribution
-  
   
 	#Generates quality vector with desired variance
   max <- 0.5 * sqrt(12 * variance) + 1
@@ -61,8 +59,9 @@ modelrun <- function(longevity, variance, k, parms, distance, initial, timesteps
 	output <- na.omit(output)
   
   # Processing output
+  runtime <- dim(output)[1]
   
-  state <- output[, -1]
+  state <- output[(runtime - 499):runtime, -1]
   susc <- state == "S"
   inf <- state == "I"
   empty <- state == "E" | state == "R"
@@ -71,26 +70,25 @@ modelrun <- function(longevity, variance, k, parms, distance, initial, timesteps
   I <- rowSums(inf) / 100
   E <- rowSums(empty) / 100
   
-  inf.events <- susc[-(dim(output)[1]), ] * inf[-1, ]
-  susc.col <- empty[-(dim(output)[1]), ] * susc[-1, ]
-  inf.col <- empty[-(dim(output)[1]), ] * inf[-1, ]
-  susc.ex <- susc[-(dim(output)[1]), ] * empty[-1, ]
-  inf.ex <- inf[-(dim(output)[1]), ] * empty[-1, ]
+  inf.events <- susc[-(dim(state)[1]), ] * inf[-1, ]
+  susc.col <- empty[-(dim(state)[1]), ] * susc[-1, ]
+  inf.col <- empty[-(dim(state)[1]), ] * inf[-1, ]
+  susc.ex <- susc[-(dim(state)[1]), ] * empty[-1, ]
+  inf.ex <- inf[-(dim(state)[1]), ] * empty[-1, ]
   
   data <- data.frame(quality, 
                        tinf = apply(inf, 2, which.max),
-                       I = colSums(inf) / (dim(output)[1]),
-                       S = colSums(susc) / (dim(output)[1]),
-                       E = colSums(empty) / (dim(output)[1]),
-                       inf.events.early = colSums(inf.events[c(1:(timesteps / 5)), ]),
-                       inf.events.tot = colSums(inf.events),
+                       I = colSums(inf) / (dim(state)[1]),
+                       S = colSums(susc) / (dim(state)[1]),
+                       E = colSums(empty) / (dim(state)[1]),
+                       inf.events = colSums(inf.events),
                        susc.col = colSums(susc.col),
                        inf.col = colSums(inf.col),
                        susc.ex = colSums(susc.ex),
                        inf.ex = colSums(inf.ex),
-                       Sfin = S[dim(output)[1]],
-                       Ifin = I[dim(output)[1]],
-                       Efin = E[dim(output)[1]],
+                       Sfin = S[dim(state)[1]],
+                       Ifin = I[dim(state)[1]],
+                       Efin = E[dim(state)[1]],
                        maxI = max(I),
                        quality0 = initial.quality,
                        repID = k,

@@ -11,7 +11,7 @@ diseaseSPOM <- function(distance, quality, initial, parms, r, timesteps, ss.thre
   #     xi_em = scaling parameter for how patch quality affects the number of colonists produced
   #     D = inverse of mean dispersal distance
   #     es = extinction probability of unit susceptible patch
-  #     ei = extinction probability of unit infectious patch
+  #     nu = factor by which population size is reduced by infection
   #     alpha = how strongly extinction risk depends on patch quality
   #     delta = probability of direct infection
   #     gamma0 = probability of reservoir infection immediately following extinction of an infected patch
@@ -28,7 +28,7 @@ diseaseSPOM <- function(distance, quality, initial, parms, r, timesteps, ss.thre
   D <- parms$D
   alpha <- parms$alpha
   es <- parms$es
-  ei <- parms$ei
+  nu <- parms$nu
   delta <- parms$delta
   gamma0 <- parms$gamma0
     
@@ -53,7 +53,7 @@ diseaseSPOM <- function(distance, quality, initial, parms, r, timesteps, ss.thre
   
   #Extinction vectors
   extinctionS <- es / quality ^ alpha
-  extinctionI <- ei / quality ^ alpha
+  extinctionI <- es / (nu * quality) ^ alpha
   
   # Generates occupancy vector for S and I
   occ.S <- vector(mode="numeric", length=timesteps)
@@ -74,7 +74,7 @@ diseaseSPOM <- function(distance, quality, initial, parms, r, timesteps, ss.thre
     
     # Calculates connectivities to susceptible and infected patches
     connectivityS <- connectivity %*% (state[t, ] == "S")
-    connectivityI <- connectivity %*% (state[t ,] == "I")
+    connectivityI <- connectivity %*% (nu ^ xi_em * (state[t ,] == "I"))
     
     # Updates infectivity of reservoirs 
     gammas[which(ti > 0)] <- gamma0 * exp(-r * (event.times[t] - ti[which(ti > 0)]))

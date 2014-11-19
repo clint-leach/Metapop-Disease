@@ -1,0 +1,51 @@
+---
+title: "Discussion on traps"
+author: "Clint Leach"
+date: "11/12/2014"
+output: pdf_document
+---
+
+# How do we define a trap?
+
+This question comes with two follow-up questions:
+
+* How do we measure/detect a trap in the simulation model?
+* How do the assumptions of the model affect our interpretation of the above measurements?
+
+Given these questions, it seems there are three ways we can define a trap.
+
+## At the individual level
+
+Here, a trap is preferred habitat that increases individual-level disease risk and mortality.
+
+* In the model, we can interpret the increase in infection events with patch quality as an indicator that high quality patches are traps, as colonization of high quality habitat increases disease risk.
+* What does this mean about mortality and how do our assumptions about disease-induced mortality actually translate to the individual level?
+
+The Hanski model assumes that extinction rate of patch $i$ is given by $E_i = \frac{e_X}{A_i^\alpha}$, which derives from the assumption that patch extinction is driven by environmental stochasticity, and thus that larger populations on higher quality habitat are less prone to extinction.
+
+In the model, we assume that $e_I > e_S$, i.e. that infected populations have higher extinction rates.  By Hanski's assumptions then, this means that we expect infected populations to be smaller than healthy populations and more susceptible to environmental stochasticity.  Following this, a better way to parameterize extinction might be as:
+
+$$
+E_{Ii} = \frac{e}{(\nu A_i)^{\alpha}}
+$$
+
+where $\nu$ is now the factor by which population size is reduced by infection (which, assuming $\alpha = 1$ as we did in most simulations is the same as just choosing $e_I > e_S$).
+
+However, if we take these as our underlying assumptions, this should also imply that the emigration rate, the number of colonists produced by a patch, should also change with infection status, such that 
+
+$$
+C_{Ii} = A_i^{\xi_{im}} \sum \phi_j (\nu A_j) ^ {\xi_{em}} \exp ({-Dd_{ij}})
+$$
+
+I wouldn't expect this to have a major effect on the results, but would likely reduce the "superspreader" effect that we see from high quality patches.
+
+## At the patch level
+
+A trap is a preferred habitat that cannot maintain a population on its own (i.e. a sink, $\lambda < 1$).  I think this is the most traditional definition in the literature, but is difficult to fit into the occupancy model framework, as we don't have population dynamics at the patch level. 
+
+## At the metapopulation level
+
+A trap is preferred habitat that reduces overall metapopulation occupancy.  In addition to infection events, we've also been loosely using this definition in the paper (i.e. that high quality habitat is a trap when high quality habitat distributions produce lower occupancy than low quality distributions).  I'm not sure if it makes sense though to define a trap by a metapopulation-scale effect, as "trap" really refers to the dynamics within the patch.
+
+That said, if we parameterize disease induced mortality in terms of population size above, instead of looking at occupancy in the model results, we can instead look at total population size, which might make more sense when considering whether high or low quality habitat is better for the metapopulation.  
+

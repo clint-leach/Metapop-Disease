@@ -40,7 +40,7 @@ parms<-data.frame("xi_im" = 0.5,
                   "D" = 5, 
                   "alpha" = 1,
                   "es" = 0.1,
-                  "ei" = 0.5,
+                  "nu" = 0.2,
                   "delta" = 0.5,
                   "gamma0" = 0.5)
   
@@ -72,7 +72,8 @@ getDoParWorkers()
 
 #Looping through each parameter combo and calling modelrun
 system.time(out<-foreach(i = 1:length(par.reps[,1]),.verbose=TRUE,.combine="rbind") %dopar% 
-  modelrun(par.reps[i,1],par.reps[i,2],par.reps[i,3],parms,distance,initial,timesteps))
+  modelrun(par.reps[i,1],par.reps[i,2],par.reps[i,3],parms,distance,initial,timesteps)
+  )
 
 stopCluster(w)
 

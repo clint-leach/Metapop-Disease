@@ -19,9 +19,8 @@ modelrun <- function(longevity, parms, distance, initial, timesteps, treatment){
   #     S: final susceptible occupancy
   #     I: final infectious occupancy
   #     R: final reservoir occupancy
-  #     avgS: susceptible occupancy averaged over last 100 time steps
-  #     avgI: infectious occupancy averaged over last 100 time steps
-  #     avgR: reservoir occupancy averaged over last 100 time steps
+  #     S.pop: mean effective susceptible population size (sum(A_i * p_i(S)))
+  #     I.pop: mean effective infectious population size (sum(nu * A_i * p_i(I)))
   #     maxI: maximum infectious occupancy
   #     tmaxI: time to maximum infectious occupancy
   #     quality0: quality of initially infected patch
@@ -67,8 +66,10 @@ modelrun <- function(longevity, parms, distance, initial, timesteps, treatment){
   output <- diseaseSPOM(distance, quality, initial.inf, parms, r, timesteps, 0.05)
   output <- na.omit(output)
   
+  runtime <- dim(output)[1]
+  
   # Processing output
-  state <- output[, -1]
+  state <- output[(runtime - 499):runtime, -1]
   susc <- state == "S"
   inf <- state == "I"
   empty <- state == "E" | state == "R"
@@ -77,12 +78,15 @@ modelrun <- function(longevity, parms, distance, initial, timesteps, treatment){
   I <- rowSums(inf) / 100
   E <- rowSums(empty) / 100
   
+  # Effective population size (assuming pop proportional to quality)
+  S.pop <- (colSums(susc) / (dim(state)[1])) %*% quality
+  I.pop <- (colSums(inf) / (dim(state)[1])) %*% (parms$nu * quality)
+  
   # Generating and collecting output
   output <- data.frame(treatment, longevity, S[length(S)], I[length(I)], E[length(E)],
-                           mean(S[(length(S)-100):length(S)]), mean(I[(length(I)-100):length(I)]), mean(E[(length(I)-100):length(I)]),
-                           max(I), output[which.max(I),1], initial.quality)
+                           S.pop, I.pop, max(I), output[which.max(I),1], initial.quality)
   
-  names(output) <- c("treatment", "longevity", "S", "I", "R", "avgS", "avgI", "avgR", "maxI", "tmaxI", "quality0")
+  names(output) <- c("treatment", "longevity", "S", "I", "R", "S.pop", "I.pop", "maxI", "tmaxI", "quality0")
   
   return(output)
   
