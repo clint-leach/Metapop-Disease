@@ -30,9 +30,8 @@ This draft manuscript is distributed solely for purposes of scientific peer revi
 \end{quote}
 
 
-
 \begin{abstract} 
-Patterns of habitat quality are expected to play an important role in the dynamics of wildlife metapopulations, with the expectation that high quality habitat serves to stabilize and maintain occupancy.  However, we might expect that the costs and benefits of different quality habitat might be modulated, or possibly even reversed, by the presence of an environmentally transmitted pathogen.  We explore this possibility through the development of a stochastic patch occupancy model of host-pathogen dynamics, in which we can vary both the environmental longevity of the pathogen, and the distribution of habitat quality in the host metapopulation.
+Patterns of habitat quality are expected to play an important role in the dynamics of wildlife metapopulations, with the expectation that high quality habitat serves to stabilize and maintain occupancy.  However, we might expect that the costs and benefits of different quality habitat might be modulated, or possibly even reversed, by the presence of an environmentally persistent pathogen.  In such cases, the presence of environmental pathogen reservoirs on high quality habitat may lead to the creation of ecological traps, wherein host individuals preferentially colonize high quality habitat, but are then exposed to increased infection risk.  We explore this possibility through the development of a stochastic patch occupancy model in which we can vary both the environmental longevity of the pathogen, and the distribution of habitat quality in the host metapopulation.  This suggests that for sufficiently long-lived environmental reservoirs, high quality habitat can serve as an ecological trap, and can even be a net detriment to the host metapopulation relative to low quality habitat.  This inversion of the relative roles of high and low quality habitat highlights the importance of considering the interaction between spatial structure and pathogen transmission when managing wildlife populations exposed to an environmentally persistent pathogen.
 \end{abstract}
 
 \section{Introduction}
@@ -54,20 +53,22 @@ Many, if not all, of the pathogens listed above affect spatially structured host
 
 To address the above questions, we developed a stochastic patch occupancy model (SPOM) in which each patch can be in one of three possible states: occupied by susceptible hosts (S), occupied by infectious hosts (I), and unoccupied by the host ($\emptyset$).  State transitions are governed by host colonization, extinction, and infection rates, where a susceptible population can become infectious either through direct contact with infectious immigrants, or through a local pathogen reservoir (Table~\ref{transitions}).
 
-Building on the framework developed by \cite{Hanski2003}, the rate at which patch \emph{i}, with quality $A_i$, is colonized by individuals in state $X \in (S,I)$ is given by its connectivity:
-\begin{equation}
-C_{Xi}=A_i^{\xi_{im}} \sum_{i\neq j }\phi_jA_j^{\xi_{em}}\exp(-D d_{ij}),
+We assume that patch population size is proportional to patch quality ($A_i$), and that disease-induced mortality reduces the size of infectious populations by a factor of $\nu$.  Building on the framework developed by \cite{Hanski2003} then,the rates at which patch \emph{i}, with quality $A_i$, is colonized by susceptible and infectious individuals, respectively, is given by its connectivity:
+\begin{align}
+C_{Si} &= A_i^{\xi_{im}} \sum_{i\neq j }\phi(S_j)A_j^{\xi_{em}}\exp(-D d_{ij}),\\
+C_{Ii} &= A_i^{\xi_{im}} \sum_{i\neq j }\phi(I_j)(\nu A_j) ^{\xi_{em}}\exp(-D d_{ij}),
 \label{connectivity}
-\end{equation}
-where $\phi_j$ is an indicator function that is $1$ if patch $j$ is in state $X$ and is $0$ otherwise; $\xi_{im}$ and $\xi_{em}$ control how rates of immigration and emigration, respectively, scale with patch quality; $D$ is the inverse of mean dispersal distance; and $d_{ij}$ is the distance between patches $i$ and $j$.  Essentially, $C_{Xi}$ sums the colonization effort from all patches in state $X$ to patch $i$.  
+\end{align}
+where $\phi(X_j)$ is an indicator function that is $1$ if patch $j$ is in state $X$ and is $0$ otherwise; $\xi_{im}$ and $\xi_{em}$ control how rates of immigration and emigration, respectively, scale with patch quality (i.e. population size); $D$ is the inverse of mean dispersal distance; and $d_{ij}$ is the distance between patches $i$ and $j$.  Essentially, $C_{Xi}$ sums the colonization effort from all patches in state $X$ to patch $i$.  
 
-The extinction rate of patch $i$ in state $X$ is given by:
-\begin{equation}
-E_{Xi}=\frac{\mu_X}{A_i^\alpha},
-\end{equation}
-where $\mu_X$ is the extinction rate of a patch of unit quality in state $X$ (here we assume that $\mu_I \geq \mu_S$ to account for disease-induced mortality), and $\alpha$ controls how extinction rate scales with patch quality.  When an infectious population goes extinct, we assume that the hosts leave behind an infectious pathogen reservoir on the patch.  
+The state-dependent extinction rates of populations on patch $i$ are then given by:
+\begin{align}
+E_{Si} & =\frac{\mu}{A_i^\alpha},\\
+E_{Ii} & = \frac{\mu}{(\nu A_i) ^ \alpha}
+\end{align}
+where $\mu$ is the extinction rate of a patch of unit quality, and $\alpha$ controls how extinction rate scales with population size.  When an infectious population goes extinct, we assume that the hosts leave behind an infectious pathogen reservoir on the patch.  
 
-Susceptible populations are infected via direct contact with infectious colonists at rate $\delta \lambda_{Ii}$, where $\delta$ is the direct transmission probability.  In addition, environmental transmission can take place when a susceptible population occupies a previously infected patch, and occurs at rate:
+Susceptible populations are infected via direct contact with infectious colonists at rate $\delta C_{Ii}$, where $\delta$ is the direct transmission probability.  In addition, environmental transmission can take place when a susceptible population occupies a previously infected patch, and occurs at rate:
 \begin{equation}
 \gamma(\tau_i)=\gamma_0exp(-r\tau_{i}),
 \end{equation}
@@ -75,13 +76,13 @@ where $\gamma_0$ is the initial infection rate of the pathogen reservoir, $\tau_
 
 \subsection{Model Parameterization}
 
-The model outlined above was parameterized in five different ways to explore the consequences of different assumptions (Table~\ref{params}).  The default model was parameterized  according to the following assumptions. (1) High quality patches maintain higher population sizes and therefore produce more colonists than low quality patches and have lower extinction rates than low quality patches ($\xi_{im}=0.5$, $\alpha=1$, \cite{Hanski2003}).  (2) High quality patches attract more colonists than low quality patches ($\xi_{em}=0.5$, \cite{Hanski2003}).  (3)  Connectivity among patches is determined entirely by quality ($d_{ij}=1$ for all $i \neq j$).  In addition to these assumptions, parameters were chosen so that without infection, approximately 0.75 of the metapopulation was occupied ($\mu_S = 0.1$, $D=5$), and a range of epidemiological behaviors -- disease-free, endemic disease, and pandemic disease (i.e. all host populations infectious) -- was feasible, depending on the pathogen's environmental longevity ($\mu_I = 0.5$, $\delta = 0.5$, $\gamma_0 = 0.5$). 
+The model outlined above was parameterized in five different ways to explore the consequences of different assumptions (Table~\ref{params}).  The default model was parameterized  according to the following assumptions. (1) The rate of emigration from a patch increases with population size, while the extinction rate of a patch decreases with populations size ($\xi_{im}=0.5$, $\alpha=1$, \cite{Hanski2003}).  (2) High quality patches attract more colonists than low quality patches ($\xi_{em}=0.5$, \cite{Hanski2003}).  (3)  Connectivity among patches is determined entirely by quality ($d_{ij}=1$ for all $i \neq j$).  In addition to these assumptions, parameters were chosen so that without infection, approximately 0.75 of the metapopulation was occupied ($\mu = 0.1$, $D=5$), and a range of epidemiological behaviors -- disease-free, endemic disease, and pandemic disease (i.e. all host populations infectious) -- was feasible, depending on the pathogen's environmental longevity ($\nu = 0.2$, $\delta = 0.5$, $\gamma_0 = 0.5$). 
 
-The baseline model above assumes that all patches are equally accessible from all other patches (i.e. are separated by distance 1), so to examine the effects of a more rigid spatial structure, we also implemented a model with patches arranged in a square lattice such that each patch is only accessible from its four neighboring patches (Local movement, Table~\ref{params}).  In addition, we explored a model with $\alpha = 0$ so that the extinction rate was constant with patch quality, simulating the effects of high environmental stochasticity, i.e. environmental stochasticity is strong enough that the population size of a patch does not affect its extinction rate (High env. stoc., Table~\ref{params}).  To explore the disease dynamics when transmission is driven largely by the environmental reservoir we parameterized a model with $\delta = 0.1$ to reduce the relative importance of direct transmission (Dominant reservoir trans., Table~\ref{params}).  Lastly, to simulate a more virulent pathogen, we parameterized a model with $\mu_I = 1$ to substantially increase disease-induced mortality (High disease mortality, Table~\ref{params}).
+The baseline model above assumes that all patches are equally accessible from all other patches (i.e. are separated by distance 1), so to examine the effects of a more rigid spatial structure, we also implemented a model with patches arranged in a square lattice such that each patch is only accessible from its four neighboring patches (Local movement, Table~\ref{params}).  In addition, we explored a model with $\alpha = 0$ so that the extinction rate was constant with patch quality, simulating the effects of high environmental stochasticity, i.e. environmental stochasticity is strong enough that the population size of a patch does not affect its extinction rate (High env. stoc., Table~\ref{params}).  To explore the disease dynamics when transmission is driven largely by the environmental reservoir we parameterized a model with $\delta = 0.1$ to reduce the relative importance of direct transmission (Dominant reservoir trans., Table~\ref{params}).  Lastly, to simulate a more virulent pathogen, we parameterized a model with $\nu = 0.1$ to substantially increase disease-induced mortality (High disease mortality, Table~\ref{params}).
 
 \subsection{Simulation studies}
 
-For each of the above parameterizations, we performed two different simulation experiments to explore the combined effects of pathogen longevity and habitat quality on disease dynamics and metapopulation occupancy.  In the first of these, we investigated the effect of increasing habitat heterogeneity on the dynamics of pathogens with a range of environmental longevities.  For these simulations, we explored 10 values of pathogen longevity ranging from 0.1 to 3 times the expected residence time of a healthy population on a unit quality patch (i.e. 10 units of time), with values representing the half-life of the pathogen's infectivity and 10 values for the variance of the patch quality distribution, ranging from 0.02 to 0.2.  For each simulation (100 replicates for each of the 100 longevity-variance combinations), qualities for 100 patches were drawn from a uniform distribution with fixed mean 1 and given variance. In each case, an entirely susceptible population was simulated until it reached an approximate steady state, at which point a randomly chosen occupied patch was infected.  The state of the metapopulation was then tracked for 5000 time steps.  We recorded the proportion of patches in each state at the end of each simulation and classified the simulation as host extinction, disease-free (no infectious populations after 5000 time steps), endemic (both susceptible and infectious populations present), or pandemic (only infectious populations).  In addition, to identify the roles played by individual patches of varying quality, for every simulation, we recorded the quality of each patch, the proportion of time spent in each state (i.e. occupied by susceptible hosts, occupied by infectious hosts, and unoccupied), and the number of transitions between each state.  
+For each of the above parameterizations, we performed two different simulation experiments to explore the combined effects of pathogen longevity and habitat quality on disease dynamics and metapopulation occupancy.  In the first of these, we investigated the effect of increasing habitat heterogeneity on the dynamics of pathogens with a range of environmental longevities.  For these simulations, we explored 10 values of pathogen longevity ranging from 0.1 to 3 times the expected residence time of a healthy population on a unit quality patch (i.e. 10 units of time), with values representing the half-life of the pathogen's infectivity.  We also took 10 values for the variance of the patch quality distribution, ranging from 0.02 to 0.2.  For each simulation (100 replicates for each of the 100 longevity-variance combinations), qualities for 100 patches were drawn from a uniform distribution with fixed mean 1 and given variance. In each case, an entirely susceptible population was simulated until it reached an approximate steady state, at which point a randomly chosen occupied patch was infected.  The state of the metapopulation was then tracked for 5000 time steps.  We recorded the proportion of patches in each state at the end of each simulation and also computed the mean effective population size of susceptible and infectious hosts over the last 500 time steps of the simulation (assuming an effective population size of $A_i$ for susceptible populations and $\nu A_i$ for infectious populations).  In addition, to identify the roles played by individual patches of varying quality, for every simulation, we recorded the quality of each patch, the proportion of time spent in each state (i.e. occupied by susceptible hosts, occupied by infectious hosts, and unoccupied), and the number of transitions between each state.  
 
 The above simulations held the mean of the patch quality distribution constant and explored the effect of increasing habitat heterogeneity around that mean (i.e. by expanding the quality distribution symmetrically about 1).  To further parse out the relative influence of high and low quality patches separately, we performed a second series of simulations where we expanded the range of the uniform quality distribution to favor either high or low quality patches (i.e. by expanding the quality distribution asymmetrically about 1).  For these simulations, at each of the 10 longevities used above, we simulated 100 metapopulations for each of four patch quality distributions: low variance, (patch qualities ranging 0.75 to 1.25); intermediate variance, high quality (range 0.75 to 1.75); intermediate variance, low quality (range 0.25 to 1.25); and high variance (range 0.25 to 1.75). 
 
@@ -181,26 +182,44 @@ $\emptyset \rightarrow I$ & Colonization (by infectious) & $C_{Ii}$\\
 \end{tabular}
 \end{table}
 
+%\begin{table}[h!]   
+%\caption{Parameters of the SPOM model, their meaning, and the values assigned under different parameterizations.  Empty cells indicate the same value as the default parameterization.}
+%\begin{tabular}{p{1cm} p{4cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm}}
+%Param. & Interpretation &  Default & Local movement & High env. stoch. & Dominant reservoir trans. & High virulence \\
+%\hline
+%$\xi_{im}$ & Effect of patch quality on immigration & 0.5 & -- & -- & -- & --\\
+%$\xi_{em}$ & Effect of population size on emigration & 0.5 & -- & -- & --& --\\
+%$D$& Inverse of mean dispersal distance & 5 & 2 & -- & -- & --\\
+%$d_{ij}$ & Distance between patch $i$ and $j$ & 1 $\forall i \neq j$ & 1 $\forall i, j$ neighbors & -- & -- & --\\
+%\hline
+%$\mu$ & Extinction rate of unit quality patch & 0.1 & -- & -- & -- & --\\
+%$\nu$ & Disease-induced reduction in population size & 0.2 & -- & -- & -- & 1\\
+%$\alpha$ & Strength of environmental stochasticity & 1 & -- & 0 & -- & --\\
+%\hline
+%$\delta$ & Probability of direct infection & 0.5 & -- & -- & 0.1 & --\\
+%$\gamma_0$ & Initial rate of infection from reservoir patch & 0.5 & -- & -- & -- & --
+%\end{tabular}
+%\label{params}
+%\end{table}
+
 \begin{table}[h!]   
-\caption{Parameters of the SPOM model, their meaning, and the values assigned under different parameterizations.  Empty cells indicate the same value as the default parameterization.}
-\begin{tabular}{l p{4cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm}}
-Parameter & Interpretation &  Default & Local movement & High env. stoch. & Dominant reservoir trans. & High disease mortality \\
+\caption{Parameters of the SPOM model, their meaning, and the values assigned under alternative parameterizations.  Empty cells indicate that the default values were used across all parameterizations.}
+\begin{tabular}{p{1cm} p{4cm} p{2cm} p{3cm}}
+Param. & Interpretation &  Default & Alternative \\
 \hline
-$\xi_{im}$ & Scaling parameter for effect of target patch quality on immigration & 0.5 & -- & -- & -- & --\\
-$\xi_{em}$ & Scaling parameter for effect of target patch quality on emigration & 0.5 & -- & -- & --& --\\
-$D$& Inverse of mean dispersal distance & 5 & 2 & -- & -- & --\\
-$d_{ij}$ & Distance between patch $i$ and $j$ & 1 $\forall i \neq j$ & 1 $\forall i, j$ neighbors & -- & -- & --\\
+$\xi_{im}$ & Effect of patch quality on immigration & 0.5 & -- \\
+$\xi_{em}$ & Effect of population size on emigration & 0.5 & -- \\
+$D$& Inverse of mean dispersal distance & 5 & 2 (local movement)\\
+$d_{ij}$ & Distance between patch $i$ and $j$ & 1 $\forall i \neq j$ & 1 $\forall i, j$ neighbors (local movement)\\
 \hline
-$\mu_S$ & Extinction rate of unit quality susceptible patch & 0.1 & -- & -- & -- & --\\
-$\mu_I$ & Extinction rate of unity quality infectious patch & 0.5 & -- & -- & -- & 1\\
-$\alpha$ & Strength of environmental stochasticity & 1 & -- & 0 & -- & --\\
+$\mu$ & Extinction rate of unit quality patch & 0.1 & -- \\
+$\nu$ & Disease-induced reduction in population size & 0.2 & 0.1 (high virulence)\\
+$\alpha$ & Strength of environmental stochasticity & 1 & 0 (high stochasticity)\\
 \hline
-$\delta$ & Probability of direct infection & 0.5 & -- & -- & 0.1 & --\\
-$\gamma_0$ & Initial rate of infection from reservoir patch & 0.5 & -- & -- & -- & --
+$\delta$ & Probability of direct infection & 0.5 & 0.1 (dominant env. transmission)\\
+$\gamma_0$ & Initial rate of infection from reservoir patch & 0.5 & -- 
 \end{tabular}
 \label{params}
 \end{table}
-
-
 
 \end{document}
