@@ -10,6 +10,9 @@ conn <- "(full)"
 conn <- "(lattice)"
 conn <- "(alpha0)"
 conn <- "(delta)"
+conn <- "(ei)"
+conn <- "(midei)"
+conn <- "(lowei)"
 
 # Read in model output
 highlow<-read.csv(paste(getwd(), "/Output/highlow", conn, ".csv", sep = ""), header=TRUE)
@@ -23,29 +26,26 @@ longevity <- sort(unique(highlow$longevity))
 
 par(mfrow = c(1, 3), bty = "l")
 
-S.occ <- tapply(highlow$S, list(highlow$longevity, highlow$treatment), mean)
-S.occ <- S.occ - S.occ[, 4]
+S.occ <- tapply(highlow$S.pop, list(highlow$longevity, highlow$treatment), median)
 
-plot(log10(longevity), S.occ[, 1], type = "b", lty = 1, ylim = c(-0.5, 0.5), pch = 19, col = "red", ylab = "S occupancy", xlab = "Longevity")
-lines(log10(longevity), S.occ[, 2], type = "b", lty = 2, pch = 19, col = "blue")
-lines(log10(longevity), S.occ[, 3], type = "b", lty = 3, pch = 19, col = "black")
-lines(log10(longevity), S.occ[, 4], type = "l", lty = 4, pch = 19, col = "grey")
+plot(log10(longevity), S.occ[, "+high"], type = "b", lty = 1, ylim = c(0, 120), pch = 19, col = "red", ylab = "S occupancy", xlab = "Longevity")
+lines(log10(longevity), S.occ[, "+low"], type = "b", lty = 2, pch = 19, col = "blue")
+lines(log10(longevity), S.occ[, "full"], type = "b", lty = 3, pch = 19, col = "black")
+lines(log10(longevity), S.occ[, "low.var"], type = "l", lty = 4, pch = 19, col = "grey")
 
-I.occ <- tapply(highlow$I, list(highlow$longevity, highlow$treatment), mean)
-I.occ <- I.occ - I.occ[, 4]
+I.occ <- tapply(highlow$I.pop, list(highlow$longevity, highlow$treatment), median)
 
-plot(log10(longevity), I.occ[, 1], type = "b", lty = 1, ylim = c(-0.5, 0.5), pch = 19, col = "red", ylab = "I occupancy", xlab = "Longevity")
-lines(log10(longevity), I.occ[, 2], type = "b", lty = 2, pch = 19, col = "blue")
-lines(log10(longevity), I.occ[, 3], type = "b", lty = 3, pch = 19, col = "black")
-lines(log10(longevity), I.occ[, 4], type = "l", lty = 4, pch = 19, col = "grey")
+plot(log10(longevity), I.occ[, "+high"], type = "b", lty = 1, ylim = c(0, 120), pch = 19, col = "red", ylab = "I occupancy", xlab = "Longevity")
+lines(log10(longevity), I.occ[, "+low"], type = "b", lty = 2, pch = 19, col = "blue")
+lines(log10(longevity), I.occ[, "full"], type = "b", lty = 3, pch = 19, col = "black")
+lines(log10(longevity), I.occ[, "low.var"], type = "l", lty = 4, pch = 19, col = "grey")
 
-occ <- tapply(highlow$I + highlow$S, list(highlow$longevity, highlow$treatment), mean)
-occ <- occ - occ[, 4]
+occ <- tapply(highlow$I.pop + highlow$S.pop, list(highlow$longevity, highlow$treatment), median)
 
-plot(log10(longevity), occ[, 1], type = "b", lty = 1, ylim = c(-0.5, 0.5), pch = 19, col = "red", ylab = "Total occupancy", xlab = "Longevity")
-lines(log10(longevity), occ[, 2], type = "b", lty = 2, pch = 19, col = "blue")
-lines(log10(longevity), occ[, 3], type = "b", lty = 3, pch = 19, col = "black")
-lines(log10(longevity), occ[, 4], type = "l", lty = 4, pch = 19, col = "grey")
+plot(log10(longevity), occ[, "+high"], type = "b", lty = 1, ylim = c(0, 120), pch = 19, col = "red", ylab = "Total occupancy", xlab = "Longevity")
+lines(log10(longevity), occ[, "+low"], type = "b", lty = 2, pch = 19, col = "blue")
+lines(log10(longevity), occ[, "full"], type = "b", lty = 3, pch = 19, col = "black")
+lines(log10(longevity), occ[, "low.var"], type = "l", lty = 4, pch = 19, col = "grey")
 
 #===============================================================================
 # Plotting proportion of different epidemiological outcomes
@@ -54,31 +54,31 @@ par(mfrow = c(1, 4), bty = "l")
 
 pandemic <- tapply(highlow$S == 0 & highlow$I > 0, list(highlow$longevity, highlow$treatment), sum)
 
-plot(log10(longevity), pandemic[, 1], type = "b", lty = 1, ylim = c(0, 100), pch = 20, col = "red", xlab = "Longevity", ylab = "Pandemics")
-lines(log10(longevity), pandemic[, 2], type = "b", lty = 2, pch = 20, col = "blue")
-lines(log10(longevity), pandemic[, 3], type = "b", lty = 3, pch = 20, col = "black")
-lines(log10(longevity), pandemic[, 4], type = "b", lty = 4, pch = 20, col = "grey")
+plot(log10(longevity), pandemic[, "+high"], type = "b", lty = 1, ylim = c(0, 100), pch = 20, col = "red", xlab = "Longevity", ylab = "Pandemics")
+lines(log10(longevity), pandemic[, "+low"], type = "b", lty = 2, pch = 20, col = "blue")
+lines(log10(longevity), pandemic[, "full"], type = "b", lty = 3, pch = 20, col = "black")
+lines(log10(longevity), pandemic[, "low.var"], type = "b", lty = 4, pch = 20, col = "grey")
 
 endemic <- tapply(highlow$S > 0 & highlow$I > 0, list(highlow$longevity, highlow$treatment), sum)
 
-plot(log10(longevity), endemic[, 1], type = "b", lty = 1, ylim = c(0, 100), pch = 20, col = "red", xlab = "Longevity", ylab = "Endemics")
-lines(log10(longevity), endemic[, 2], type = "b", lty = 2, pch = 20, col = "blue")
-lines(log10(longevity), endemic[, 3], type = "b", lty = 3, pch = 20, col = "black")
-lines(log10(longevity), endemic[, 4], type = "b", lty = 4, pch = 20, col = "grey")
+plot(log10(longevity), endemic[, "+high"], type = "b", lty = 1, ylim = c(0, 100), pch = 20, col = "red", xlab = "Longevity", ylab = "Endemics")
+lines(log10(longevity), endemic[, "+low"], type = "b", lty = 2, pch = 20, col = "blue")
+lines(log10(longevity), endemic[, "full"], type = "b", lty = 3, pch = 20, col = "black")
+lines(log10(longevity), endemic[, "low.var"], type = "b", lty = 4, pch = 20, col = "grey")
 
 nodisease <- tapply(highlow$S > 0 & highlow$I == 0, list(highlow$longevity, highlow$treatment), sum)
 
-plot(log10(longevity), nodisease[, 1], type = "b", lty = 1, ylim = c(0, 100), pch = 20, col = "red", xlab = "Longevity", ylab = "No disease")
-lines(log10(longevity), nodisease[, 2], type = "b", lty = 2, pch = 20, col = "blue")
-lines(log10(longevity), nodisease[, 3], type = "b", lty = 3, pch = 20, col = "black")
-lines(log10(longevity), nodisease[, 4], type = "b", lty = 4, pch = 20, col = "grey")
+plot(log10(longevity), nodisease[, "+high"], type = "b", lty = 1, ylim = c(0, 100), pch = 20, col = "red", xlab = "Longevity", ylab = "No disease")
+lines(log10(longevity), nodisease[, "+low"], type = "b", lty = 2, pch = 20, col = "blue")
+lines(log10(longevity), nodisease[, "full"], type = "b", lty = 3, pch = 20, col = "black")
+lines(log10(longevity), nodisease[, "low.var"], type = "b", lty = 4, pch = 20, col = "grey")
 
 extinct <- tapply(highlow$S == 0 & highlow$I == 0, list(highlow$longevity, highlow$treatment), sum)
 
-plot(log10(longevity), extinct[, 1], type = "b", lty = 1, ylim = c(0, 100), pch = 20, col = "red", xlab = "Longevity", ylab = "Extinctions")
-lines(log10(longevity), extinct[, 2], type = "b", lty = 2, pch = 20, col = "blue")
-lines(log10(longevity), extinct[, 3], type = "b", lty = 3, pch = 20, col = "black")
-lines(log10(longevity), extinct[, 4], type = "b", lty = 4, pch = 20, col = "grey")
+plot(log10(longevity), extinct[, "+high"], type = "b", lty = 1, ylim = c(0, 100), pch = 20, col = "red", xlab = "Longevity", ylab = "Extinctions")
+lines(log10(longevity), extinct[, "+low"], type = "b", lty = 2, pch = 20, col = "blue")
+lines(log10(longevity), extinct[, "full"], type = "b", lty = 3, pch = 20, col = "black")
+lines(log10(longevity), extinct[, "low.var"], type = "b", lty = 4, pch = 20, col = "grey")
 
 
 
@@ -300,12 +300,12 @@ highlow<-read.csv(paste(getwd(), "/Output/highlow",sim[1], ".csv", sep = ""), he
 
 longevity <- sort(unique(highlow$longevity))
 
-S.occ <- tapply(highlow$S, list(highlow$longevity, highlow$treatment), median)
-I.occ <- tapply(highlow$I, list(highlow$longevity, highlow$treatment), median)
-occ <- tapply(highlow$I + highlow$S, list(highlow$longevity, highlow$treatment), median)
+S.occ <- tapply(highlow$S.pop, list(highlow$longevity, highlow$treatment), median)
+I.occ <- tapply(highlow$I.pop, list(highlow$longevity, highlow$treatment), median)
+occ <- tapply(highlow$I.pop + highlow$S.pop, list(highlow$longevity, highlow$treatment), median)
 
 plot(log10(longevity), occ[, "+high"] - occ[, "+low"], type = "b", pch = 19, bty = "l",
-    ylim = c(-0.4, 0.5), xlab = "log(longevity)", ylab = "High quality occupancy - low quality occupancy",
+    ylim = c(-60, 60), xlab = "log(longevity)", ylab = "High quality occupancy - low quality occupancy",
     main = title(label[1], adj = 0),
     cex.lab = 1.2)
 
@@ -317,12 +317,12 @@ for(i in 2:5){
   
   longevity <- sort(unique(highlow$longevity))
   
-  S.occ <- tapply(highlow$S, list(highlow$longevity, highlow$treatment), median)
-  I.occ <- tapply(highlow$I, list(highlow$longevity, highlow$treatment), median)
-  occ <- tapply(highlow$I + highlow$S, list(highlow$longevity, highlow$treatment), median)
+  S.occ <- tapply(highlow$S.pop, list(highlow$longevity, highlow$treatment), median)
+  I.occ <- tapply(highlow$I.pop, list(highlow$longevity, highlow$treatment), median)
+  occ <- tapply(highlow$I.pop + highlow$S.pop, list(highlow$longevity, highlow$treatment), median)
   
   plot(log10(longevity), occ[, "+high"] - occ[, "+low"], type = "b", pch = 19, bty = "l",
-       ylim = c(-0.4, 0.5), xlab = "log(longevity)", ylab = "", yaxt = "n",
+       ylim = c(-60, 60), xlab = "log(longevity)", ylab = "", yaxt = "n",
        main = title(label[i], adj = 0),
        cex.lab = 1.2)
   Axis(side= 2, labels = F)
@@ -339,15 +339,15 @@ library(gridExtra)
 
 sub <- highlow[highlow$treatment %in% c("+high", "+low"), ]
 
-p.S <- ggplot(sub, aes(x = factor(log10(longevity)), y = S))
+p.S <- ggplot(sub, aes(x = factor(log10(longevity)), y = S.pop))
 p.S <- p.S + xlab("log(longevity)") + ylab("S occupancy") + theme(legend.position = "none") + theme_bw()
 p.S <- p.S + geom_boxplot(aes(fill = factor(treatment)))
 
-p.I <- ggplot(sub, aes(x = factor(log10(longevity)), y = I))
+p.I <- ggplot(sub, aes(x = factor(log10(longevity)), y = I.pop))
 p.I <- p.I + xlab("log(longevity)") + ylab("I occupancy") + theme(legend.position = "none")
 p.I <- p.I + geom_boxplot(aes(fill = factor(treatment)))
 
-p.occ <- ggplot(sub, aes(x = factor(log10(longevity)), y = S + I))
+p.occ <- ggplot(sub, aes(x = factor(log10(longevity)), y = S.pop + I.pop))
 p.occ <- p.occ + xlab("log(longevity)") + ylab("Total occupancy") + theme(legend.position = "none")
 p.occ <- p.occ + geom_boxplot(aes(fill = factor(treatment)))
 

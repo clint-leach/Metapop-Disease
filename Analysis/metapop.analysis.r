@@ -7,8 +7,9 @@ conn <- "(lattice)"
 conn <- "(alpha0)"
 conn <- "(delta)"
 conn <- "(ei)"
+conn <- "(eimid)"
 
-load(paste(getwd(), "/Output/out", conn, ".Rdata", sep = ""))
+load(paste(getwd(), "/Output/out", conn, ".RData", sep = ""))
 
 library(gridExtra)
 library(lattice)
@@ -17,9 +18,9 @@ library(RColorBrewer)
 #===============================================================================
 # Level plots of mean occupancy as function of variance and longevity
 
-metapop.S <- tapply(out$Sfin, list(out$longevity, out$variance), mean)
-metapop.I <- tapply(out$Ifin, list(out$longevity, out$variance), mean)
-metapop.occ <- tapply(out$Sfin + out$Ifin, list(out$longevity, out$variance), mean)
+metapop.S <- tapply(out$S * out$quality, list(out$longevity, out$variance), sum) / 100
+metapop.I <- tapply(out$I * out$quality, list(out$longevity, out$variance), sum) / 100
+metapop.occ <- tapply(out$S * out$quality + out$I * out$quality, list(out$longevity, out$variance), sum) / 100
 maxI <- tapply(out$maxI, list(out$longevity, out$variance), mean)
 
 sd.S <- tapply(out$Sfin, list(out$longevity, out$variance), sd)
@@ -29,15 +30,15 @@ sd.maxI <- tapply(out$maxI, list(out$longevity, out$variance), sd)
 cols <- colorRampPalette(brewer.pal(9, "Reds"))(100)
 
 S <- levelplot(metapop.S, col.regions = cols, xlab = "Longevity", ylab = "Variance",
-               at = seq(0, 1, by = 0.01), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
+               at = seq(0, 100, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
 I <- levelplot(metapop.I, col.regions = cols, xlab = "Longevity", ylab = "Variance",
-               at = seq(0, 1, by = 0.01), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
+               at = seq(0, 100, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
 occ <- levelplot(metapop.occ, col.regions = cols, xlab = "Longevity", ylab = "Variance",
-                 at = seq(0, 1, by = 0.01), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
+                 at = seq(0, 100, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
 
 key <- draw.colorkey(list(col = cols, 
-                          at = seq(0, 1, by = 0.01),
-                          labels = list(at = seq(0, 1, by = 0.25)),
+                          at = seq(0, 100, by = 1),
+                          labels = list(at = seq(0, 100, by = 25)),
                           height = 0.7), 
                      draw = F)
 

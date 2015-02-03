@@ -28,8 +28,8 @@ lines(loess.smooth(patch$quality,patch$I),lwd=2,col="red")
 
 # Plotting scatter cloud of number of infection events
 par(mfrow=c(1,1),cex=1)
-smoothScatter(patch$quality,patch$inf.events.tot,ylab="Number of infection events",xlab="Patch Quality")
-lines(loess.smooth(patch$quality,patch$inf.events.tot),lwd=3,col="red")
+smoothScatter(patch$quality,patch$inf.events,ylab="Number of infection events",xlab="Patch Quality")
+lines(loess.smooth(patch$quality,patch$inf.events),lwd=3,col="red")
 
 #===============================================================================
 # Figures to show how longevity affects role of quality
@@ -37,7 +37,7 @@ lines(loess.smooth(patch$quality,patch$inf.events.tot),lwd=3,col="red")
 # Plotting infection events against quality for range of longevities
 plot(seq(0.25, 1.75, by = 0.1), c(1:16), ylim = c(0, 10), type = "n", xlab = "Quality", ylab = "Infections")
 for(i in c(40, 60, 80, 100)){
-  lines(loess.smooth(patch$quality[patch$longevity == i], patch$inf.events.tot[patch$longevity == i]), type = "b", pch = as.character(i))  
+  lines(loess.smooth(patch$quality[patch$longevity == i], patch$inf.events[patch$longevity == i]), type = "b", pch = as.character(i))  
 }
 
 
@@ -56,13 +56,13 @@ for(i in 1:length(reps)){
   sim <- patch[patch$repID == reps[i], ]
   try(lines(loess.smooth(sim$quality, sim$inf.events.tot), type = "l", col = alpha("gray", 0.3)))
 }
-lines(loess.smooth(patch$quality, patch$inf.events.tot), lwd = 2, col = "black")
-lines(loess.smooth(patch$quality[patch$longevity == 40], patch$inf.events.tot[patch$longevity == 40]), lwd = 1, col = "black")
-lines(loess.smooth(patch$quality[patch$longevity == 60], patch$inf.events.tot[patch$longevity == 60]), lwd = 1, col = "black")
-lines(loess.smooth(patch$quality[patch$longevity == 80], patch$inf.events.tot[patch$longevity == 80]), lwd = 1, col = "black")
-lines(loess.smooth(patch$quality[patch$longevity == 100], patch$inf.events.tot[patch$longevity == 100]), lwd = 1, col = "black")
-lines(loess.smooth(patch$quality[patch$longevity == 120], patch$inf.events.tot[patch$longevity == 120]), lwd = 1, col = "black")
-lines(loess.smooth(patch$quality[patch$longevity == 140], patch$inf.events.tot[patch$longevity == 140]), lwd = 1, col = "black")
+lines(loess.smooth(patch$quality, patch$inf.events), lwd = 2, col = "black")
+lines(loess.smooth(patch$quality[patch$longevity == 40], patch$inf.events[patch$longevity == 40]), lwd = 1, col = "black")
+lines(loess.smooth(patch$quality[patch$longevity == 60], patch$inf.events[patch$longevity == 60]), lwd = 1, col = "black")
+lines(loess.smooth(patch$quality[patch$longevity == 80], patch$inf.events[patch$longevity == 80]), lwd = 1, col = "black")
+lines(loess.smooth(patch$quality[patch$longevity == 100], patch$inf.events[patch$longevity == 100]), lwd = 1, col = "black")
+lines(loess.smooth(patch$quality[patch$longevity == 120], patch$inf.events[patch$longevity == 120]), lwd = 1, col = "black")
+lines(loess.smooth(patch$quality[patch$longevity == 140], patch$inf.events[patch$longevity == 140]), lwd = 1, col = "black")
 
 
 par(mfrow = c(2, 2))
