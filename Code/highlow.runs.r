@@ -1,11 +1,13 @@
 
-modelrun <- function(longevity, parms, distance, initial, timesteps, treatment){
+modelrun <- function(longevity, delta, nu, parms, distance, initial, timesteps, treatment){
   # Takes in longevity and  type of patch quality distribution, runs the SPOM without infection
   # until steady state, then introduces infection on a randomly selected occupied patch,
   # calls SPOM model and generates output.
   #
   # Args:
   #   longevity: value for pathogen longevity in environment, half-life of infectivity
+  #   delta: value for transmission probability
+  #   nu: value for disease-induced mortality (reduction in population size from infection)
   #   parms: named numeric vector of parameter values
   #   distance: nxn between patch distance matrix
   #   initial: character vector giving initial state of each patch
@@ -46,6 +48,9 @@ modelrun <- function(longevity, parms, distance, initial, timesteps, treatment){
     quality <- runif(100, min=in.min, max=in.max)
   }
 
+  # Adds nu and delta to parameter vector
+  parms["nu"] <- nu
+  parms["delta"] <- delta
   
   #Converts longevity (half-life in units of occupancy time) to decay rate in natural time
   long.nat <- longevity / parms$es
@@ -83,10 +88,10 @@ modelrun <- function(longevity, parms, distance, initial, timesteps, treatment){
   I.pop <- (colSums(inf) / (dim(state)[1])) %*% (parms$nu * quality)
   
   # Generating and collecting output
-  output <- data.frame(treatment, longevity, S[length(S)], I[length(I)], E[length(E)],
+  output <- data.frame(treatment, longevity, delta, nu, S[length(S)], I[length(I)], E[length(E)],
                            S.pop, I.pop, max(I), output[which.max(I),1], initial.quality)
   
-  names(output) <- c("treatment", "longevity", "S", "I", "R", "S.pop", "I.pop", "maxI", "tmaxI", "quality0")
+  names(output) <- c("treatment", "longevity", "delta", "nu", "S", "I", "R", "S.pop", "I.pop", "maxI", "tmaxI", "quality0")
   
   return(output)
   
