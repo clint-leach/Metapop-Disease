@@ -15,7 +15,8 @@ source("Code/contSPOM(rates).r")
 replicates <- 100
 
 #Setting longevity
-longevity <- seq(-1, 0.5, length.out = 10)
+#longevity <- seq(-1, 0.5, length.out = 10)
+longevity <- c(-0.5, 0, 0.5)
 longevity <- 10 ^ longevity
 
 # Setting transmission
