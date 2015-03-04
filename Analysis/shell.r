@@ -18,13 +18,14 @@ replicates <- 100
 longevity <- seq(-1, 0.5, length.out = 10)
 longevity <- 10 ^ longevity
 
-variance <- seq(0.02, 0.2, by=0.02)
+variance <- 0.2
+
+xi_im = c(0, 0.5)
+xi_em = c(0, 0.5)
 
 #Generates nx2 matrix of all pairwise longevity variance combinations
-parspace<-expand.grid(longevity,variance)
-colnames(parspace)[1]<-"longevity"
-colnames(parspace)[2]<-"variance"
-
+parspace<-expand.grid(longevity,variance, xi_im, xi_em)
+colnames(parspace) <- c("longevity", "variance", "xi_im", "xi_em")
 
 #Generates a new matrix with each long-var combination repeated for the set number of replicates
 par.reps<-parspace[rep(1:length(parspace[,1]),replicates),]
@@ -35,13 +36,11 @@ par.reps<-cbind(par.reps,simID)
 
 
 #Defines fixed inputs for diseaseSPOM
-parms<-data.frame("xi_im" = 0.5, 
-                  "xi_em" = 0.5,      
-                  "D" = 5, 
+parms<-data.frame("D" = 5, 
                   "alpha" = 1,
                   "es" = 0.1,
                   "nu" = 0.2,
-                  "delta" = 0.5,
+                  "delta" = 0.3,
                   "gamma0" = 0.5)
   
 #Fully connected matrix
@@ -71,9 +70,11 @@ registerDoSNOW(w)
 getDoParWorkers()
 
 #Looping through each parameter combo and calling modelrun
-system.time(out<-foreach(i = 1:length(par.reps[,1]),.verbose=TRUE,.combine="rbind") %dopar% 
-  modelrun(par.reps[i,1],par.reps[i,2],par.reps[i,3],parms,distance,initial,timesteps)
-  )
+system.time(out<-foreach(i = 1:length(par.reps[,1]),.verbose=TRUE,.combine="rbind") %dopar% {
+  parms["xi_im"] <- par.reps[i, 3]
+  parms["xi_em"] <- par.reps[i, 4]
+  modelrun(par.reps[i,1],par.reps[i,2],par.reps[i,5],parms,distance,initial,timesteps)
+  })
 
 stopCluster(w)
 

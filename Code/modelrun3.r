@@ -93,7 +93,9 @@ modelrun <- function(longevity, variance, k, parms, distance, initial, timesteps
                        quality0 = initial.quality,
                        repID = k,
                        longevity = longevity,
-                       variance = variance
+                       variance = variance,
+                       xi_im = parms["xi_im"],
+                       xi_em = parms["xi_em"]
   )
   
 
