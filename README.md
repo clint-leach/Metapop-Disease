@@ -10,7 +10,6 @@ Authors:
 ## Abstract 
 
 Patterns of habitat quality are expected to play an important role in the dynamics of wildlife metapopulations, with the expectation that high quality habitat serves to stabilize and maintain occupancy.  However, we might expect that the costs and benefits of different quality habitat might be modulated, or possibly even reversed, by the presence of an environmentally persistent pathogen.  In such cases, the presence of environmental pathogen reservoirs on high quality habitat may lead to the creation of ecological traps, wherein host individuals preferentially colonize high quality habitat, but are then exposed to increased infection risk.  We explore this possibility through the development of a stochastic patch occupancy model in which we can vary both the environmental longevity of the pathogen, and the distribution of habitat quality in the host metapopulation.  This suggests that for sufficiently long-lived environmental reservoirs, high quality habitat can serve as an ecological trap, and can even be a net detriment to the host metapopulation relative to low quality habitat.  This inversion of the relative roles of high and low quality habitat highlights the importance of considering the interaction between spatial structure and pathogen transmission when managing wildlife populations exposed to an environmentally persistent pathogen.
-Note that the included code represents only the most recent iterations (i.e. those on which the publication is based).
 
 ## Repository
 
