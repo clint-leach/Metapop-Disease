@@ -1,12 +1,12 @@
 
-modelrun <- function(longevity, variance, k, parms, distance, initial, timesteps){
+modelrun <- function(longevity, range, k, parms, distance, initial, timesteps){
   # Takes in longevity and variance values, runs the SPOM without infection
   # until steady state, then introduces infection on a randomly selected occupied patch,
   # calls SPOM model and generates output.
   #
   # Args:
   #   longevity: value for pathogen longevity in environment, half-life of infectivity
-  #   variance: variance of patch quality distribution (uniform with mean 1)
+  #   range: vector containint the min and max of the quality distribution
   #   k: replicate ID
   #   parms: named numeric vector of parameter values
   #   distance: nxn between patch distance matrix
@@ -35,9 +35,9 @@ modelrun <- function(longevity, variance, k, parms, distance, initial, timesteps
   #     variance: variance of patch quality distribution
   
 	#Generates quality vector with desired variance
-  max <- 0.5 * sqrt(12 * variance) + 1
-  min <- 2 - max
-  quality <- runif(100, min=min, max=max)
+  max <- range[2]
+  min <- range[1]
+  quality <- seq(min, max, length.out = 100)
 	
 	#Converts longevity (half-life in units of occupancy time) to decay rate in natural time
   long.nat <- longevity / parms$es
@@ -93,7 +93,6 @@ modelrun <- function(longevity, variance, k, parms, distance, initial, timesteps
                        quality0 = initial.quality,
                        repID = k,
                        longevity = longevity,
-                       variance = variance,
                        xi_im = parms["xi_im"],
                        xi_em = parms["xi_em"]
   )

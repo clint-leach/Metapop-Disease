@@ -18,14 +18,14 @@ replicates <- 100
 longevity <- seq(-1, 0.5, length.out = 10)
 longevity <- 10 ^ longevity
 
-variance <- 0.2
+range <- c(0.2, 1.8)
 
 xi_im = c(0, 0.5)
 xi_em = c(0, 0.5)
 
 #Generates nx2 matrix of all pairwise longevity variance combinations
-parspace<-expand.grid(longevity,variance, xi_im, xi_em)
-colnames(parspace) <- c("longevity", "variance", "xi_im", "xi_em")
+parspace<-expand.grid(longevity, xi_im, xi_em)
+colnames(parspace) <- c("longevity", "xi_im", "xi_em")
 
 #Generates a new matrix with each long-var combination repeated for the set number of replicates
 par.reps<-parspace[rep(1:length(parspace[,1]),replicates),]
@@ -71,9 +71,9 @@ getDoParWorkers()
 
 #Looping through each parameter combo and calling modelrun
 system.time(out<-foreach(i = 1:length(par.reps[,1]),.verbose=TRUE,.combine="rbind") %dopar% {
-  parms["xi_im"] <- par.reps[i, 3]
-  parms["xi_em"] <- par.reps[i, 4]
-  modelrun(par.reps[i,1],par.reps[i,2],par.reps[i,5],parms,distance,initial,timesteps)
+  parms["xi_im"] <- par.reps[i, 2]
+  parms["xi_em"] <- par.reps[i, 3]
+  modelrun(par.reps[i,1],range,par.reps[i,4],parms,distance,initial,timesteps)
   })
 
 stopCluster(w)

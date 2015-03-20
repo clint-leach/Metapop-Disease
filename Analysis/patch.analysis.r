@@ -36,7 +36,7 @@ lines(loess.smooth(patch$quality,patch$inf.events),lwd=3,col="red")
 
 # Plotting infection events against quality for range of longevities
 plot(seq(0.25, 1.75, by = 0.1), c(1:16), ylim = c(0, 10), type = "n", xlab = "Quality", ylab = "Infections")
-for(i in c(40, 60, 80, 100)){
+for(i in unique(patch$longevity)){
   lines(loess.smooth(patch$quality[patch$longevity == i], patch$inf.events[patch$longevity == i]), type = "b", pch = as.character(i))  
 }
 
@@ -109,3 +109,5 @@ for(i in 1:length(reps)){
 lines(loess.smooth(patch$quality, patch$susc.col), lwd = 2, col = "black")
 lines(loess.smooth(patch$quality[patch$longevity == 40], patch$susc.col[patch$longevity == 40]), lwd = 1.5, col = "black")
 lines(loess.smooth(patch$quality[patch$longevity == 100], patch$susc.col[patch$longevity == 100]), lwd = 1.5, col = "black")
+
+
