@@ -110,4 +110,57 @@ lines(loess.smooth(patch$quality, patch$susc.col), lwd = 2, col = "black")
 lines(loess.smooth(patch$quality[patch$longevity == 40], patch$susc.col[patch$longevity == 40]), lwd = 1.5, col = "black")
 lines(loess.smooth(patch$quality[patch$longevity == 100], patch$susc.col[patch$longevity == 100]), lwd = 1.5, col = "black")
 
+#===============================================================================
+# Analyzing trap effect when both xi > 0
+
+quality <- unique(out$quality)
+longevity <- unique(out$longevity)
+
+pinf <- tapply(out$I, list(out$xi_im, out$xi_em, out$longevity, out$quality), median)
+
+par(mfrow = c(1, 2))
+plot(out$quality, out$I, type = "n", ylim = c(0, 0.4), main = "xi_em = 0")
+lines(supsmu(quality, pinf[1, 1, 10, ]), col = "black", pch = 20)
+lines(supsmu(quality, pinf[2, 1, 10, ]), col = "red", pch = 20)
+
+plot(out$quality, out$I, type = "n", ylim = c(0, 0.4), main = "xi_em = 0.5")
+lines(supsmu(quality, pinf[1, 2, 10, ]), col = "black", pch = 20)
+lines(supsmu(quality, pinf[2, 2, 10, ]), col = "red", pch = 20)
+
+#===============================================================================
+# Consequences of trap effect (with xi_em = 0.5)
+
+trap <- out[out$xi_em == 0.5, ]
+
+# Population size
+Spop <- tapply(trap$S * trap$quality, list(trap$longevity, trap$xi_im), sum) / 100
+Ipop <- tapply(trap$I * parms$nu *trap$quality, list(trap$longevity, trap$xi_im), sum) / 100
+pop <- Spop + Ipop
+
+par(mfrow = c(1, 1))
+plot(log10(longevity), pop[, 1], type = "b", col = "black", pch = 20, ylim = c(0, 85))
+lines(log10(longevity), pop[, 2], type = "b", col = "red", pch = 20)
+
+# Pathogen persistence
+ppersist <- tapply(trap$Ifin > 0, list(trap$longevity, trap$xi_im), sum) / 100 / 100
+
+# Epidemiological outcome 
+nd <- tapply(trap$Sfin > 0 & trap$Ifin == 0, list(trap$longevity, trap$xi_im), sum) / 100 / 100
+end <- tapply(trap$Sfin > 0 & trap$Ifin > 0, list(trap$longevity, trap$xi_im), sum) / 100 / 100
+pan <- tapply(trap$Sfin == 0 & trap$Ifin > 0, list(trap$longevity, trap$xi_im), sum) / 100 / 100
+ext <- tapply(trap$Sfin == 0 & trap$Ifin == 0, list(trap$longevity, trap$xi_im), sum) / 100 / 100
+
+par(mfrow = c(1, 4))
+plot(log10(longevity), nd[, 1], type = "b", pch = 20, ylim = c(0, 1), main = "no disease")
+lines(log10(longevity), nd[, 2], type = "b", col = "red", pch = 20)
+
+plot(log10(longevity), end[,1], type = "b", pch = 20, ylim = c(0, 1), main = "endemic")
+lines(log10(longevity), end[, 2], type = "b", col = "red", pch = 20)
+
+plot(log10(longevity), pan[,1], type = "b", pch = 20, ylim = c(0, 1), main = "pandemic")
+lines(log10(longevity), pan[, 2], type = "b", col = "red", pch = 20)
+
+plot(log10(longevity), ext[,1], type = "b", pch = 20, ylim = c(0, 1), main = "extinction")
+lines(log10(longevity), ext[, 2], type = "b", col = "red", pch = 20)
+
 
