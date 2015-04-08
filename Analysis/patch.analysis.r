@@ -164,49 +164,53 @@ p <- ggplot(sub, aes(x = as.factor(quality), y = I)) + theme_classic()
 p <- p + xlab("Quality") + ylab("Probability of infection") 
 p <- p + geom_tufteboxplot(aes(colour = factor(xi_im)), outlier.colour = "grey80", position = position_dodge(width = 1)) +
   scale_y_continuous(expand = c(0, 0.01)) + scale_colour_manual(values = c("black", "red"))
+p
 
 ###
 
 # Multipanel figure comparing xi_im for three longevities
 longs <- longevity[c(4, 7, 10)]
 
+labels <- vector(length = 100, mode = "character")
+labels[c(1, 50, 100)] <- c("0.2", "1", "1.8")
+
 sub <- subset(out, xi_em == 0.5 & xi_im == 0 & longevity == longs[1])
 p1 <- ggplot(sub, aes(x = as.factor(quality), y = I)) + theme_classic()
 p1 <- p1 + xlab("Quality") + ylab("Probability of infection") 
 p1 <- p1 + geom_tufteboxplot(outlier.colour = "grey80", position = position_dodge(width = 1)) +
-  scale_y_continuous(expand = c(0, 0.01))
+  scale_y_continuous(expand = c(0, 0.01)) + scale_x_discrete(labels = labels)
 
 sub <- subset(out, xi_em == 0.5 & xi_im == 0.5 & longevity == longs[1])
 p2 <- ggplot(sub, aes(x = as.factor(quality), y = I)) + theme_classic()
 p2 <- p2 + xlab("Quality") + ylab("Probability of infection") 
 p2 <- p2 + geom_tufteboxplot(outlier.colour = "grey80", position = position_dodge(width = 1)) +
-  scale_y_continuous(expand = c(0, 0.01))
+  scale_y_continuous(expand = c(0, 0.01)) + scale_x_discrete(labels = labels)
 
 
 sub <- subset(out, xi_em == 0.5 & xi_im == 0 & longevity == longs[2])
 p3 <- ggplot(sub, aes(x = as.factor(quality), y = I)) + theme_classic()
 p3 <- p3 + xlab("Quality") + ylab("Probability of infection") 
 p3 <- p3 + geom_tufteboxplot(outlier.colour = "grey80", position = position_dodge(width = 1)) +
-  scale_y_continuous(expand = c(0, 0.01))
+  scale_y_continuous(expand = c(0, 0.01)) + scale_x_discrete(labels = labels)
 
 sub <- subset(out, xi_em == 0.5 & xi_im == 0.5 & longevity == longs[2])
 p4 <- ggplot(sub, aes(x = as.factor(quality), y = I)) + theme_classic()
 p4 <- p4 + xlab("Quality") + ylab("Probability of infection") 
 p4 <- p4 + geom_tufteboxplot(outlier.colour = "grey80", position = position_dodge(width = 1)) +
-  scale_y_continuous(expand = c(0, 0.01))
+  scale_y_continuous(expand = c(0, 0.01)) + scale_x_discrete(labels = labels)
 
 
 sub <- subset(out, xi_em == 0.5 & xi_im == 0 & longevity == longs[3])
 p5 <- ggplot(sub, aes(x = as.factor(quality), y = I)) + theme_classic()
 p5 <- p5 + xlab("Quality") + ylab("Probability of infection") 
 p5 <- p5 + geom_tufteboxplot(outlier.colour = "grey80", position = position_dodge(width = 1)) +
-  scale_y_continuous(expand = c(0, 0.01))
+  scale_y_continuous(expand = c(0, 0.01)) + scale_x_discrete(labels = labels)
 
 sub <- subset(out, xi_em == 0.5 & xi_im == 0.5 & longevity == longs[3])
 p6 <- ggplot(sub, aes(x = as.factor(quality), y = I)) + theme_classic()
 p6 <- p6 + xlab("Quality") + ylab("Probability of infection") 
 p6 <- p6 + geom_tufteboxplot(outlier.colour = "grey80", position = position_dodge(width = 1)) +
-  scale_y_continuous(expand = c(0, 0.01))
+  scale_y_continuous(expand = c(0, 0.01)) + scale_x_discrete(labels = labels)
 
 grid.arrange(p1, p3, p5, p2, p4, p6, nrow = 2)
 
@@ -217,9 +221,10 @@ grid.arrange(p1, p3, p5, p2, p4, p6, nrow = 2)
 trap <- out[out$xi_em == 0.5, ]
 
 # Population size
-Spop <- tapply(trap$S * trap$quality, list(trap$longevity, trap$xi_im), sum) / 100
-Ipop <- tapply(trap$I * parms$nu *trap$quality, list(trap$longevity, trap$xi_im), sum) / 100
-pop <- Spop + Ipop
+sims <- tapply((trap$S + trap$I * parms$nu) *trap$quality, list(trap$longevity, trap$xi_im), matrix, nrow = 100, byrow = T)
+pop <- lapply(sims, rowSums)
+pop <- lapply(pop, median)
+pop <- matrix(unlist(pop), nrow = 10, byrow = F)
 
 par(mfrow = c(1, 1))
 plot(log10(longevity), pop[, 1], type = "b", col = "black", pch = 20, ylim = c(0, 85))
@@ -250,7 +255,7 @@ lines(log10(longevity), ext[, 2], type = "b", col = "red", pch = 20)
 
 ###
 
-# Stand-along plot of extinction probability
+# Stand-alone plot of extinction probability
 
 par(mfrow = c(1, 1))
 plot(log10(longevity[c(4, 7, 10)]), ext[c(4, 7, 10), 1], type = "b", pch = 20, ylim = c(0, 0.4),

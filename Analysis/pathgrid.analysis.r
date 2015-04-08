@@ -2,7 +2,7 @@
 library(gridExtra)
 library(lattice)
 library(RColorBrewer)
-library(ggplot)
+library(ggplot2)
 
 #===============================================================================
 # Plots of difference in total population size between high and low quality habitat
@@ -181,27 +181,62 @@ grid.arrange(arrangeGrob(low, med, high, low.lattice, med.lattice, high.lattice,
              key, ncol = 2, widths = c(0.9, 0.1))
 
 #===============================================================================
+# Plots of probability of endemic (for fully connected only, with top and bottom panels showing quality distributions)
+
+load(paste(getwd(), "/Output/pathgrid.RData", sep = ""))
+
+dat <- tapply(out$maxI > 0, list(out$longevity, out$treatment, out$delta, out$nu), sum) / 100
+
+cols <- colorRampPalette(brewer.pal(9, "Greys"))(100)
+
+low.l <- levelplot(dat[1, 1, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
+                 at = seq(0, 1, by = 0.01), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
+med.l <- levelplot(dat[2, 1, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
+                 at = seq(0, 1, by = 0.01), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
+high.l <- levelplot(dat[3, 1, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
+                  at = seq(0, 1, by = 0.01), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
+
+low.h <- levelplot(dat[1, 2, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
+                   at = seq(0, 1, by = 0.01), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
+med.h <- levelplot(dat[2, 2, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
+                   at = seq(0, 1, by = 0.01), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
+high.h <- levelplot(dat[3, 2, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
+                    at = seq(0, 1, by = 0.01), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
+
+key <- draw.colorkey(list(col = cols, 
+                          at = seq(0, 1, by = 0.01),
+                          labels = list(at = seq(0, 1, by = 0.25)),
+                          height = 0.7), 
+                     draw = F)
+
+grid.arrange(arrangeGrob(low.l, med.l, high.l, low.h, med.h, high.h, ncol = 3), 
+             key, ncol = 2, widths = c(0.9, 0.1))
+
+#===============================================================================
 # Plots of effect of longevity for a fixed delta and nu
+
+library(ggthemes)
 
 # delta = 0.3
 # nu = 0.2
 
+load(paste(getwd(), "/Output/pathgrid.RData", sep = ""))
 sub <- out[abs(out$delta - 0.3) < 0.001 & out$nu == 0.2, ]
 
 p.S <- ggplot(sub, aes(x = factor(log10(longevity)), y = S.pop)) + theme_classic()
 p.S <- p.S + xlab("log(longevity)") + ylab("S population") + theme(legend.position = "none")
 p.S <- p.S + geom_tufteboxplot(aes(colour = factor(treatment)), outlier.colour = "grey80", position = position_dodge(width = 0.4)) +
-  scale_y_continuous(expand = c(0, 0.1))
+  scale_y_continuous(limits = c(0, 120), expand = c(0, 0.1))
 
 
 p.I <- ggplot(sub, aes(x = factor(log10(longevity)), y = I.pop)) + theme_classic()
 p.I <- p.I + xlab("log(longevity)") + ylab("I population") + theme(legend.position = "none") 
 p.I <- p.I + geom_tufteboxplot(aes(colour = factor(treatment)), outlier.colour = "grey80", position = position_dodge(width = 0.4)) +
-  scale_y_continuous(expand = c(0, 0.1))
+  scale_y_continuous(limits = c(0, 12), expand = c(0, 0.01))
 
 p.tot <- ggplot(sub, aes(x = factor(log10(longevity)), y = I.pop + S.pop)) + theme_classic()
 p.tot <- p.tot + xlab("log(longevity)") + ylab("Total population") + theme(legend.position = "none")
 p.tot <- p.tot + geom_tufteboxplot(aes(colour = factor(treatment)), outlier.colour = "grey80", position = position_dodge(width = 0.4)) + 
-  scale_y_continuous(expand = c(0, 0.1))
+  scale_y_continuous(limits = c(0, 120), expand = c(0, 0.1))
 
 grid.arrange(p.S, p.I, p.tot, ncol = 3)
