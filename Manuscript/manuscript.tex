@@ -93,7 +93,10 @@ Continuous time stochastic simulations of the above model were implemented in th
 \section{Results}
 \label{results}
 
-In the baseline parameterization, infectious occupancy increased substantially with longevity, while susceptible and total occupancy decreased (Supplemental).  However, increasing the variance of the patch quality distribution around a mean of 1 had relatively little effect on average occupancy (Supplemental).  The four alternative parameterizations (models with local movement, high environmental stochasticity, dominant reservoir transmission, and high disease-induced mortality) produced qualitatively similar results, though pathogen spread in these models was generally more limited (Supplemental).
+A wide range of disease dynamics were observed over the range of pathogens and habitat quality distributions explored.  
+Epidemic outcome was determined largely by disease induced mortality, with low disease-induced mortality (i.e. high $\nu$) facilitating pandemic dynamics (in which no susceptible populations persist), and very high disease-induced mortality (i.e. low $\nu$) facilitating disease-free or endemic dynamics (Fig~\ref{endemic}). 
+Pathogens with higher environmental longevities were generally able to persist and spread more easily, even with high disease-induced morality (Fig~\ref{endemic}(c, f)).  
+The distribution of habitat quality in the metapopulation also played an important role in determining disease dynamics, with higher quality distributions (with qualities ranging roughly from 0.75 to 1.75) allowing pandemic spread for a greater range of pathogens (Fig~\ref{endemic}, a-c vs. d-f).
 
 We found that distributions with more low quality habitat (distribution ranging from 0.25 to 1.25) increased mean susceptible occupancy, while distributions with more high quality habitat (range from 0.75 to 1.75) decreased mean susceptible occupancy, with the largest differences observed at intermediate longevities (Fig~\ref{sens}(a)).  Conversely, low quality habitat distributions decreased infectious occupancy, while high quality distributions increased infectious occupancy (Fig~\ref{sens}(b)).  These general trends were consistent across the four other parameterizations (Supplemental).  
 
@@ -145,8 +148,8 @@ Any mention of trade, product, or firm names is for descriptive purposes only an
 \clearpage
 
 \begin{figure}
-\caption{The effect of the presence of high and low quality patches on (a) median susceptible occupancy, (b) median infectious occupancy, and (c) median total occupancy.  Red lines show hiqh quality metapopulations (patch qualities roughly between 0.75 and 1.75), blue lines show low quality metapopulations (patch qualities roughly between 0.25 and 1.25).}
-\label{sens}
+\caption{The proportion of simulations resulting in endemic disease dynamics (persistence of both susceptible and infectious hosts) as a function of disease-induced mortality ($\nu$), and the probability of direct transmission ($\delta$).  Panel columns show low (0.3, a, d), medium (1, b, e), and high (3.2, c, f) pathogen longevities, while rows show high quality (ranging from 0.76 to 1.77, a - c) and low quality (ranging from 0.23 to 1.24, d - f) patch quality distributions.  Darker shading corresponds to more frequent endemic dynamics.  The white region above the endemic region generally corresponds to pandemic dynamics (no susceptible host populations persist), while the region below the endemic region corresponds to disease-free dynamics.}
+\label{endemic}
 \end{figure}
 
 \begin{figure}
