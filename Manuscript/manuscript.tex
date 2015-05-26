@@ -98,13 +98,21 @@ Epidemic outcome was determined largely by disease induced mortality, with low d
 Pathogens with higher environmental longevities were generally able to persist and spread more easily, even with high disease-induced morality (Fig~\ref{endemic}(c, f)).  
 The distribution of habitat quality in the metapopulation also played an important role in determining disease dynamics, with higher quality distributions (with qualities ranging roughly from 0.75 to 1.75) allowing pandemic spread for a greater range of pathogens (Fig~\ref{endemic}, a-c vs. d-f).
 
-We found that distributions with more low quality habitat (distribution ranging from 0.25 to 1.25) increased mean susceptible occupancy, while distributions with more high quality habitat (range from 0.75 to 1.75) decreased mean susceptible occupancy, with the largest differences observed at intermediate longevities (Fig~\ref{sens}(a)).  Conversely, low quality habitat distributions decreased infectious occupancy, while high quality distributions increased infectious occupancy (Fig~\ref{sens}(b)).  These general trends were consistent across the four other parameterizations (Supplemental).  
+However, despite facilitating pathogen spread, for pathogens with either low or high disease-induced mortalities, high quality patch distributions had a net positive effect on total host population size relative to low quality distributions (Fig~\ref{highvlow}).  
+In the case of pathogens that were unable to persist due to high disease-induced mortality and weak transmission, high quality habitat distributions supported greater occupancy than low quality distributions due to the greater stability and connectivity afforded by high quality habitat.
+Similarly, when low disease-induced mortality and high transmission (from either environmental or direct transmission) allowed a pathogen to spread widely regardless of habitat quality, high quality distributions again supported larger host populations than low quality distributions.
 
-However, despite facilitating pathogen spread, at high pathogen longevities, high quality patch distributions had a net positive effect on total occupancy relative to low quality distributions (Fig~\ref{sens}(c)).  Due to their lower extinction rates and high connectivity, high quality patches were able to maintain stable occupancy despite the widespread infection facilitated by high pathogen longevity.  On the other hand, though low quality patch distributions inhibited pathogen spread at intermediate longevities, when high pathogen longevities led to pandemic dynamics, low quality distributions were unable to support infectious occupancy, resulting in an increase in host extinction events and a decrease in mean total occupancy.  
+For pathogens falling between these extremes (i.e. with intermediate disease-induced mortality), the habitat quality distribution had a substantial effect on pathogen spread.  
+In particular, for a given disease, low quality habitat distributions slowed pathogen spread relative to high quality distributions and as a result supported larger host population sizes (Fig ~\ref{highvlow}, \ref{popsizes}).  
+For a given pathogen in this range (e.g. with $\nu = 0.2$ and $\delta = 0.3$), this relative advantage of low quality habitat increased with increasing environmental longevity (Fig~\ref{popsizes}), largely due to the relative increase in the persistence and spread of environmentally long-lived pathogens in high quality habitat distributions.
 
-The other model parameterizations produced a similar qualitative pattern, with the differences between total occupancy on high and low quality patches generally producing a "u" shape as a function of pathogen longevity (Fig~\ref{highvlow}).  However, the five parameterizations differed in the magnitude and sign of this general relationship.  High environmental stochasticity (i.e. $\alpha = 0$) produced very similar results to the default model, though with a larger positive effect of low quality habitat at intermediate longevity (Fig~\ref{highvlow}(c)).  In simulations with reservoir transmission the dominant infection pathway ($\delta = 0.1$), the high quality patch distributions always produced occupancy higher than (or equal to ) the low quality patch distributions (Fig~\ref{highvlow}(d)), while in the models with local movement or high disease-induced mortality, low quality patch distributions actually produced higher occupancies than high quality distributions at high longevities (Fig~\ref{highvlow}(b, e)).
+To better understand the mechanisms behind these effects, we further examined within patch infection dynamics for a pathogen in this intermediate range (again with $\nu = 0.2$ and $\delta = 0.3$).  
+Because of their lower extinction rate and higher recolonization rate, high quality patches supported more consistent occupancy than low quality patches (Fig~\ref{simvis}).  
+However, disease risk, measured by the probability of infection, increased with patch quality, an effect that became more pronounced as pathogen longevity increased (Fig~\ref{pinfection}).
+Indeed, as an epidemic progressed, high quality patches increasingly supported infectious occupants, while low quality patches supported infectious hosts only briefly and infrequently (Fig~\ref{simvis}).  
+Thus, from the perspective of a migrant individual, high quality habitat posed increased disease risk, with the preferential selection of high quality habitat (i.e. $\xi_{im} = 0.5$) increasing this disease risk further (Fig~\ref{pinfection}, a-c vs. d-f).
+Moreover, preferential selection of high quality habitat had dramatic consequences for the stability of the host metapopulation when the pathogen is long-lived in the environment, increasing extinction risk substantially (Fig~\ref{pext}).
 
-To understand the mechanisms behind these effects, we further examined within patch infection dynamics.  To compare across the full range of patch qualities, and to ensure the opportunity for both suscepible and infectious occupancy, we limit this analysis to high variance metapopulations (with qualities ranging from 0.25 to 1.75) that produced endemic dynamics.  Because of their lower extinction rate and higher recolonization rate, high quality patches supported more consistent occupancy than low quality patches (Fig~\ref{simvis}).  However, as the epidemic progressed, high quality patches increasingly supported infectious occupants, while low quality patches supported infectious hosts only briefly and infrequently (Fig~\ref{simvis}).  In addition, while high quality patches did support susceptible occupancy, they experienced a greater number of infection events (susceptible to infectious transitions) than low quality patches (Fig~\ref{infections}).  A similar trend was observed across the other parameterizations, though the observed relationship between patch quality and number of infection events was shallower for the lattice and weak direct infection models (Supplemental).
 
 
 \section{Discussion}
@@ -148,29 +156,40 @@ Any mention of trade, product, or firm names is for descriptive purposes only an
 \clearpage
 
 \begin{figure}
-\caption{The proportion of simulations resulting in endemic disease dynamics (persistence of both susceptible and infectious hosts) as a function of disease-induced mortality ($\nu$), and the probability of direct transmission ($\delta$).  Panel columns show low (0.3, a, d), medium (1, b, e), and high (3.2, c, f) pathogen longevities, while rows show high quality (ranging from 0.76 to 1.77, a - c) and low quality (ranging from 0.23 to 1.24, d - f) patch quality distributions.  Darker shading corresponds to more frequent endemic dynamics.  The white region above the endemic region generally corresponds to pandemic dynamics (no susceptible host populations persist), while the region below the endemic region corresponds to disease-free dynamics.}
+\caption{The proportion of simulations resulting in endemic disease dynamics (persistence of both susceptible and infectious hosts) as a function of disease-induced mortality ($\nu$), and the probability of direct transmission ($\delta$).  Panel columns show low (0.3, a, d), medium (1.0, b, e), and high (3.2, c, f) pathogen longevities, while rows show high quality (ranging from 0.76 to 1.77, a - c) and low quality (ranging from 0.23 to 1.24, d - f) patch quality distributions.  Darker shading corresponds to more frequent endemic dynamics.  The white region above the endemic region generally corresponds to pandemic dynamics (no susceptible host populations persist), while the region below the endemic region corresponds to disease-free dynamics.}
 \label{endemic}
 \end{figure}
 
 \begin{figure}
 \centering
-\caption{Differences between the median total occupancy of high quality patch distributions (quality between 0.75 and 1.75) and low quality patch distributions (quality between 0.25 to 1.25) across the five different model parameterizations. (a) default model, (b) local movement, (c) high environmental stochasticity, (d) dominant reservoir transmission, (e) high disease-induced mortality.}
+\caption{Differences between the median total effective population size of hosts on high quality patch distributions (quality between 0.76 and 1.77) and low quality patch distributions (quality between 0.23 to 1.24) as a function of disease-induced mortality ($\nu$) and the probability of direct transmission ($\delta$).  Reds indicate higher median host population sizes in high quality patch distributions, while blues indicate higher median host population sizes in low quality patch distributions.  Panel columns show low (0.3, a), medium (1.0, b), and high (3.2, c) pathogen longevities.}
 \label{highvlow}
 \end{figure}
 
 \begin{figure}
 \centering
-\caption{Results from a single representative simulation with variance 0.2 and longevity of 0.3 times the expected residence time of a susceptible population on a unit quality patch.  The top panel shows total occupancy of susceptible (blue) and infectious (red) patches over time.  The bottom panel shows the state -- susceptible (blue), infectious (red), or unoccupied (white) -- of individual patches through time.  Patches are stacked vertically with the lowest quality ($\sim$ 0.25) at the bottom and the highest quality ($\sim$ 1.75) at the top.}
+\caption{Boxplots showing the range, over 100 replicate simulations, of susceptible (a), infectious (b), and total (c) host population sizes for high quality (red) and low quality (blue) habitat distributions.  Disease-induced mortality ($\nu$) and direct transmission rate ($\delta$) are fixed at values of 0.2 and 0.3, respectively.  Colored points show medians, while vertical lines indicate the outer-quartile ranges, with gray points indicating outliers (determined as points outside 1.5 times the inner-quartile range).}
+\label{popsizes}
+\end{figure}
+
+\begin{figure}
+\centering
+\caption{Results from a single representative simulation with habitat quality uniformly distributed between 0.23 and 1.77, and a pathogen with a disease induced mortality of $\nu = 0.2$, a direct transmission rate of $\delta = 0.3$, and an envioronmental longevity equal to the expected residence time of a susceptible population on a unit quality patch (10 units of time here).  The top panel shows total proportion of patches occupied by susceptible (blue) and infectious (red) hosts over time.  The bottom panel shows the state -- susceptible (blue), infectious (red), or unoccupied (white) -- of individual patches through time.  Patches are stacked vertically with the lowest quality at the bottom and the highest quality at the top.}
 \label{simvis}
 \end{figure}
 
 
 \begin{figure}
 \centering
-\caption{The number of infection events ($S$ to $I$ transitions) for individual patches in endemic simulations.  Light gray lines show smoothed fit for single simulations, while the thick black line shows the smoothed trend over all simulations.}
-\label{infections}
+\caption{Boxplots showing the probability of infection (i.e. proportion of time occupied by infectious hosts) as a function of patch quality.  Panel columns show low (0.3, a, d), medium (1.0, b, e), and high (3.2, c, f) pathogen longevities, while rows show the effect of preferential selection of high quality habitat (a-c, $\xi_{im} = 0$,  no preference; d-f, $\xi_{im} = 0.5$, preference for high quality).  Black points show the median over 100 replicate simulations, while vertical lines show the outer-quartile range, and gray points indicate outliers. Disease induced mortality and probability of direct infection fixed at $\nu = 0.2$ and $\delta = 0.3$.}
+\label{pinfection}
 \end{figure}
 
+\begin{figure}
+\centering
+\caption{Probability of host extinction as a function of pathogen environmental longevity and habitat preference, with black showing no habitat preference ($\xi_{im} = 0$) and red showing preference for high quality habitat ($\xi_{im} = 0.5$).  Disease induced mortality and probability of direct infection fixed at $\nu = 0.2$ and $\delta = 0.3$.}
+\label{pext}
+\end{figure}
 \clearpage
 
 \begin{table}

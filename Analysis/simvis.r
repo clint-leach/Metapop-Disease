@@ -6,7 +6,7 @@ source("Code/contSPOM(rates).r")
 # Defines fixed inputs for diseaseSPOM
 parms<-data.frame("xi_im" = 0.5, 
                   "xi_em" = 0.5,      
-                  "D" = 10, 
+                  "D" = 5, 
                   "alpha" = 1,
                   "es" = 0.1,
                   "nu" = 0.2,
