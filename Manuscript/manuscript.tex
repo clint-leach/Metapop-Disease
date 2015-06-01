@@ -120,8 +120,34 @@ Blah blah blah....something about lattice looking similar (supp info).
 \section{Discussion}
 \label{discussion} 
 
-This work demonstrates that the distribution of habitat quality in a metapopulation can have substantial impacts on the dynamics of environmentally transmitted pathogens and the resulting patterns of host occupancy.  
-These impacts are driven largely by differences in the colonization and extinction rates of high and low quality habitat, which in turn drive how low and high quality patches interact with and modulate pathogen transmission, either augmenting it in the case of high quality patches, or dampening it in the case of low quality habitat.   
+\subsection*{Introduction and outline of 3 regions}
+
+This work demonstrates that for many pathogens, the distribution of habitat quality in a metapopulation can have substantial impacts on the dynamics of environmentally transmitted pathogens and the resulting patterns of host occupancy.  
+These impacts are driven largely by the interaction between pathogen traits (i.e. disease-induced mortality, transmission rates) and the colonization and extinction rates of high and low quality habitat.
+ 
+The general findings that low quality habitat can inhibit disease spread while high quality habitat can enhance it suggest the presence of a trade-off between processes that facilitate metapopulation stability at the expense of disease spread, and processes that hinder disease spread at the expense of metapopulation stability.
+In this light, this work expands on previous studies of disease spread in a metapopulation that focused on movement rate as the driver of this trade-off, with increased movement both improving metapopulation stability and increasing disease spread (\cite{Hess1996}, \cite{Gog2002}, \cite{Park2012}).  
+Shifting the patch quality distribution towards high quality habitat in our model is  conceptually similar to increasing movement in these models, and as in these models, the net consequences of this trade-off for the host metapopulation depend on the traits of the pathogen.
+Broadly, we see three different scenarios: pathogen traits produce very weak pathogen spread and high quality habitat is a net benefit; pathogen traits facilitate intermediate/endemic pathogen spread and low quality habitat is a net benefit; and pathogen traits produce easy/pandemic pathogen spread and high quality habitat is again a net benefit.  
+
+\subsection*{Pathogens for which high quality beneficial}
+
+In the first of these scenarios, when pathogens have high disease-induced mortality and weak transmission (bottom left of panels in Fig~\ref{highvlow}), pathogen spread is so limited that habitat quality has little effect on epidemic dynamics.
+As a result, high quality patches are a net benefit to the host metapopulation relative to low quality habitat, because their connectivity and stability facilitate larger total population sizes with little additional pathogen spread.
+
+Similarly, in the third scenario, when the pathogen spreads easily as a result of low disease-induced mortality and high transmission (upper portions of panels in Fig~\ref{highvlow}), high quality habitat is again a net benefit to the total host population size.  
+Under these conditions, habitat quality again has a limited effect on epidemic dynamics, as the pathogen spreads easily enough to overwhelm any metapopulation structure.
+Here then, the benefit of high quality habitat derives primarily from its ability to maintain metapopulation stability in the face of widespread disease-induced mortality.
+
+\subsection*{Pathogens for which high quality detrimental}
+
+However, in the second scenario, where the pathogen's traits facilitate intermediate spread (i.e. at an endemic level), the distribution of habitat quality exerts a large influence on epidemic dynamics. 
+Here, the consequences of increased pathogen spread outweigh the positive consequences of increased metapopulation connectivity and stability.  
+
+%In these cases, the presence of high quality habitat functions similarly to increasing movement in the model developed by Hess (\cite{Hess1996}): increasing pathogen spread and as a consequence reducing overall host population size (Fig~\ref{highvlow}, \ref{popsizes}). 
+%High quality habitat distributions require lower pathogen longevities for pathogen spread to begin to take off, relative to low quality habitat distributions.  Thus, for intermediate longevities, high quality distributions experience considerably greater pathogen spread and lower occupancy than low quality distributions.
+
+\subsubsection*{Role of high quality}
 
 Because high quality habitat supports larger host population sizes, host populations on high quality habitat are less susceptible to environmental stochasticity and thus experience fewer extinction events.
 Due to this additional stability, high quality habitat is more consistently occupied, by both susceptible and infectious hosts, leading to the increase in infection probability with patch quality.
@@ -134,32 +160,22 @@ Indeed, high quality patches are effectively metapopulation scale superspreaders
 This helps to maintain infectious occupancy throughout the metapopulation, which in turn feeds back on high quality patches to ensure a steady stream of infectious colonists that help maintain the environmental reservoir and the trap effect.  
 Thus, through these two interacting mechanisms -- the trap and superspreader effects -- the presence of high quality patches serves to significantly increase pathogen spread, even for more virulent pathogens (Fig~\ref{endemic}, \ref{popsizes}).  
 
+\subsubsection*{Role of low quality}
+
 In contrast to high quality habitat, low quality patches help to limit pathogen spread and increase susceptible occupancy (Fig~\ref{endemic}, \ref{popsizes}). 
 Even though individual low quality patches, due to their high extinction rates and low colonization rates, are unable to support consistent occupancy (Fig~\ref{simvis}), the presence of low quality patches facilitates susceptible persistence for a greater range of pathogens (Fig~\ref{endemic}).  
 This phenomenon represents the other side of the role played by high quality patches in that low quality patches are relatively unstable (i.e. low population sizes and high extinction rates) and thus do not support infectious populations for long.
 Since they are infrequently colonized (when $\xi_{em} > 0$), the environmental reservoir left behind by these infectious populations likely decays before it has the opportunity to infect new susceptible colonists.  
-As a result, low quality patches effectively represent a dead-end for the pathogen, reducing the number of patches from which it can spread, and thereby reducing infectious occupancy (Fig~\ref{endemic}, \ref{popsizes}). 
+As a result, low quality patches effectively represent a dead-end for the pathogen, reducing the number of patches from which it can spread, and thereby reducing infectious occupancy (Fig~\ref{endemic}, \ref{popsizes}).
 
-These findings that low quality habitat inhibits disease spread while high quality habitat enhances it suggest the presence of a trade-off between processes that facilitate metapopulation stability at the expense of disease spread, and processes that hinder disease spread at the expense of metapopulation stability.
-In this light, this work expands on previous studies of disease spread in a metapopulation that focused on movement rate as the driver of this trade-off, with increased movement both improving metapopulation stability and increasing disease spread (\cite{Hess1996}, \cite{Gog2002}, \cite{Park2012}).  
-Shifting the patch quality distribution towards high quality habitat in our model is  conceptually similar to increasing movement in these models, and as in these models, the net consequences of this trade-off for the host metapopulation depend on the traits of the pathogen.
-Broadly, we see three different scenarios: pathogen traits produce very weak pathogen spread and high quality habitat is beneficial; pathogen traits facilitate intermediate/endemic pathogen spread and low quality habitat is beneficial; and pathogen traits produce easy/pandemic pathogen spread and high quality habitat is again beneficial.  
-
-In the first of these scenarios, when pathogens have high disease-induced mortality and weak transmission (bottom left of panels in Fig~\ref{highvlow}), pathogen spread is so limited that habitat quality has little effect on epidemic dynamics.
-As a result, high quality patches are a net benefit to the host metapopulation relative to low quality habitat, because their connectivity and stability facilitate larger total population sizes with little additional pathogen spread.
-
-Similarly, in the third scenario, when the pathogen spreads easily as a result of low disease-induced mortality and high transmission (upper portions of panels in Fig~\ref{highvlow}), high quality habitat is again a net benefit to the total host population size.  
-Under these conditions, habitat quality again has a limited effect on epidemic dynamics, as the pathogen spreads easily enough to overwhelm any metapopulation structure.
-Thus, the benefit of high quality habitat derives primarily from its ability to maintain metapopulation stability in the face of widespread disease-induced mortality.
-
-However, in the second scenario, where the pathogen's traits facilitate intermediate spread (i.e. at an endemic level), the distribution of habitat quality exerts a large influence on epidemic dynamics.
-In these cases, the presence of high quality habitat functions similarly to increasing movement in the model developed by Hess (\cite{Hess1996}): increasing pathogen spread and as a consequence reducing overall host population size (Fig~\ref{highvlow}, \ref{popsizes}).  
-Here, the consequences of increased pathogen spread outweigh the positive consequences of increased metapopulation connectivity and stability.  
-High quality habitat distributions require lower pathogen longevities for pathogen spread to begin to take off, relative to low quality habitat distributions.  Thus, for intermediate longevities, high quality distributions experience considerably greater pathogen spread and lower occupancy than low quality distributions.
+\subsubsection*{Overall consequences}
 
 In these cases, rather than serving as sources that increase metapopulation occupancy, high quality patches become sinks.  More importantly, they become ecological traps, which can be even more detrimental to the overall population (\cite{Kristan2003}).  From a management perspective, it is critical to understand this shift, as previous theoretical work suggests that management should focus on maintaining patches where conditions are most favorable (\cite{Strasser2010}).  Generally, this means that managers should focus on maintaining high quality habitat, but Strasser et al. (2010) show that stochastic disturbance (e.g. disease-induced mortality) can lead to cases where focusing on low quality patches is more effective in increasing population growth rate.  Indeed, in these situations, our model suggests that low quality patch distributions, by hindering the spread of the pathogen and providing refuges for susceptible hosts, can produce higher occupancy than high quality distributions.  
 
-These dynamics reflect the findings of \cite{Gog2002}, who found that under strong background infection from an alternative host, increasing movement increased total occupancy, despite facilitating pathogen spread.  \cite{Park2012}, by adding environmental transmission to the mix, found more generally that in cases where background and environmental transmission were strong relative to direct transmission, increasing movement increased total occupancy monotonically, i.e. movement was a net benefit to the metapopulation.  These studies, coupled with the results presented here, suggest that when there is a persistent source of infection throughout the metapopulation (e.g. when the pathogen is long-lived in the environment and direct infection is relatively less important), factors that facilitate metapopulation stability (i.e. increased movement, high quality patches) are a greater benefit than factors that inhibit pathogen spread (i.e. decreased movement, low quality patches).   
+
+\subsubsection*{Conclusions}  
+
+These dynamics reflect the findings of \cite{Gog2002}, who found that under strong background infection from an alternative host, increasing movement increased total occupancy, despite facilitating pathogen spread.  \cite{Park2012}, by adding environmental transmission to the mix, found more generally that in cases where background and environmental transmission were strong relative to direct transmission, increasing movement increased total occupancy monotonically, i.e. movement was a net benefit to the metapopulation.  These studies, coupled with the results presented here, suggest that when there is a persistent source of infection throughout the metapopulation (e.g. when the pathogen is long-lived in the environment and direct infection is relatively less important), factors that facilitate metapopulation stability (i.e. increased movement, high quality patches) are a greater benefit than factors that inhibit pathogen spread (i.e. decreased movement, low quality patches). 
 
 The different scenarios and parameterizations explored here represent a broad sample of the metapopulation dynamics that we might expect to observe in empirical systems.  The consistent "u"-shaped trend in the relative benefit of low and high quality habitat as a function of pathogen longevity suggest that these trade-offs between metapopulation stability and pathogen spread are likely to be fairly general.  By evaluating the relative importance of direct versus environmental transmission, along with the effect of habitat quality on connectivity and extinction, we can begin to diagnose where empirical systems (e.g. plague in prairie dogs, or white nose syndrome in bats) fall on this spectrum and the corresponding consequences for management.
 
