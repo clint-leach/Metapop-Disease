@@ -3,6 +3,8 @@
 
 source("Code/contSPOM(rates).r")
 
+set.seed(123)
+
 # Defines fixed inputs for diseaseSPOM
 parms<-data.frame("xi_im" = 0.5, 
                   "xi_em" = 0.5,      
@@ -95,7 +97,7 @@ p2 <- ggplot(tseries, aes(x = Time, y = Occupancy, group = class, color = class,
               scale_x_continuous(labels = NULL, expand = c(0, 0)) +
               scale_y_continuous(expand = c(0, 0))
 
-png("Manuscript/simvis.png", width = 836, height = 506)
+pdf("Manuscript/figure/figure_4.pdf", width = 12, height = 8)
 
 grid.arrange(p2, p1, ncol = 1, heights = c(0.25, 0.75))
 

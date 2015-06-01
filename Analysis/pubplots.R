@@ -6,9 +6,10 @@ library(RColorBrewer)
 library(ggplot2)
 library(ggthemes)
 
-###
+#===============================================================================
 ### Figure 1
-###
+
+pdf("Manuscript/figure/figure_1.pdf", width = 10, height = 6)
 
 load(paste(getwd(), "/Output/pathgrid.RData", sep = ""))
 
@@ -39,12 +40,15 @@ key <- draw.colorkey(list(col = cols,
 grid.arrange(arrangeGrob(low.l, med.l, high.l, low.h, med.h, high.h, ncol = 3), 
              key, ncol = 2, widths = c(0.9, 0.1))
 
+dev.off()
 
-###
+#===============================================================================
 ### Figure 2
-###
 
 rm(list = ls())
+
+pdf("Manuscript/figure/figure_2.pdf", width = 10, height = 5)
+
 load(paste(getwd(), "/Output/pathgrid.RData", sep = ""))
 
 dat <- tapply(out$S.pop + out$I.pop, list(out$longevity, out$treatment, out$delta, out$nu), median)
@@ -66,11 +70,14 @@ key <- draw.colorkey(list(col = cols,
 
 grid.arrange(low, med, high, key, ncol = 4, widths = c(0.3, 0.3, 0.3, 0.1))
 
-###
+dev.off()
+
+#===============================================================================
 ### Figure 3
-###
 
 rm(list = ls())
+
+pdf("Manuscript/figure/figure_3.pdf", width = 10, height = 5)
 load(paste(getwd(), "/Output/pathgrid.RData", sep = ""))
 sub <- out[abs(out$delta - 0.3) < 0.001 & out$nu == 0.2, ]
 
@@ -92,18 +99,20 @@ p.tot <- p.tot + geom_tufteboxplot(aes(colour = factor(treatment)), outlier.colo
 
 grid.arrange(p.S, p.I, p.tot, ncol = 3)
 
+dev.off()
 
-###
+#===============================================================================
 ### Figure 4
-###
 
 # See code in simvis.r
 
-###
+#===============================================================================
 ### Figure 5
-###
 
 rm(list = ls())
+
+pdf("Manuscript/figure/figure_5.pdf", width = 12, height = 6)
+
 load(paste(getwd(), "/Output/trap.RData", sep = ""))
 
 quality <- unique(out$quality)
@@ -118,48 +127,51 @@ sub <- subset(out, xi_em == 0.5 & xi_im == 0 & longevity == longs[1])
 p1 <- ggplot(sub, aes(x = as.factor(quality), y = I)) + theme_classic()
 p1 <- p1 + xlab("Quality") + ylab("Probability of infection") + ggtitle("a.")
 p1 <- p1 + geom_tufteboxplot(outlier.colour = "grey80", position = position_dodge(width = 1)) +
-  scale_y_continuous(expand = c(0, 0.01)) + scale_x_discrete(labels = labels)
+  scale_y_continuous(expand = c(0, 0.01)) + scale_x_discrete(labels = labels) + theme(axis.ticks.x = element_blank())
 
 sub <- subset(out, xi_em == 0.5 & xi_im == 0.5 & longevity == longs[1])
 p2 <- ggplot(sub, aes(x = as.factor(quality), y = I)) + theme_classic()
 p2 <- p2 + xlab("Quality") + ylab("Probability of infection") + ggtitle("d.")
 p2 <- p2 + geom_tufteboxplot(outlier.colour = "grey80", position = position_dodge(width = 1)) +
-  scale_y_continuous(expand = c(0, 0.01)) + scale_x_discrete(labels = labels)
+  scale_y_continuous(expand = c(0, 0.01)) + scale_x_discrete(labels = labels) + theme(axis.ticks.x = element_blank())
 
 
 sub <- subset(out, xi_em == 0.5 & xi_im == 0 & longevity == longs[2])
 p3 <- ggplot(sub, aes(x = as.factor(quality), y = I)) + theme_classic()
 p3 <- p3 + xlab("Quality") + ylab("Probability of infection") + ggtitle("b.") 
 p3 <- p3 + geom_tufteboxplot(outlier.colour = "grey80", position = position_dodge(width = 1)) +
-  scale_y_continuous(expand = c(0, 0.01)) + scale_x_discrete(labels = labels)
+  scale_y_continuous(expand = c(0, 0.01)) + scale_x_discrete(labels = labels) + theme(axis.ticks.x = element_blank())
 
 sub <- subset(out, xi_em == 0.5 & xi_im == 0.5 & longevity == longs[2])
 p4 <- ggplot(sub, aes(x = as.factor(quality), y = I)) + theme_classic()
 p4 <- p4 + xlab("Quality") + ylab("Probability of infection") + ggtitle("e.")
 p4 <- p4 + geom_tufteboxplot(outlier.colour = "grey80", position = position_dodge(width = 1)) +
-  scale_y_continuous(expand = c(0, 0.01)) + scale_x_discrete(labels = labels)
+  scale_y_continuous(expand = c(0, 0.01)) + scale_x_discrete(labels = labels) + theme(axis.ticks.x = element_blank())
 
 
 sub <- subset(out, xi_em == 0.5 & xi_im == 0 & longevity == longs[3])
 p5 <- ggplot(sub, aes(x = as.factor(quality), y = I)) + theme_classic()
 p5 <- p5 + xlab("Quality") + ylab("Probability of infection") + ggtitle("c.")
 p5 <- p5 + geom_tufteboxplot(outlier.colour = "grey80", position = position_dodge(width = 1)) +
-  scale_y_continuous(expand = c(0, 0.01)) + scale_x_discrete(labels = labels)
+  scale_y_continuous(expand = c(0, 0.01)) + scale_x_discrete(labels = labels) + theme(axis.ticks.x = element_blank())
 
 sub <- subset(out, xi_em == 0.5 & xi_im == 0.5 & longevity == longs[3])
 p6 <- ggplot(sub, aes(x = as.factor(quality), y = I)) + theme_classic()
 p6 <- p6 + xlab("Quality") + ylab("Probability of infection") + ggtitle("f.")
 p6 <- p6 + geom_tufteboxplot(outlier.colour = "grey80", position = position_dodge(width = 1)) +
-  scale_y_continuous(expand = c(0, 0.01)) + scale_x_discrete(labels = labels)
+  scale_y_continuous(expand = c(0, 0.01)) + scale_x_discrete(labels = labels) + theme(axis.ticks.x = element_blank())
 
 grid.arrange(p1, p3, p5, p2, p4, p6, nrow = 2)
 
-
-###
+dev.off()
+  
+#===============================================================================
 ### Figure 6
-###
 
 rm(list = ls())
+
+pdf("Manuscript/figure/figure_6.pdf", width = 5, height = 5)
+
 load(paste(getwd(), "/Output/trap.RData", sep = ""))
 
 quality <- unique(out$quality)
@@ -173,5 +185,72 @@ plot(log10(longevity[c(4, 7, 10)]), ext[c(4, 7, 10), 1], type = "b", pch = 20, y
      xlab = "log(longevity)", ylab = "Probability of extinction", bty = "l")
 lines(log10(longevity[c(4, 7, 10)]), ext[c(4, 7, 10), 2], type = "b", pch = 20, col = "red")
 
+dev.off()
 
+#===============================================================================
+### Supplemental figure 1
 
+rm(list = ls())
+
+pdf("Manuscript/figure/supplement_1.pdf", width = 10, height = 6)
+
+load(paste(getwd(), "/Output/pathgrid(lattice).RData", sep = ""))
+
+dat <- tapply(out$I > 0 & out$S > 0, list(out$longevity, out$treatment, out$delta, out$nu), sum) / 100
+
+cols <- colorRampPalette(brewer.pal(9, "Greys"))(100)
+
+low.l <- levelplot(dat[1, 1, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
+                   at = seq(0, 1, by = 0.01), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)), main = "a.")
+med.l <- levelplot(dat[2, 1, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
+                   at = seq(0, 1, by = 0.01), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)), main = "b.")
+high.l <- levelplot(dat[3, 1, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
+                    at = seq(0, 1, by = 0.01), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)), main = "c.")
+
+low.h <- levelplot(dat[1, 2, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
+                   at = seq(0, 1, by = 0.01), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)), main = "d.")
+med.h <- levelplot(dat[2, 2, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
+                   at = seq(0, 1, by = 0.01), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)), main = "e.")
+high.h <- levelplot(dat[3, 2, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
+                    at = seq(0, 1, by = 0.01), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)), main = "f.")
+
+key <- draw.colorkey(list(col = cols, 
+                          at = seq(0, 1, by = 0.01),
+                          labels = list(at = seq(0, 1, by = 0.25)),
+                          height = 0.7), 
+                     draw = F)
+
+grid.arrange(arrangeGrob(low.l, med.l, high.l, low.h, med.h, high.h, ncol = 3), 
+             key, ncol = 2, widths = c(0.9, 0.1))
+
+dev.off()
+
+#===============================================================================
+### Supplemental figure 2
+
+rm(list = ls())
+
+pdf("Manuscript/figure/supplement_2.pdf", width = 10, height = 5)
+
+load(paste(getwd(), "/Output/pathgrid(lattice).RData", sep = ""))
+
+dat <- tapply(out$S.pop + out$I.pop, list(out$longevity, out$treatment, out$delta, out$nu), median)
+
+cols <- colorRampPalette(brewer.pal(11, "RdBu"))(140)
+
+low <- levelplot(dat[1, 2, , ] - dat[1, 1, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
+                 at = seq(-70, 70, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)), main = "a.")
+med <- levelplot(dat[2, 2, , ] - dat[2, 1, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
+                 at = seq(-70, 70, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)), main = "b.")
+high <- levelplot(dat[3, 2, , ] - dat[3, 1, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
+                  at = seq(-70, 70, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)), main = "c.")
+
+key <- draw.colorkey(list(col = cols, 
+                          at = seq(-70, 70, by = 1),
+                          labels = list(at = seq(-50, 50, by = 25)),
+                          height = 0.7), 
+                     draw = F)
+
+grid.arrange(low, med, high, key, ncol = 4, widths = c(0.3, 0.3, 0.3, 0.1))
+
+dev.off()
