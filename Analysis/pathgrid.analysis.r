@@ -240,3 +240,29 @@ p.tot <- p.tot + geom_tufteboxplot(aes(colour = factor(treatment)), outlier.colo
   scale_y_continuous(limits = c(0, 120), expand = c(0, 0.1))
 
 grid.arrange(p.S, p.I, p.tot, ncol = 3)
+
+#===============================================================================
+# Plots showing the effect of longevity across all delta and nu
+
+library(scales)
+
+diff <- dat[, 2, , ] - dat[, 1, , ]
+signdiff <- sign(diff)
+absdiff <- abs(diff)
+
+par(mfcol = c(10, 10), mar = c(0, 0, 0, 0))
+for(delta in 1:10){
+  for(nu in 10:1){
+    plot(log10(longevity), diff[, delta, nu], type = "l", axes = F, xlab = "", ylab = "")
+    rect(-10, 0, 10, 100, col = alpha("blue", alpha = 0.5))
+    rect(-10, 0, 10, -100, col = alpha("red", alpha = 0.5))
+  }
+}
+
+par(mfcol = c(10, 10), mar = c(0, 0, 0, 0))
+for(delta in 1:10){
+  for(nu in 10:1){
+    barplot(absdiff[, delta, nu], col = ifelse(signdiff[, delta, nu] > 0, "blue", "red"), 
+            axes = F, xlab = "", ylab = "", axisnames = F)
+  }
+}
