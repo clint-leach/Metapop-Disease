@@ -245,24 +245,27 @@ grid.arrange(p.S, p.I, p.tot, ncol = 3)
 # Plots showing the effect of longevity across all delta and nu
 
 library(scales)
+library(plotrix)
+
+cols <- colorRampPalette(brewer.pal(11, "RdBu"))(140)
 
 diff <- dat[, 2, , ] - dat[, 1, , ]
 signdiff <- sign(diff)
 absdiff <- abs(diff)
 
-par(mfcol = c(10, 10), mar = c(0, 0, 0, 0))
+par(mfcol = c(10, 10), mar = c(0, 0, 0, 0), oma = c(4, 4, 0.5, 0.5))
 for(delta in 1:10){
   for(nu in 10:1){
-    plot(log10(longevity), diff[, delta, nu], type = "l", axes = F, xlab = "", ylab = "")
-    rect(-10, 0, 10, 100, col = alpha("blue", alpha = 0.5))
-    rect(-10, 0, 10, -100, col = alpha("red", alpha = 0.5))
+      plot(log10(longevity), diff[, delta, nu], type = "n", axes = F, xlab = "", ylab = "")
+      gradient.rect(-10, -70, 10, 70, col = cols, gradient = "y")
+      lines(log10(longevity), diff[, delta, nu], lwd = 2)
   }
 }
+mtext(expression(nu), side = 2, outer = T, line = 2.5, cex = 1.2)
+mtext(expression(delta), side = 1, outer = T, line = 2.5, cex = 1.2)
 
-par(mfcol = c(10, 10), mar = c(0, 0, 0, 0))
-for(delta in 1:10){
-  for(nu in 10:1){
-    barplot(absdiff[, delta, nu], col = ifelse(signdiff[, delta, nu] > 0, "blue", "red"), 
-            axes = F, xlab = "", ylab = "", axisnames = F)
-  }
-}
+xlabs = as.character(seq(0, 0.9, by = 0.1))
+mtext(xlabs, side = 1, outer = T, line = 0.5, at = seq(0.05, 0.95, by = 0.1))
+
+ylabs = as.character(seq(0.1, 1, by = 0.1))
+mtext(ylabs, side = 2, outer = T, line = 0.5, at = seq(0.05, 0.95, by = 0.1), las = 1)
