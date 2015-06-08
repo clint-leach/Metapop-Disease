@@ -103,6 +103,36 @@ key <- draw.colorkey(list(col = cols,
 
 grid.arrange(arrangeGrob(low.h, med.h, high.h, low.l, med.l, high.l, ncol = 3), 
              key, ncol = 2, widths = c(0.9, 0.1))
+
+
+#===============================================================================
+# Plots of differences in susceptible and infectious population size
+
+cols <- colorRampPalette(brewer.pal(11, "RdBu"))(180)
+
+low.S <- levelplot(dat.S[1, 2, , ] - dat.S[1, 1, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
+                 at = seq(-90, 90, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
+med.S <- levelplot(dat.S[2, 2, , ] - dat.S[2, 1, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
+                 at = seq(-90, 90, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
+high.S <- levelplot(dat.S[3, 2, , ] - dat.S[3, 1, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
+                  at = seq(-90, 90, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
+
+low.I <- levelplot(dat.I[1, 2, , ] - dat.I[1, 1, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
+                         at = seq(-90, 90, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
+med.I <- levelplot(dat.I[2, 2, , ] - dat.I[2, 1, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
+                         at = seq(-90, 90, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
+high.I <- levelplot(dat.I[3, 2, , ] - dat.I[3, 1, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
+                          at = seq(-90, 90, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
+
+key <- draw.colorkey(list(col = cols, 
+                          at = seq(-90, 90, by = 1),
+                          labels = list(at = seq(-75, 75, by = 25)),
+                          height = 0.7), 
+                     draw = F)
+
+grid.arrange(arrangeGrob(low.S, med.S, high.S, low.I, med.I, high.I, ncol = 3), 
+             key, ncol = 2, widths = c(0.9, 0.1))
+
 #===============================================================================
 # Plots of probability of host extinction
 

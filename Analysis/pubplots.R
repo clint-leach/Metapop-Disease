@@ -78,6 +78,7 @@ dev.off()
 rm(list = ls())
 
 pdf("Manuscript/figure/figure_3.pdf", width = 10, height = 5)
+
 load(paste(getwd(), "/Output/pathgrid.RData", sep = ""))
 sub <- out[abs(out$delta - 0.3) < 0.001 & abs(out$nu - 0.2) < 0.001, ]
 
