@@ -79,7 +79,7 @@ rm(list = ls())
 
 pdf("Manuscript/figure/figure_3.pdf", width = 10, height = 5)
 load(paste(getwd(), "/Output/pathgrid.RData", sep = ""))
-sub <- out[abs(out$delta - 0.3) < 0.001 & out$nu == 0.2, ]
+sub <- out[abs(out$delta - 0.3) < 0.001 & abs(out$nu - 0.2) < 0.001, ]
 
 p.S <- ggplot(sub, aes(x = factor(log10(longevity)), y = S.pop)) + theme_classic()
 p.S <- p.S + xlab("log(longevity)") + ylab("S population") + theme(legend.position = "none")

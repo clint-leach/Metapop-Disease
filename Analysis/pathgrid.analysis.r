@@ -143,7 +143,7 @@ grid.arrange(arrangeGrob(low, med, high, low.lattice, med.lattice, high.lattice,
 
 
 #===============================================================================
-# Plots of probability of pathogen persistence
+# Plots of differences in probability of pathogen persistence
 
 load(paste(getwd(), "/Output/pathgrid.RData", sep = ""))
 
@@ -178,6 +178,40 @@ key <- draw.colorkey(list(col = cols,
                      draw = F)
 
 grid.arrange(arrangeGrob(low, med, high, low.lattice, med.lattice, high.lattice, ncol = 3), 
+             key, ncol = 2, widths = c(0.9, 0.1))
+
+
+#===============================================================================
+# Plots of probability of pathogen persistence in high and low quality
+
+load(paste(getwd(), "/Output/pathgrid.RData", sep = ""))
+
+dat <- tapply(out$maxI > 0, list(out$longevity, out$treatment, out$delta, out$nu), sum)
+
+cols <- colorRampPalette(brewer.pal(11, "Greys"))(100)
+
+low.h <- levelplot(dat[1, 1, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
+                 at = seq(0, 100, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
+med.h <- levelplot(dat[2, 1, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
+                 at = seq(0, 100, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
+high.h <- levelplot(dat[3, 1, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
+                  at = seq(0, 100, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
+
+
+low.l <- levelplot(dat[1, 2, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
+                   at = seq(0, 100, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
+med.l <- levelplot(dat[2, 2, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
+                   at = seq(0, 100, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
+high.l <- levelplot(dat[3, 2, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
+                    at = seq(0, 100, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
+
+key <- draw.colorkey(list(col = cols, 
+                          at = seq(0, 100, by = 1),
+                          labels = list(at = seq(0, 100, by = 25)),
+                          height = 0.7), 
+                     draw = F)
+
+grid.arrange(arrangeGrob(low.h, med.h, high.h, low.l, med.l, high.l, ncol = 3), 
              key, ncol = 2, widths = c(0.9, 0.1))
 
 #===============================================================================
