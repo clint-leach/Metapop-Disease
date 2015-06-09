@@ -5,8 +5,8 @@ diseaseSPOM <- function(distance, quality, initial, parms, r, timesteps, ss.thre
   # Args:
   #   distance = nxn matrix of distances between patches
   #   quality = nx1 numeric vector of patch qualities
-  #   initial = nx1 character vector of initial patch states
-  #   parms = dataframe of parameter values
+  #   initial = nx1 character vector of initial patch states ("S", "I", or "E")
+  #   parms = named dataframe of parameter values
   #     xi_im = scaling parameter for effect of target patch quality in immigration
   #     xi_em = scaling parameter for how patch quality affects the number of colonists produced
   #     D = inverse of mean dispersal distance
@@ -21,7 +21,7 @@ diseaseSPOM <- function(distance, quality, initial, parms, r, timesteps, ss.thre
   #                  has been reached
   #
   # Returns:
-  #   matrix of dimension timesteps X (n+1) giving the state of each patch at each timestep
+  #   character matrix of dimension timesteps X (n+1) giving the state of each patch at each timestep
   
   xi_im <- parms$xi_im
   xi_em <- parms$xi_em
@@ -168,9 +168,10 @@ diseaseSPOM <- function(distance, quality, initial, parms, r, timesteps, ss.thre
       ssI.index <- max(occ.I[(t-200):t]) - min(occ.I[(t-200):t])
     }
        
-  }#End of time loop
+  }
+  # End of time loop
   
-  output<-cbind(event.times,state)
+  output <- cbind(event.times, state)
   return(output)
 
 }

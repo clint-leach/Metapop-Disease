@@ -1,20 +1,23 @@
 
 modelrun <- function(longevity, range, k, parms, distance, initial, timesteps){
-  # Takes in longevity and variance values, runs the SPOM without infection
+  # Function that runs the SPOM model for fixed pathogen parameters and 
+  # habitat quality distribution and collects patch-level simulation results.
+  #
+  # Takes in longevity and habitat quality range, runs the SPOM without infection
   # until steady state, then introduces infection on a randomly selected occupied patch,
   # calls SPOM model and generates output.
   #
   # Args:
   #   longevity: value for pathogen longevity in environment, half-life of infectivity
-  #   range: vector containint the min and max of the quality distribution
+  #   range: vector containing the min and max of the quality distribution
   #   k: replicate ID
-  #   parms: named numeric vector of parameter values
+  #   parms: named dataframe of parameter values
   #   distance: nxn between patch distance matrix
-  #   initial: character vector giving initial state of each patch
+  #   initial: character vector giving initial state of each patch ("S", "I", or "E")
   #   timesteps: number of timesteps to run SPOM for
   #
   # Returns:
-  #   n x 19 dataframe giving patch-level results from simulation
+  #   (number of patches) x 19 dataframe giving patch-level results from simulation
   #     quality: quality of patch
   #     tinf: time to first infection
   #     I: proportion of time patch infected over last 500 time steps
@@ -32,29 +35,30 @@ modelrun <- function(longevity, range, k, parms, distance, initial, timesteps){
   #     quality0: quality of initially infected patch
   #     repID: replicate ID
   #     longevity: pathogen environemental longevity
-  #     variance: variance of patch quality distribution
+  #     xi_im: the value of xi_im used
+  #     xi_em: the value of xi_em used
   
-	#Generates quality vector with desired variance
+	# Generates quality vector with desired range
   max <- range[2]
   min <- range[1]
   quality <- seq(min, max, length.out = 100)
 	
-	#Converts longevity (half-life in units of occupancy time) to decay rate in natural time
+	# Converts longevity (half-life in units of occupancy time) to decay rate in natural time
   long.nat <- longevity / parms$es
 	r <- log(2) / long.nat
 	
-  #Runs simulation without infection until it reaches steady state
+  # Runs simulation without infection until it reaches steady state
 	Sonly <- diseaseSPOM(distance, quality, initial, parms, r, timesteps, 0.15)
 	Sonly <- na.omit(Sonly)
 	initial.inf <- Sonly[length(Sonly[, 1]), 2:101]
   
-  #Randomly infects an occupied patch
+  # Randomly infects an occupied patch
 	initial.inf[sample(which(initial.inf=="S"), 1)] <- "I"
 	
-	#Stores quality of initial infected patch
+	# Stores quality of initial infected patch
 	initial.quality <- quality[which(initial.inf == "I")]
 	
-	#Calls SPOM to run with infection
+	# Calls SPOM to run with infection
 	output <- diseaseSPOM(distance, quality, initial.inf, parms, r, timesteps, 0.05)
 	output <- na.omit(output)
   

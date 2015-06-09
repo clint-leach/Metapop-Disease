@@ -1,16 +1,19 @@
 
 modelrun <- function(longevity, delta, nu, parms, distance, initial, timesteps, treatment){
-  # Takes in longevity and  type of patch quality distribution, runs the SPOM without infection
-  # until steady state, then introduces infection on a randomly selected occupied patch,
-  # calls SPOM model and generates output.
+  # Function that runs SPOM model for given pathogen parameters and habitat quality
+  # distribution and collects matapopulation-level simulation results.
+  #
+  # Takes in pathogen parameters and type of patch quality distribution, 
+  # runs the SPOM without infection until steady state, then introduces infection
+  # on a randomly selected occupied patch, calls SPOM model and generates output.
   #
   # Args:
   #   longevity: value for pathogen longevity in environment, half-life of infectivity
   #   delta: value for transmission probability
   #   nu: value for disease-induced mortality (reduction in population size from infection)
-  #   parms: named numeric vector of parameter values
+  #   parms: named dataframe of parameter values
   #   distance: nxn between patch distance matrix
-  #   initial: character vector giving initial state of each patch
+  #   initial: character vector giving initial state of each patch ("S", "I", or "E")
   #   timesteps: number of timesteps to run SPOM for
   #   treatment: character value giving type of quality distribution (one of "low.var", "+high", "+low", "full")
   #
@@ -27,23 +30,28 @@ modelrun <- function(longevity, delta, nu, parms, distance, initial, timesteps, 
   #     tmaxI: time to maximum infectious occupancy
   #     quality0: quality of initially infected patch
   
-  
+  # Setting boundaries for patch quality distributions
   out.max <- 0.5 * sqrt(12 * 0.2) + 1
   out.min <- 2 - out.max
   
   in.max <- 0.5 * sqrt(12 * 0.02) + 1
   in.min <- 2 - in.max
   
-  #Generates quality vector with desired variance
+  # Generates quality vector with desired range
+  
+  # High quality (0.75 to 1.77)
   if(treatment == "+high"){
     quality <- runif(100, min=in.min, max=out.max)}
   
+  # Low quality (0.23 to 1.25)
   if(treatment == "+low"){
     quality <- runif(100, min=out.min, max=in.max)}
   
+  # Outer range (0.23 to 1.77)
   if(treatment == "full"){
     quality <- runif(100, min=out.min, max=out.max)}
   
+  # Inner range (0.75 to 1.25)
   if(treatment == "low.var"){
     quality <- runif(100, min=in.min, max=in.max)
   }
@@ -52,7 +60,7 @@ modelrun <- function(longevity, delta, nu, parms, distance, initial, timesteps, 
   parms["nu"] <- nu
   parms["delta"] <- delta
   
-  #Converts longevity (half-life in units of occupancy time) to decay rate in natural time
+  # Converts longevity (half-life in units of occupancy time) to decay rate in natural time
   long.nat <- longevity / parms$es
   r <- log(2) / long.nat
   
@@ -61,7 +69,7 @@ modelrun <- function(longevity, delta, nu, parms, distance, initial, timesteps, 
   Sonly <- na.omit(Sonly)
   initial.inf <- Sonly[length(Sonly[, 1]), 2:101]
    
-  #Randomly infects an occupied patch
+  # Randomly infects an occupied patch
   initial.inf[sample(which(initial.inf == "S"), 1)] <- "I"
   
   # Stores quality of initial infected patch
