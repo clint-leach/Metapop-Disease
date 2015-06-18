@@ -1,7 +1,7 @@
 
 modelrun <- function(longevity, delta, nu, parms, distance, initial, timesteps, treatment){
   # Function that runs SPOM model for given pathogen parameters and habitat quality
-  # distribution and collects matapopulation-level simulation results.
+  # distribution and collects metapopulation-level simulation results.
   #
   # Takes in pathogen parameters and type of patch quality distribution, 
   # runs the SPOM without infection until steady state, then introduces infection

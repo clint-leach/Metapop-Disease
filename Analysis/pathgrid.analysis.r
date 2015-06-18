@@ -140,35 +140,31 @@ load(paste(getwd(), "/Output/pathgrid.RData", sep = ""))
 
 dat <- tapply(out$S == 0 & out$I == 0, list(out$longevity, out$treatment, out$delta, out$nu), sum)
 
-cols <- colorRampPalette(brewer.pal(11, "RdBu"))(200)
+cols <- colorRampPalette(brewer.pal(9, "Greys"))(100)
 
-low <- levelplot(dat[1, 2, , ] - dat[1, 1, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
-                 at = seq(-100, 100, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
-med <- levelplot(dat[2, 2, , ] - dat[2, 1, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
-                 at = seq(-100, 100, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
-high <- levelplot(dat[3, 2, , ] - dat[3, 1, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
-                  at = seq(-100, 100, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
+low.h <- levelplot(dat[1, 1, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
+                 at = seq(0, 100, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
+med.h <- levelplot(dat[2, 1, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
+                 at = seq(0, 100, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
+high.h <- levelplot(dat[3, 1, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
+                  at = seq(0, 100, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
 
 
-load(paste(getwd(), "/Output/pathgrid(lattice).RData", sep = ""))
-
-dat.lat <- tapply(out$S == 0 & out$I == 0, list(out$longevity, out$treatment, out$delta, out$nu), sum)
-
-low.lattice <- levelplot(dat.lat[1, 2, , ] - dat.lat[1, 1, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
-                         at = seq(-100, 100, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
-med.lattice <- levelplot(dat.lat[2, 2, , ] - dat.lat[2, 1, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
-                         at = seq(-100, 100, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
-high.lattice <- levelplot(dat.lat[3, 2, , ] - dat.lat[3, 1, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
-                          at = seq(-100, 100, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
+low.l <- levelplot(dat[1, 2, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
+                  at = seq(0, 100, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
+med.l <- levelplot(dat[2, 2, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
+                  at = seq(0, 100, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
+high.l <- levelplot(dat[3, 2, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
+                  at = seq(0, 100, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)))
 
 
 key <- draw.colorkey(list(col = cols, 
-                          at = seq(-100, 100, by = 1),
+                          at = seq(0, 100, by = 1),
                           labels = list(at = seq(-50, 50, by = 25)),
                           height = 0.7), 
                      draw = F)
 
-grid.arrange(arrangeGrob(low, med, high, low.lattice, med.lattice, high.lattice, ncol = 3), 
+grid.arrange(arrangeGrob(low.h, med.h, high.h, low.l, med.l, high.l, ncol = 3), 
              key, ncol = 2, widths = c(0.9, 0.1))
 
 

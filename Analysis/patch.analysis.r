@@ -214,9 +214,39 @@ p6 <- p6 + geom_tufteboxplot(outlier.colour = "grey80", position = position_dodg
 
 grid.arrange(p1, p3, p5, p2, p4, p6, nrow = 2)
 
+#===============================================================================
+# Multipanel figure comparing extinctions across longevity and xi_im
+
+ex <- tapply(out$inf.ex + out$susc.ex, list(out$xi_em, out$xi_im, out$longevity, out$quality), mean)
+
+par(mfrow = c(2, 3))
+
+plot(quality, ex[2, 1, 4, ], ylim = c(0, 7), ylab = "Extinctions", xlab = "Quality", pch = 20)
+plot(quality, ex[2, 1, 7, ], ylim = c(0, 7), ylab = "Extinctions", xlab = "Quality", pch = 20)
+plot(quality, ex[2, 1, 10, ], ylim = c(0, 7), ylab = "Extinctions", xlab = "Quality", pch = 20)
+lines(supsmu(quality, ex[2, 1, 4, ]))
+
+plot(quality, ex[2, 2, 4, ], ylim = c(0, 7), ylab = "Extinctions", xlab = "Quality", pch = 20)
+plot(quality, ex[2, 2, 7, ], ylim = c(0, 7), ylab = "Extinctions", xlab = "Quality", pch = 20)
+plot(quality, ex[2, 2, 10, ], ylim = c(0, 7), ylab = "Extinctions", xlab = "Quality", pch = 20)
+lines(supsmu(quality, ex[2, 2, 4, ]))
 
 #===============================================================================
-# Consequences of trap effect (with xi_em = 0.5)
+# Multipanel figure comparing S across longevity and xi_im
+
+S <- tapply(out$I, list(out$xi_em, out$xi_im, out$longevity, out$quality), median)
+
+par(mfrow = c(1, 3))
+
+plot(quality, S[2, 1, 4, ], ylim = c(0, 1), ylab = "Probability susceptible", xlab = "Quality", pch = 4)
+points(quality, S[2, 2, 4, ], col = "brown", pch = 4)
+plot(quality, S[2, 1, 7, ], ylim = c(0, 1), ylab = "Probability susceptible", xlab = "Quality", pch = 4)
+points(quality, S[2, 2, 7, ], col = "brown", pch = 4)
+plot(quality, S[2, 1, 10, ], ylim = c(0, 1), ylab = "Probability susceptible", xlab = "Quality", pch = 4)
+points(quality, S[2, 2, 10, ], col = "brown", pch = 4)
+
+#===============================================================================
+# Consequences of preference (with xi_em = 0.5)
 
 trap <- out[out$xi_em == 0.5, ]
 
@@ -231,7 +261,7 @@ plot(log10(longevity), pop[, 1], type = "b", col = "black", pch = 20, ylim = c(0
 lines(log10(longevity), pop[, 2], type = "b", col = "red", pch = 20)
 
 # Pathogen persistence
-ppersist <- tapply(trap$Ifin > 0, list(trap$longevity, trap$xi_im), sum) / 100 / 100
+ppersist <- tapply(trap$maxI > 0, list(trap$longevity, trap$xi_im), sum) / 100 / 100
 
 # Epidemiological outcome 
 nd <- tapply(trap$Sfin > 0 & trap$Ifin == 0, list(trap$longevity, trap$xi_im), sum) / 100 / 100

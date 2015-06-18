@@ -5,6 +5,7 @@ library(lattice)
 library(RColorBrewer)
 library(ggplot2)
 library(ggthemes)
+library(plyr)
 
 #===============================================================================
 ### Figure 1
@@ -13,32 +14,32 @@ pdf("Manuscript/figure/figure_1.pdf", width = 10, height = 6)
 
 load(paste(getwd(), "/Output/pathgrid.RData", sep = ""))
 
-dat <- tapply(out$I > 0 & out$S > 0, list(out$longevity, out$treatment, out$delta, out$nu), sum) / 100
+out$endemic <- out$S > 0 & out$I > 0
+dat <- ddply(out, c("longevity", "treatment", "delta", "nu"), summarise, sum = sum(endemic) / 100)
 
 cols <- colorRampPalette(brewer.pal(9, "Greys"))(100)
+labels <- c("d", "e", "f", "a", "b", "c")
 
-low.l <- levelplot(dat[1, 1, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
-                   at = seq(0, 1, by = 0.01), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)), main = "a.")
-med.l <- levelplot(dat[2, 1, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
-                   at = seq(0, 1, by = 0.01), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)), main = "b.")
-high.l <- levelplot(dat[3, 1, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
-                    at = seq(0, 1, by = 0.01), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)), main = "c.")
+plot <- levelplot(sum ~ delta * nu | longevity * treatment, data = dat,
+          col.regions = cols,
+          at = seq(0, 1, by = 0.01),
+          xlab = list(label = expression("Probability of direct transmission"~(delta)), cex = 1),
+          ylab = list(label = expression("Infectious survival"~(nu)), cex = 1),
+          strip = F,
+          scales = list(alternating = F, cex = 1),
+          ylab.right = list(label = "Probability of endemic", cex = 1),
+          par.settings = list(layout.widths = list(axis.key.padding = 0, ylab.right = 3)),
+          panel=function(...){
+            panel.levelplot(...)
+            panel.text(0, 1, labels[panel.number()], cex = 1)
+          })
 
-low.h <- levelplot(dat[1, 2, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
-                   at = seq(0, 1, by = 0.01), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)), main = "d.")
-med.h <- levelplot(dat[2, 2, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
-                   at = seq(0, 1, by = 0.01), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)), main = "e.")
-high.h <- levelplot(dat[3, 2, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
-                    at = seq(0, 1, by = 0.01), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)), main = "f.")
+col.lab <- textGrob(expression(Longevity ~ symbol("\256")))
+row.low <- textGrob("Low quality", rot = 90)
+row.high <- textGrob("High quality", rot = 90)
 
-key <- draw.colorkey(list(col = cols, 
-                          at = seq(0, 1, by = 0.01),
-                          labels = list(at = seq(0, 1, by = 0.25)),
-                          height = 0.7), 
-                     draw = F)
-
-grid.arrange(arrangeGrob(low.l, med.l, high.l, low.h, med.h, high.h, ncol = 3), 
-             key, ncol = 2, widths = c(0.9, 0.1))
+grid.arrange(arrangeGrob(row.low, row.high, ncol = 1), plot, ncol = 2, 
+             widths = c(0.05, 0.95), sub = col.lab)
 
 dev.off()
 
