@@ -48,28 +48,39 @@ dev.off()
 
 rm(list = ls())
 
-pdf("Manuscript/figure/figure_2.pdf", width = 10, height = 5)
+pdf("Manuscript/figure/figure_2.pdf", width = 10, height = 4)
 
 load(paste(getwd(), "/Output/pathgrid.RData", sep = ""))
 
-dat <- tapply(out$S.pop + out$I.pop, list(out$longevity, out$treatment, out$delta, out$nu), median)
+out$pop<- out$S.pop + out$I.pop
+
+high <- ddply(subset(out, treatment == "+high"), c("treatment", "longevity", "delta", "nu"), 
+              summarise, high = median(pop))
+low <- ddply(subset(out, treatment == "+low"), c("treatment", "longevity", "delta", "nu"), 
+              summarise, low = median(pop))
+joint <- join(high, low, by = c("longevity", "delta", "nu"))
+joint$diff <- joint$low - joint$high
 
 cols <- colorRampPalette(brewer.pal(11, "RdBu"))(140)
 
-low <- levelplot(dat[1, 2, , ] - dat[1, 1, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
-                 at = seq(-70, 70, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)), main = "a.")
-med <- levelplot(dat[2, 2, , ] - dat[2, 1, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
-                 at = seq(-70, 70, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)), main = "b.")
-high <- levelplot(dat[3, 2, , ] - dat[3, 1, , ], col.regions = cols, xlab = expression(delta), ylab = expression(nu),
-                  at = seq(-70, 70, by = 1), colorkey = F, scales = list(at = c(1, 3, 5, 7, 9)), main = "c.")
+labels = c("a", "b", "c")
 
-key <- draw.colorkey(list(col = cols, 
-                          at = seq(-70, 70, by = 1),
-                          labels = list(at = seq(-50, 50, by = 25)),
-                          height = 0.7), 
-                     draw = F)
+plot <- levelplot(diff ~ delta * nu | longevity, data = joint,
+                  col.regions = cols,
+                  at = seq(-70, 70, by = 1),
+                  xlab = list(label = expression("Probability of direct transmission"~(delta)), cex = 1),
+                  ylab = list(label = expression("Infectious survival"~(nu)), cex = 1),
+                  strip = F,
+                  scales = list(alternating = F, cex = 1),
+                  ylab.right = list(label = "Pop on low quality - pop on high quality", cex = 1),
+                  par.settings = list(layout.widths = list(axis.key.padding = 0, ylab.right = 3)),
+                  panel=function(...){
+                    panel.levelplot(main = labels[panel.number()], ...)
+                    panel.text(0, 1, labels[panel.number()], cex = 1.5, col = "white")
+                  })
 
-grid.arrange(low, med, high, key, ncol = 4, widths = c(0.3, 0.3, 0.3, 0.1))
+col.lab <- textGrob(expression(Longevity ~ symbol("\256")))
+grid.arrange(plot, sub = col.lab)
 
 dev.off()
 
