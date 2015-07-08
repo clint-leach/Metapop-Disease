@@ -12,7 +12,7 @@
 
 \begin{document}
 
-\title{The role of habitat quality in host metapopulations exposed to environmentally persistent pathogens. Or Identifying when environmentally persistent pathogens transform good habitat into ecological traps}
+\title{When environmentally persistent pathogens transform good habitat into ecological traps}
 
 
 \author[1]{Clinton B. Leach$^*$}
@@ -32,7 +32,7 @@ This draft manuscript is distributed solely for purposes of scientific peer revi
 
 
 \begin{abstract} 
-The distribution of habitat quality plays an important role in the dynamics of wildlife metapopulations, with the expectation that high quality habitat serves to stabilize and maintain occupancy (REF).  However, the costs and benefits of different quality habitat might be modulated, or even reversed, by the presence of an environmentally persistent pathogen.  The presence of environmental pathogen reservoirs on high quality habitat may lead to the creation of ecological traps, wherein host individuals preferentially colonize high quality habitat, but are then exposed to increased infection risk.  We explored this possibility through the development of a stochastic patch occupancy model, where we varied the pathogen's virulence, transmission rate, and environmental persistence as well as the distribution of habitat quality in the host metapopulation.  This model suggests that for certain (delete or explain what the certain refers to) pathogens, high quality habitat can serve as an ecological trap, and can be detrimental to host persistence relative to low quality habitat.  This inversion of the relative roles of high and low quality habitat highlights the importance of considering the interaction between spatial structure and pathogen transmission when managing wildlife populations exposed to an environmentally persistent pathogen.
+The benefits of high quality habitat for host persistence may be modulated by the presence of an environmentally persistent pathogen. In some cases, the presence of environmental pathogen reservoirs on high quality habitat may lead to the creation of ecological traps, wherein host individuals preferentially colonize high quality habitat, but are then exposed to increased infection risk and disease-induced mortality.  We explored this possibility through the development of a stochastic patch occupancy model, where we varied the pathogen's virulence, transmission rate, and environmental persistence as well as the distribution of habitat quality in the host metapopulation.  This model suggests that for certain (delete or explain what the certain refers to) pathogens, high quality habitat can serve as an ecological trap, and can be detrimental to host persistence relative to low quality habitat.  This inversion of the relative roles of high and low quality habitat highlights the importance of considering the interaction between spatial structure and pathogen transmission when managing wildlife populations exposed to an environmentally persistent pathogen.
 
 PCC: abstract reads well. You could consider putting in a few more details. e.g. can you characterize the conditions/parameter space that creates the traps rather than just saying they may exist. 
 
@@ -43,7 +43,7 @@ PCC: abstract reads well. You could consider putting in a few more details. e.g.
 
 Many prominent and problematic wildlife diseases are caused by pathogens that can persist, and remain infectious, for long periods of time in the environment.  Examples include chronic wasting disease (\cite{Miller2006}), anthrax (\emph{Bacillus anthracis}, \cite{Dragon1995}), plague (\emph{Yersinia pestis}, \cite{Eisen2008}), and white nose syndrome (\emph{Geomyces destructans}, \cite{Lindner2011}), among others.  This environmental persistence creates environmental pathogen reservoirs from which susceptible hosts can become infected without direct contact with an infectious individual.  This additional transmission pathway can have important consequences for disease dynamics, with models showing that increased environmental longevity generally facilitates increased pathogen persistence and spread relative to direct transmission alone (\cite{Almberg2011}, \cite{Sharp2011}, \cite{Breban2009}). 
 
-Since environmental transmission is spatially explicit (i.e. environmental reservoirs can only infect local residents), its role in disease dynamics may further depend on the spatial structure of the host population.  In particular, we expect that host population structure and movement will be influenced by heterogeneity in quality among the habitat patches in a metapopulation.  Indeed, the quality of a habitat patch can affect its extinction and colonization rates, as well as its contribution to the colonization of other empty patches (\cite{Moilanen1998}).  These processes may influence how a pathogen spreads, where environmental pathogen reservoirs get established, and the resulting effects on host occupancy and population size.  
+Since environmental transmission is spatially explicit (i.e. environmental reservoirs can only infect local residents), its role in disease dynamics may further depend on the spatial structure of the host population.  In particular, we expect that host population structure and movement will be influenced by heterogeneity in quality among the habitat patches in a metapopulation.  Indeed, the quality of a habitat patch can affect its extinction and colonization rates, as well as its contribution to the colonization of other empty patches (\cite{Moilanen1998}).  These processes will influence how a pathogen spreads, where environmental pathogen reservoirs get established, and the resulting effects on host occupancy and population size.  
 
 We expect that high quality habitat patches, which support greater host density and traffic than lower quality habitat, might be more likely to form pathogen reservoirs and support consistently infectious populations.  As these reservoirs are undetectable to the host, we predict that high quality patches will continue to attract -- and infect -- susceptible immigrants, effectively creating an ecological trap (\cite{Robertson2006}, \cite{Almberg2011}).  In addition, the greater traffic through high quality patches may further facilitate pathogen spread by positioning high quality patches as metapopulation-scale superspreaders (\cite{Paull2012}).  Similarly, we expect that low quality patches will be less likely to develop pathogen reservoirs and may serve as refuges where susceptible hosts can escape infection.
 The combination of these effects may then lead to the creation of metapopulation-scale traps, where the inclusion of otherwise high quality habitat in the metapopulation actually reduces host population size relative to low quality habitat.
@@ -82,18 +82,18 @@ where $\gamma_0$ is the initial infection rate of the pathogen reservoir, $\tau_
 
 \subsection{Model parameterization}
 
-The model was parameterized  according to the following assumptions (Table~\ref{params}). 
+The model was parameterized according to the following assumptions (Table~\ref{params}). 
 (1) The rate of emigration from a patch increases with population size, while the extinction rate of a patch decreases with populations size ($\xi_{im}=0.5$, $\alpha=1$, \cite{Hanski2003}).  
 (2) Migrants preferentially select high quality habitat, that is, the rate at which a patch is colonized scales with quality ($\xi_{em}=0.5$, \cite{Hanski2003}, though we relax this below).  
 (3)  Connectivity among patches is determined entirely by quality ($d_{ij}=1$ for all $i \neq j$).  
-In addition to these assumptions, parameters were chosen so that without infection, approximately 0.75 of the metapopulation was occupied ($\mu = 0.1$, $D=5$).  To explore the dynamics of a range of possible pathogens, disease induced mortality ($\nu$), probability of direct infection ($\delta$), and environmental longevity (representing the half-life of the pathogen's infectivity in the environment) were varied over a range of possible values.
+In addition to these assumptions, we chose parameters so that without infection, approximately 0.75 of the metapopulation was occupied ($\mu = 0.1$, $D=5$).  We varied disease induced mortality ($\nu$), probability of direct infection ($\delta$), and environmental longevity to explore the dynamics of a range of possible pathogens.
 
 The parameterization above assumes that all patches are equally accessible from all other patches (i.e. are separated by effective distance 1).  To examine the effects of a more rigid spatial structure, we also implemented a model with patches arranged in a square lattice such that each patch is only accessible from its four neighboring patches (in which case, average migration distance was adjusted to $D = 2$ to maintain roughly equivalent occupancy).  
 
 \subsection{Simulation studies}
 
 To explore the relative influence of low and high quality habitat on host and pathogen dynamics, we simulated the spread of a range of pathogens in metapopulations with patch quality distributions shifted towards either high or low quality habitat.
-These two distributions were chosen to have equal variance and an overlapping core of patches around unit quality, with either the minimum or maximum shifted to simulate management actions that add either low or high quality habitat (yielding distributions with qualities ranging from 0.23 to 1.24 and from 0.76 to 1.77 respectively).  
+These two distributions were chosen to have equal variance and an overlapping core of patches around unit quality, with either the minimum or maximum shifted to simulate regions with more, or less, high quality habitat (yielding distributions with qualities ranging from 0.23 to 1.24 and from 0.76 to 1.77 respectively).  
 We then implemented a full-factorial set of simulations on each quality distribution in which the pathogen's disease-induced mortality ($\nu$) and probability of direct infection ($\delta$) were each varied over 10 values (ranging from 0.1 to 1, and 0 to 0.9, respectively).  In addition, pathogen longevity was varied over 3 values (ranging from 0.3 to 3 times the expected residence time of a healthy population on a unit quality patch, i.e., 10 units of time).
 
 For each simulation -- 100 replicates for each combination of disease (determined by $\nu$, $\delta$, and longevity), habitat quality distribution (high or low), and landscape structure (fully connected or lattice), qualities for 100 patches were drawn from a uniform distribution on the given habitat quality range (above). In each case, an entirely susceptible population was simulated until it reached an approximate steady state, at which point a randomly chosen occupied patch was infected.  The state of the metapopulation was then tracked for 5000 time steps.  We recorded the proportion of patches in each state at the end of each simulation and also computed the mean effective population size of susceptible and infectious hosts over the last 500 time steps of the simulation (assuming an effective population size of $A_i$ for patches that are occupied and susceptible and $\nu A_i$ for occupied infectious patches).    
@@ -121,7 +121,7 @@ Similarly, when low disease-induced mortality and high transmission (from either
 However, for pathogens falling between these extremes (e.g. with intermediate disease-induced mortality), low quality habitat was a net benefit to the host, supporting larger total population sizes than high quality habitat (blue regions of Fig ~\ref{highvlow}).
 The spread of these pathogens was strongly influenced by the habitat quality distribution, with low quality habitat limiting disease spread and better maintaining susceptible occupancy relative to high quality habitat (Fig~\ref{popsizes}, Supplemental).
 In these cases, high quality habitat served as a sort of metapopulation-level trap, that is, otherwise beneficial habitat that is detrimental to the host population in the presence of disease.
-As pathogen longevity increased, the range of pathogens for which we observed this metapopulation-level trap became smaller, apparent only for the most virulent pathogens.
+As pathogen longevity increased, the range of the parameter space where we observed this metapopulation-level trap became smaller, apparent only for the most virulent pathogens.
 Again, metapopulations with a lattice structure displayed similar patterns (Supplement).
 
 To better understand the patch-level mechanisms behind these effects, we further examined within patch infection dynamics for a pathogen in this intermediate range ($\nu = 0.2$ and $\delta = 0.3$).  
@@ -135,7 +135,7 @@ Moreover, assuming preferential selection of high quality habitat had dramatic c
 \label{discussion} 
 
 This work demonstrates that the habitat quality in a metapopulation can have substantial impacts on the dynamics of a variety of environmentally transmitted pathogens and the resulting size and stability of the host population.
-In many cases, the presence of high quality habitat can enhance the spread and impact of environmentally persistent pathogens.  
+In some cases, the presence of high quality habitat can enhance the spread and impact of environmentally persistent pathogens.  
 In addition, these patches with many resources may become metapopulation-scale ecological traps that are normally beneficial and attractive to hosts, but become a net drain on the metapopulation due to the impacts of disease. 
 This suggests that the presence of a disease can lead to a trade-off between otherwise high quality habitat that facilitates metapopulation stability at the expense of increased disease spread, and low quality habitat that hinders disease spread at the expense of metapopulation stability.
 
@@ -149,6 +149,14 @@ In these cases, the connectivity and stability of high quality patches facilitat
 There is an intermediate scenario, however, where low quality habitats are more likely to remain uninfected and as a result boost the metapopulation size while high quality patches that are heavily infected tend to reduce the metapopulation size. 
 In this scenario, the ability of pathogens to invade and spread is influenced substantially by the colonization and extinction rates of high and low quality habitat, and the contrasting roles that these habitat types play in the metapopulation.
  
+PCC: nice summary here. Either in the beginning here or in the conclusions, you could more specifically relate these 3 regions of the parameter space to ongoing issues: 
+White-nose:  seems to be in the category of pandemic spread, probably not a trap scenario
+CWD: probably also "pandemic", but we're still on the early side of the epidemic, very long timescales
+Chytrid: ?
+Plague:  ?Colleen would know better?
+Anthrax: limited spread (or rather limited recurrance) so probably also not a trap scenario. 
+
+
 \subsubsection*{Role of high quality habitat}
 
 Because high quality habitat supports larger host population sizes, these populations are less susceptible to environmental stochasticity and thus experience less frequent extinction events.
@@ -164,7 +172,7 @@ The relatively low extinction rate on high quality patches, and the resulting in
 Indeed, for pathogens with spread in this intermediate range, high quality patches are effectively metapopulation scale superspreaders (\cite{Lloyd-Smith2005}, \cite{Paull2012}).  
 This helps to maintain infectious occupancy throughout the metapopulation, which, when coupled with preference for high quality habitat, feeds back on high quality patches to ensure a steady stream of new infectious colonists. 
 Through these two interacting processes -- the ecological trap created by the preference of individuals for high quality habitat, and the superspreader role emerging from the increased connectivity and stability -- the presence of high quality patches serves to significantly increase pathogen spread, even for more virulent pathogens (Fig~\ref{endemic}, \ref{popsizes}).
-The consequences of the concomitant widespread disease-induced mortality outweigh the positive consequences of increased metapopulation connectivity and stability, leading to the creation of a metapopulation-scale trap and a net decrease in total host population size on high quality habitat distributions (Fig~\ref{highvlow}, \ref{popsizes}).  
+The consequences of widespread disease-induced mortality can outweigh the positive consequences of increased metapopulation connectivity and stability, leading to the creation of a metapopulation-scale trap and a net decrease in total host population size on high quality habitat distributions (Fig~\ref{highvlow}, \ref{popsizes}).  
 
 \subsubsection*{Role of low quality habitat}
 In contrast to high quality habitat, low quality patches help to limit pathogen spread and increase susceptible occupancy in the metapopulation (Fig~\ref{endemic}, \ref{popsizes}). 
@@ -182,10 +190,11 @@ Here, rather than serving as sources that increase host population size, we see 
 More importantly, they become ecological traps that expose migrant hosts to increased disease risk, which can be even more detrimental to the overall population (\cite{Kristan2003}).  
 Indeed, we see that the combination of host preference for high quality habitat, along with an environmentally long-lived pathogen can have severe consequences for metapopulation stability, substantially increasing the risk of host extinction.
 From a management perspective, it is critical to understand this shift in the effect of habitat quality in order to avoid falling into the metapopulation trap created by high quality habitat and its interaction with pathogen spread.
+PCC: this paragraph seems repetitive of earlier statements. 
 
 Previous theoretical work suggests that management should focus on maintaining patches where conditions are most favorable for the host (i.e. high quality habitat), but Strasser et al. (\cite{Strasser2010}) show that stochastic disturbance (e.g. disease-induced mortality) can lead to cases where focusing on low quality habitat is more effective in increasing population growth rate.
 Ovaskainen and Hanski (\cite{Ovaskainen2003a}) similarly demonstrate that correlated extinctions reduce the contributions of well-connected habitat to metapopulation persistence and increase the contributions of more isolated habitat.
-Our model adds to this literature by demonstrating the potential for environmentally persistent pathogens to provide the kind of disturbance under which low quality habitat is beneficial.
+Our model adds to this literature by demonstrating the potential for environmentally persistent pathogens to provide the kind of disturbance under which low quality habitat is beneficial, and thus should be conserved.
 
 \subsection*{Conclusions}  
 
@@ -221,7 +230,7 @@ Any mention of trade, product, or firm names is for descriptive purposes only an
 
 \begin{figure}
 \includegraphics[scale=0.5]{figure/figure_1.pdf}
-\caption{The proportion of simulations resulting in endemic disease dynamics (persistence of both susceptible and infectious hosts) as a function of infectious survival ($\nu$), and the probability of direct transmission ($\delta$).  Panel columns show low (0.3, a, d), medium (1.0, b, e), and high (3.2, c, f) pathogen longevities, while rows show low quality (ranging from 0.23 to 1.24, a - c) and high quality (ranging from 0.76 to 1.77, d - f) patch quality distributions.  Darker shading corresponds to more frequent endemic dynamics.  The white region above the endemic region generally corresponds to pandemic dynamics (no susceptible host populations persist), while the region below the endemic region corresponds to disease-free dynamics.}
+\caption{The proportion of simulations resulting in endemic disease dynamics (persistence of both susceptible and infectious hosts) as a function of infectious survival ($\nu$), and the probability of direct transmission ($\delta$).  Panel columns show low (0.3, a, d), medium (1.0, b, e), and high (3.2, c, f) pathogen longevities, while rows show low quality (ranging from 0.23 to 1.24, a - c) and high quality (ranging from 0.76 to 1.77, d - f) patch quality distributions.  Darker shading corresponds to more frequent endemic dynamics.  The white region above the endemic region generally corresponds to pandemic dynamics (no susceptible host populations persist), while the region below the endemic region corresponds to disease-free dynamics. PCC: in this figure and in Fig 2 I'd put write the longevities in each sub-figure and remove the longevity label from the x-axis. I'd prefer to not refer to the persistence of susceptible patches as a "endemic". Maybe this figure should instead be a heatmap of the percentage of patches infected. This can then be contrasted with Fig.2 showing that only in the intermediate infection scenarios are there traps. This avoids the "endemic" v. pandemic issue}
 \label{endemic}
 \end{figure}
 
@@ -235,7 +244,7 @@ Any mention of trade, product, or firm names is for descriptive purposes only an
 \begin{figure}
 \includegraphics[scale=0.5]{figure/figure_3.pdf}
 \centering
-\caption{Boxplots showing the range, over 100 replicate simulations, of susceptible (a), infectious (b), and total (c) host population sizes for high quality (red) and low quality (blue) habitat distributions.  Disease-induced mortality ($\nu$) and direct transmission rate ($\delta$) are fixed at values of 0.2 and 0.3, respectively.  Colored points show medians, while vertical lines indicate the inner-quartile ranges, with horizontal lines indicating the minimum and maximum.  At low longevities, this pathogen is largely unable to invade and high quality habitat supports larger populations of susceptible hosts.  However, low quality habitat is better able to maintain these susceptible hosts as the pathogen's longevity increases, leading to larger total population sizes.}
+\caption{Boxplots showing the range, over 100 replicate simulations, of susceptible (a), infectious (b), and total (c) host population sizes for high quality (red) and low quality (blue) habitat distributions.  Disease-induced mortality ($\nu$) and direct transmission rate ($\delta$) are fixed at values of 0.2 and 0.3, respectively.  Colored points show medians, while vertical lines indicate the inner-quartile ranges, with horizontal lines indicating the minimum and maximum.  At low longevities, this pathogen is largely unable to invade and high quality habitat supports larger populations of susceptible hosts.  However, low quality habitat is better able to maintain these susceptible hosts as the pathogen's longevity increases, leading to larger total population sizes. PCC: seems like you chose different longevities here for your low,med, high scenarios than in Fig. 1&2. Not a big issue, but might point out that the low longevity here is really just a no-disease, completely healthy scenario}
 \label{popsizes}
 \end{figure}
 
