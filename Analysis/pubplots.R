@@ -14,32 +14,34 @@ pdf("Manuscript/figure/figure_1.pdf", width = 10, height = 6)
 
 load(paste(getwd(), "/Output/pathgrid.RData", sep = ""))
 
-out$endemic <- out$S > 0 & out$I > 0
-dat <- ddply(out, c("longevity", "treatment", "delta", "nu"), summarise, sum = sum(endemic) / 100)
+dat <- ddply(out, c("longevity", "treatment", "delta", "nu"), summarise, susc = median(S.pop))
 
-cols <- colorRampPalette(brewer.pal(9, "Greys"))(100)
+cols <- colorRampPalette(brewer.pal(9, "Greys"))(120)
 labels <- c("d", "e", "f", "a", "b", "c")
 
-plot <- levelplot(sum ~ delta * nu | longevity * treatment, data = dat,
+plot <- levelplot(susc ~ delta * nu | longevity * treatment, data = dat,
           col.regions = cols,
-          at = seq(0, 1, by = 0.01),
+          at = seq(0, 120, by = 1),
           xlab = list(label = expression("Probability of direct transmission"~(delta)), cex = 1),
           ylab = list(label = expression("Infectious survival"~(nu)), cex = 1),
           strip = F,
           scales = list(alternating = F, cex = 1),
-          ylab.right = list(label = "Probability of endemic", cex = 1),
+          ylab.right = list(label = "Susceptible population size", cex = 1),
           par.settings = list(layout.widths = list(axis.key.padding = 0, ylab.right = 3)),
           panel=function(...){
             panel.levelplot(...)
             panel.text(0, 1, labels[panel.number()], cex = 1)
           })
 
-col.lab <- textGrob(expression(Longevity ~ symbol("\256")))
 row.low <- textGrob("Low quality", rot = 90)
 row.high <- textGrob("High quality", rot = 90)
 
 grid.arrange(arrangeGrob(row.low, row.high, ncol = 1), plot, ncol = 2, 
-             widths = c(0.05, 0.95), sub = col.lab)
+             widths = c(0.05, 0.95))
+
+grid.text("Longevity = 0.32", x = unit(0.26, units = "npc"), y = unit(0.96, units = "npc"), draw = T)
+grid.text("Longevity = 1.0", x = unit(0.50, units = "npc"), y = unit(0.96, units = "npc"), draw = T)
+grid.text("Longevity = 3.2", x = unit(0.75, units = "npc"), y = unit(0.96, units = "npc"), draw = T)
 
 dev.off()
 
@@ -75,12 +77,15 @@ plot <- levelplot(diff ~ delta * nu | longevity, data = joint,
                   ylab.right = list(label = "Pop on low quality - pop on high quality", cex = 1),
                   par.settings = list(layout.widths = list(axis.key.padding = 0, ylab.right = 3)),
                   panel=function(...){
-                    panel.levelplot(main = labels[panel.number()], ...)
+                    panel.levelplot(...)
                     panel.text(0, 1, labels[panel.number()], cex = 1.5, col = "white")
                   })
 
-col.lab <- textGrob(expression(Longevity ~ symbol("\256")))
-grid.arrange(plot, sub = col.lab)
+plot
+
+grid.text("Longevity = 0.32", x = unit(0.22, units = "npc"), y = unit(0.96, units = "npc"), draw = T)
+grid.text("Longevity = 1.0", x = unit(0.48, units = "npc"), y = unit(0.96, units = "npc"), draw = T)
+grid.text("Longevity = 3.2", x = unit(0.74, units = "npc"), y = unit(0.96, units = "npc"), draw = T)
 
 dev.off()
 
@@ -259,7 +264,7 @@ xyplot(occ ~ quality | longevity, groups = xi_im, data = S,
         pch = 4,
         col = c("black", "brown"),
         panel=function(...){
-          panel.xyplot(main = labels[panel.number()], ...)
+          panel.xyplot(...)
           panel.text(0.15, 0.97, labels[panel.number()], cex = 1.2, col = "black")
         }
       )
@@ -290,8 +295,8 @@ xyplot(occ ~ quality | longevity, groups = xi_im, data = I,
        pch = 4,
        col = c("black", "brown"),
        panel=function(...){
-         panel.xyplot(main = labels[panel.number()], ...)
-         panel.text(0.15, 0.33, labels[panel.number()], cex = 1.5, col = "black")
+         panel.xyplot(...)
+         panel.text(0.15, 0.33, labels[panel.number()], cex = 1.2, col = "black")
        }
 )
 
