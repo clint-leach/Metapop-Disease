@@ -1,15 +1,15 @@
-The role of habitat quality in host metapopulations exposed to environmentally persistent pathogens
+When environmentally persistent pathogens transform good habitat into ecological traps
 ===============
 
 Authors:
-- Clint Leach, Department of Biology, Colorado State University 
-- Colleen Webb, Department of Biology, Colorado State University
-- Paul Cross, Northern Rocky Mountain Science Center, US Geological Survey
+- Clinton B. Leach, Department of Biology, Colorado State University 
+- Colleen T. Webb, Department of Biology, Colorado State University
+- Paul C. Cross, U.S. Geological Survey, Northern Rocky Mountain Science Center
 
 
 ## Abstract 
 
-The distribution of habitat quality is expected to play an important role in the dynamics of wildlife metapopulations, with the expectation that high quality habitat serves to stabilize and maintain occupancy.  However, we might expect that the costs and benefits of different quality habitat might be modulated, or possibly even reversed, by the presence of an environmentally persistent pathogen.  In such cases, the presence of environmental pathogen reservoirs on high quality habitat may lead to the creation of ecological traps, wherein host individuals preferentially colonize high quality habitat, but are then exposed to increased infection risk.  We explore this possibility through the development of a stochastic patch occupancy model in which we can vary both the traits of the pathogen (virulence, transmission, environmental longevity) and the distribution of habitat quality in the host metapopulation.  This model suggests that for certain pathogens, high quality habitat can serve as an ecological trap, and can even be a net detriment to the host metapopulation relative to low quality habitat.  This inversion of the relative roles of high and low quality habitat highlights the importance of considering the interaction between spatial structure and pathogen transmission when managing wildlife populations exposed to an environmentally persistent pathogen.
+The benefits of high quality habitat for host persistence may be modulated by the presence of an environmentally persistent pathogen. In some cases, the presence of environmental pathogen reservoirs on high quality habitat may lead to the creation of ecological traps, wherein host individuals preferentially colonize high quality habitat, but are then exposed to increased infection risk and disease-induced mortality.  We explored this possibility through the development of a stochastic patch occupancy model, where we varied the pathogen's virulence, transmission rate, and environmental persistence as well as the distribution of habitat quality in the host metapopulation.  This model suggests that for pathogens with intermediate levels of spread, high quality habitat can serve as an ecological trap, and can be detrimental to host persistence relative to low quality habitat.  This inversion of the relative roles of high and low quality habitat highlights the importance of considering the interaction between spatial structure and pathogen transmission when managing wildlife populations exposed to an environmentally persistent pathogen.
 
 ## Repository
 
