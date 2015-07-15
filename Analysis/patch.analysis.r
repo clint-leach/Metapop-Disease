@@ -256,18 +256,14 @@ points(quality, I[2, 2, 10, ], col = "brown", pch = 4)
 
 par(mfrow = c(1, 3))
 
-occ <- tapply(out$I * 0.2 * out$quality + out$S * out$quality, list(out$xi_em, out$xi_im, out$longevity, out$quality), median)
+occ <- tapply(out$I + out$S, list(out$xi_em, out$xi_im, out$longevity, out$quality), median)
 
-plot(quality, occ[2, 1, 4, ], ylim = c(0, 2), ylab = "Probability occupied", xlab = "Quality", pch = 4)
+plot(quality, occ[2, 1, 4, ], ylim = c(0, 1), ylab = "Probability occupied", xlab = "Quality", pch = 4)
 points(quality, occ[2, 2, 4, ], col = "brown", pch = 4)
-abline(a = 0, b = 1)
-plot(quality, occ[2, 1, 7, ], ylim = c(0, 2), ylab = "Probability occupied", xlab = "Quality", pch = 4)
+plot(quality, occ[2, 1, 7, ], ylim = c(0, 1), ylab = "Probability occupied", xlab = "Quality", pch = 4)
 points(quality, occ[2, 2, 7, ], col = "brown", pch = 4)
-abline(a = 0, b = 1)
-plot(quality, occ[2, 1, 10, ], ylim = c(0, 2), ylab = "Probability occupied", xlab = "Quality", pch = 4)
+plot(quality, occ[2, 1, 10, ], ylim = c(0, 1), ylab = "Probability occupied", xlab = "Quality", pch = 4)
 points(quality, occ[2, 2, 10, ], col = "brown", pch = 4)
-abline(a = 0, b = 1)
-abline(a = 0, b = 0.2)
 #===============================================================================
 # Consequences of preference (with xi_em = 0.5)
 

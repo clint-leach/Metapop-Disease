@@ -245,7 +245,7 @@ grid.arrange(arrangeGrob(low.h, med.h, high.h, low.l, med.l, high.l, ncol = 3),
 
 load(paste(getwd(), "/Output/pathgrid.RData", sep = ""))
 
-dat <- tapply(out$maxI > 0, list(out$longevity, out$treatment, out$delta, out$nu), sum) / 100
+dat <- tapply(out$S > 0 & out$I > 0, list(out$longevity, out$treatment, out$delta, out$nu), sum) / 100
 
 cols <- colorRampPalette(brewer.pal(9, "Greys"))(100)
 
