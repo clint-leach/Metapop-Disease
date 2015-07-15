@@ -29,10 +29,14 @@
 This draft manuscript is distributed solely for purposes of scientific peer review.  Its content is deliberative and pre decisional, so it must not be disclosed or released by reviewers.  Because the manuscript has not yet been approved for publication by the U.S. Geological Survey (USGS), it does not represent any official USGS finding or policy.
 \end{quote}
 
+\newpage
 
 \begin{abstract} 
 The benefits of high quality habitat for host persistence may be modulated by the presence of an environmentally persistent pathogen. In some cases, the presence of environmental pathogen reservoirs on high quality habitat may lead to the creation of ecological traps, wherein host individuals preferentially colonize high quality habitat, but are then exposed to increased infection risk and disease-induced mortality.  We explored this possibility through the development of a stochastic patch occupancy model, where we varied the pathogen's virulence, transmission rate, and environmental persistence as well as the distribution of habitat quality in the host metapopulation.  This model suggests that for pathogens with intermediate levels of spread, high quality habitat can serve as an ecological trap, and can be detrimental to host persistence relative to low quality habitat.  This inversion of the relative roles of high and low quality habitat highlights the importance of considering the interaction between spatial structure and pathogen transmission when managing wildlife populations exposed to an environmentally persistent pathogen.
 \end{abstract}
+
+\subsubsection*{Keywords:}
+disease; metapopulation; habitat quality; environmental transmission; ecological trap
 
 \section{Introduction}
 \label{intro}
@@ -84,7 +88,7 @@ The model was parameterized according to the following assumptions (Table~\ref{p
 (3)  Connectivity among patches is determined entirely by quality ($d_{ij}=1$ for all $i \neq j$).  
 In addition to these assumptions, we chose parameters so that without infection, approximately 0.75 of the metapopulation was occupied ($\mu = 0.1$, $D=5$).  We varied disease induced mortality ($\nu$), probability of direct infection ($\delta$), and environmental longevity to explore the dynamics of a range of possible pathogens.
 
-The parameterization above assumes that all patches are equally accessible from all other patches (i.e. are separated by effective distance 1).  To examine the effects of a more rigid spatial structure, we also implemented a model with patches arranged in a square lattice such that each patch is only accessible from its four neighboring patches (in which case, average migration distance was adjusted to $D = 2$ to maintain roughly equivalent occupancy).  
+The parameterization above assumes that all patches are equally accessible from all other patches (i.e. are separated by effective distance 1).  To examine the effects of a more rigid spatial structure, we also implemented a model with patches arranged in a square lattice such that each patch is only accessible from its four neighbouring patches (in which case, average migration distance was adjusted to $D = 2$ to maintain roughly equivalent occupancy).  
 
 \subsection{Simulation studies}
 
@@ -172,7 +176,7 @@ The opportunity for pathogen reservoir decay provided by the ephemeral occupancy
 Taken with this literature, our results highlight the importance of transient/temporary habitat in mitigating host exposure to environmentally transmitted pathogens.
 
 From a management perspective, it is critical to understand this shift in the effect of habitat quality in order to avoid falling into the metapopulation trap created by high quality habitat and its interaction with pathogen spread.
-Previous theoretical work suggests that management should focus on maintaining patches where conditions are most favorable for the host (i.e. high quality habitat), but Strasser et al. (\cite{Strasser2010}) show that stochastic disturbance (e.g. disease-induced mortality) can lead to cases where focusing on low quality habitat is more effective in increasing population growth rate.
+Previous theoretical work suggests that management should focus on maintaining patches where conditions are most favourable for the host (i.e. high quality habitat), but Strasser et al. (\cite{Strasser2010}) show that stochastic disturbance (e.g. disease-induced mortality) can lead to cases where focusing on low quality habitat is more effective in increasing population growth rate.
 Ovaskainen and Hanski (\cite{Ovaskainen2003a}) similarly demonstrate that correlated extinctions reduce the contributions of well-connected habitat to metapopulation persistence and increase the contributions of more isolated habitat.
 Our model adds to this literature by demonstrating the potential for environmentally persistent pathogens to provide the kind of disturbance under which low quality habitat is beneficial, and thus should be conserved.
 
@@ -198,10 +202,24 @@ Indeed, studies have suggested that large colonies are more likely to become inf
 Thus, by considering the characteristics of a host-pathogen system and their effect on the roles played by high and low quality habitat, we can begin to diagnose into which of these three scenarios empirical systems fall and the corresponding consequences for management.
 As we have seen, failing to do so risks overlooking the importance of low-quality habitat for the persistence of wildlife populations and the importance of high-quality habitat for the persistence of wildlife disease.
 
-\section{Acknowledgements}
+\subsection*{Data accessibility}
+Simulation source code and generated data are available at \url{https://github.com/clint-leach/Metapop-Disease}, along with scripts used to generate figures.
 
-CBL would like to thank members of the Webb Lab, past and present, for several rounds of useful feedback.  This work was supported by USGS Cooperative Agreement 101485, and NSF Graduate Research Fellowship, No. DGE-1321845.
+\subsection*{Competing interests}
+We have no competing interests.
 
+\subsection*{Author's contributions}
+CBL participated in the design of the study, wrote the code and carried out the simulations, and drafted the manuscript; CTW and PCC conceived of the study, participated in the design of the study, and helped draft the manuscript.  All authors gave final approval for publication.
+
+\subsection*{Acknowledgements}
+
+CBL would like to thank members of the Webb Lab at Colorado State University, past and present, for several rounds of useful feedback.  
+
+\subsection*{Funding}
+
+This work was supported by USGS Cooperative Agreement 101485, and NSF Graduate Research Fellowship, No. DGE-1321845.
+\\
+\\
 Any mention of trade, product, or firm names is for descriptive purposes only and does not imply endorsement by the U.S. Government.
 
 \clearpage
@@ -253,26 +271,6 @@ $\emptyset \rightarrow I$ & Colonization (by infectious) & $C_{Ii}$\\
 \label{transitions}
 \end{tabular}
 \end{table}
-
-%\begin{table}[h!]   
-%\caption{Parameters of the SPOM model, their meaning, and the values assigned under different parameterizations.  Empty cells indicate the same value as the default parameterization.}
-%\begin{tabular}{p{1cm} p{4cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm}}
-%Param. & Interpretation &  Default & Local movement & High env. stoch. & Dominant reservoir trans. & High virulence \\
-%\hline
-%$\xi_{im}$ & Effect of patch quality on immigration & 0.5 & -- & -- & -- & --\\
-%$\xi_{em}$ & Effect of population size on emigration & 0.5 & -- & -- & --& --\\
-%$D$& Inverse of mean dispersal distance & 5 & 2 & -- & -- & --\\
-%$d_{ij}$ & Distance between patch $i$ and $j$ & 1 $\forall i \neq j$ & 1 $\forall i, j$ neighbors & -- & -- & --\\
-%\hline
-%$\mu$ & Extinction rate of unit quality patch & 0.1 & -- & -- & -- & --\\
-%$\nu$ & Disease-induced reduction in population size & 0.2 & -- & -- & -- & 1\\
-%$\alpha$ & Strength of environmental stochasticity & 1 & -- & 0 & -- & --\\
-%\hline
-%$\delta$ & Probability of direct infection & 0.5 & -- & -- & 0.1 & --\\
-%$\gamma_0$ & Initial rate of infection from reservoir patch & 0.5 & -- & -- & -- & --
-%\end{tabular}
-%\label{params}
-%\end{table}
 
 \begin{table}[h!]   
 \caption{Parameters of the SPOM model, their meaning, and the values, or range of values, assigned.}
