@@ -79,9 +79,9 @@ colnames(state) <- c(1:100)
 
 state <- melt(state)
 names(state) <- c("Time", "Patch", "color")
-levels(state$color) <- c("white", "red", "white", "blue")
+levels(state$color) <- c("white", "#ee2c2c", "white", "#1874cd")
 
-p1 <- ggplot(state, aes(x = Time, y = Patch)) + geom_tile(fill = state$color, alpha = 0.5) + 
+p1 <- ggplot(state, aes(x = Time, y = Patch)) + geom_tile(fill = state$color) + 
               scale_fill_identity() + 
               scale_x_continuous(expand = c(0, 0)) +
               scale_y_continuous(expression(Patch ~ Quality ~ symbol('\256')), expand = c(0, 0)) +
@@ -90,14 +90,14 @@ p1 <- ggplot(state, aes(x = Time, y = Patch)) + geom_tile(fill = state$color, al
 
 tseries <- data.frame(Time = rep(c(1:5001), 2), Occupancy = c(S, I), class = rep(c("S", "I"), each = 5001))
 
-p2 <- ggplot(tseries, aes(x = Time, y = Occupancy, group = class, color = class, alpha = 0.5)) + geom_line() + 
-              scale_color_manual(values = c("red", "blue")) +
+p2 <- ggplot(tseries, aes(x = Time, y = Occupancy, group = class, color = class)) + geom_line() + 
+              scale_color_manual(values = c("#ee2c2c", "#1874cd")) +
               guides(color = FALSE, alpha = FALSE) +
               theme_classic() + labs(x = NULL) + 
               scale_x_continuous(labels = NULL, expand = c(0, 0)) +
               scale_y_continuous(expand = c(0, 0))
 
-pdf("Manuscript/figure/figure_4.pdf", width = 12, height = 8)
+postscript("Manuscript/figure/figure_4.eps", width = 12, height = 8)
 
 grid.arrange(p2, p1, ncol = 1, heights = c(0.25, 0.75))
 

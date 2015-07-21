@@ -10,7 +10,7 @@ library(plyr)
 #===============================================================================
 ### Figure 1
 
-pdf("Manuscript/figure/figure_1.pdf", width = 10, height = 6)
+postscript("Manuscript/figure/figure_1.eps", width = 10, height = 6)
 
 load(paste(getwd(), "/Output/pathgrid.RData", sep = ""))
 
@@ -50,7 +50,7 @@ dev.off()
 
 rm(list = ls())
 
-pdf("Manuscript/figure/figure_2.pdf", width = 10, height = 4)
+postscript("Manuscript/figure/figure_2.eps", width = 10, height = 4)
 
 load(paste(getwd(), "/Output/pathgrid.RData", sep = ""))
 
@@ -94,7 +94,7 @@ dev.off()
 
 rm(list = ls())
 
-pdf("Manuscript/figure/figure_3.pdf", width = 10, height = 5)
+postscript("Manuscript/figure/figure_3.eps", width = 10, height = 5)
 
 load(paste(getwd(), "/Output/pathgrid.RData", sep = ""))
 sub <- out[abs(out$delta - 0.3) < 0.001 & abs(out$nu - 0.2) < 0.001, ]
@@ -166,7 +166,7 @@ dev.off()
 
 rm(list = ls())
 
-pdf("Manuscript/figure/supplement_1.pdf", width = 10, height = 6)
+postscript("Manuscript/figure/supplement_1.eps", width = 10, height = 6)
 
 load(paste(getwd(), "/Output/pathgrid(lattice).RData", sep = ""))
 
@@ -207,7 +207,7 @@ dev.off()
 
 rm(list = ls())
 
-pdf("Manuscript/figure/supplement_2.pdf", width = 10, height = 4)
+postscript("Manuscript/figure/supplement_2.eps", width = 10, height = 4)
 
 load(paste(getwd(), "/Output/pathgrid(lattice).RData", sep = ""))
 
@@ -252,7 +252,7 @@ dev.off()
 
 rm(list = ls())
 
-pdf("Manuscript/figure/supplement_3.pdf", width = 8, height = 4)
+postscript("Manuscript/figure/supplement_3.eps", width = 8, height = 4)
 
 load(paste(getwd(), "/Output/trap.RData", sep = ""))
 
@@ -283,7 +283,7 @@ dev.off()
 
 rm(list = ls())
 
-pdf("Manuscript/figure/supplement_4.pdf", width = 8, height = 4)
+postscript("Manuscript/figure/supplement_4.eps", width = 8, height = 4)
 
 load(paste(getwd(), "/Output/trap.RData", sep = ""))
 
