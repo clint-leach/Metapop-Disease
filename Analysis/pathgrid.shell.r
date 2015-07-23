@@ -82,6 +82,6 @@ getDoParWorkers()
 #===============================================================================
 #Looping through each parameter combo and calling modelrun
 out <- foreach(i = 1:dim(treatment)[1], .verbose=TRUE, .combine="rbind") %dopar% 
-  modelrun(treatment[i, 2], treatment[i, 3], treatment[i, 4], parms, distance, initial, timesteps, treatment[i, 1])
+  metapop.collect(treatment[i, 2], treatment[i, 3], treatment[i, 4], parms, distance, initial, timesteps, treatment[i, 1])
 
 stopCluster(w)

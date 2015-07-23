@@ -1,5 +1,5 @@
 
-modelrun <- function(longevity, range, k, parms, distance, initial, timesteps){
+patch.collect <- function(longevity, range, k, parms, distance, initial, timesteps){
   # Function that runs the SPOM model for fixed pathogen parameters and 
   # habitat quality distribution and collects patch-level simulation results.
   #
