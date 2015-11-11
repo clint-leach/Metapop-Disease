@@ -77,15 +77,18 @@ where $\mu$ is the extinction rate of a patch of unit quality, and $\alpha$ cont
 
 Susceptible populations are infected via direct contact with infectious colonists at rate $\delta C_{Ii}$, where $\delta$ is the direct transmission probability.  In addition, environmental transmission can take place when a susceptible population occupies a previously infected patch, and occurs at rate:
 \begin{equation}
-\gamma(\tau_i)=\gamma_0exp(-r\tau_{i}),
+\gamma(\tau_i)=\gamma_0\exp \left(-r \tau_{i}\right),
 \end{equation}
-where $\gamma_0$ is the initial transmission rate of the pathogen reservoir, $\tau_{i}$ is the time since last infectious occupancy ($\tau_{i} = \infty$, and thus $\gamma(\tau_i) = 0$, if the patch has never been occupied by infectious hosts), and $r$ is the pathogen's decay rate in the environment (determined by the pathogen's longevity, defined as its half-life in the environment).
+where $\gamma_0$ is the initial transmission rate of the pathogen reservoir, $\tau_{i}$ is the time since last infectious occupancy ($\tau_{i} = \infty$, and thus $\gamma(\tau_i) = 0$, if the patch has never been occupied by infectious hosts), and $r$ is the pathogen's decay rate in the environment, determined by the pathogen's longevity, $\beta$ (defined as its half-life in the environment relative to the expected residence time of a population on a unit quality patch):
+\begin{equation}
+r = \frac{\mu \log(2)}{\beta}.
+\end{equation}
 
 \subsection{Model parameterization}
 
 The model was parameterized according to the following assumptions (Table~\ref{params}). 
-(1) The rate of emigration from a patch increases with the local population size, while the extinction rate of a patch decreases with populations size ($\xi_{im}=0.5$, $\alpha=1$, \cite{Hanski2003}).  
-(2) Migrants preferentially select high quality habitat, that is, the rate at which a patch is colonized scales with quality ($\xi_{em}=0.5$, \cite{Hanski2003}, though we relax this below).  
+(1) The rate of emigration from a patch increases with the local population size, while the extinction rate of a patch decreases with populations size ($\xi_{em}=0.5$, $\alpha=1$, \cite{Hanski2003}).  
+(2) Migrants preferentially select high quality habitat, that is, the rate at which a patch is colonized scales with quality ($\xi_{im}=0.5$, \cite{Hanski2003}, though we relax this below).  
 (3)  Connectivity among patches is determined entirely by quality ($d_{ij}=1$ for all $i \neq j$).  
 In addition to these assumptions, we chose parameters so that without infection, approximately 0.75 of the patches were occupied ($\mu = 0.1$, $D=5$).  We varied infectious survival ($\nu$), probability of direct transmission ($\delta$), and environmental longevity to explore the dynamics of a range of possible pathogens.
 
@@ -95,9 +98,9 @@ The parameterization above assumes that all patches are equally accessible from 
 
 To explore the relative influence of low and high quality habitat on host and pathogen dynamics, we simulated the spread of a range of pathogens in metapopulations with patch quality distributions shifted towards either high or low quality habitat.
 These two distributions were chosen to have equal variance and an overlapping core of patches around unit quality, with either the minimum or maximum shifted to simulate regions with more, or less, high quality habitat (yielding distributions with qualities ranging from 0.23 to 1.24 and from 0.76 to 1.77).  
-We then implemented a full-factorial set of simulations on each quality distribution in which infectious survival ($\nu$) and probability of direct transmission ($\delta$) were each varied over 10 values (ranging from 0.1 to 1, and 0 to 0.9, respectively).  In addition, pathogen longevity was varied over 3 values (ranging from 0.3 to 3 times the expected residence time of a healthy population on a unit quality patch, i.e., 10 units of time).
+We then implemented a full-factorial set of simulations on each quality distribution in which infectious survival ($\nu$) and probability of direct transmission ($\delta$) were each varied over 10 values (ranging from 0.1 to 1, and 0 to 0.9, respectively).  In addition, pathogen longevity ($\beta$) was varied over 3 values (ranging from 0.32 to 3.2).
 
-For each simulation -- 100 replicates for each combination of disease parameters ($\nu$, $\delta$, and longevity), habitat quality distribution (high or low), and landscape structure (fully connected or lattice), qualities for 100 patches were drawn from a uniform distribution on the given habitat quality range (above). In each case, an entirely susceptible population was simulated until it reached an approximate steady state, at which point a randomly chosen occupied patch was infected.  The state of the metapopulation was then tracked for 5000 time steps.  We recorded the proportion of patches in each state at the end of each simulation and also computed the mean total population size of susceptible and infectious hosts over the last 500 time steps of the simulation (summing the local population sizes for all occupied patches, assuming a local population size of $A_i$ for patches that are occupied and susceptible and $\nu A_i$ for occupied infectious patches).    
+For each simulation -- 100 replicates for each combination of disease parameters ($\nu$, $\delta$, and $\beta$), habitat quality distribution (high or low), and landscape structure (fully connected or lattice), qualities for 100 patches were drawn from a uniform distribution on the given habitat quality range (above). In each case, an entirely susceptible population was simulated until it reached an approximate steady state, at which point a randomly chosen occupied patch was infected.  The state of the metapopulation was then tracked for 5000 time steps.  We recorded the proportion of patches in each state at the end of each simulation and also computed the mean total population size of susceptible and infectious hosts over the last 500 time steps of the simulation (summing the local population sizes for all occupied patches, assuming a local population size of $A_i$ for patches that are occupied and susceptible and $\nu A_i$ for occupied infectious patches).    
 
 To more carefully explore the role of habitat quality in within-patch dynamics, we performed an additional simulation experiment on metapopulations with patch qualities evenly spaced over the full range explored above (from 0.2 to 1.8).
 In these simulations, we varied longevity over the values used above and explored the consequences of host preference for high quality habitat (and the corresponding potential for ecological traps) by choosing two different values for $\xi_{im}$ (with $\xi_{im} = 0.5$ indicating preference for high quality habitat, and  $\xi_{im} = 0$ indicating that migrants select all patches with equal probability).  
@@ -292,8 +295,9 @@ $\nu$ & Infectious survival & 0.1 - 1 \\
 $\alpha$ & Strength of environmental stochasticity & 1 \\
 \hline
 $\delta$ & Probability of direct transmission & 0 - 0.9 \\
-$\gamma_0$ & Initial rate of transmission from reservoir patch & 0.5
-\end{tabular}
+$\gamma_0$ & Initial rate of transmission from reservoir patch & 0.5\\
+$\beta$ & Pathogen longevity (half-life in environment, relative to $1/\mu$) & 0.3 - 3
+ \end{tabular}
 \label{params}
 \end{table}
 

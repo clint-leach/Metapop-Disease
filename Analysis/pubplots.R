@@ -98,6 +98,7 @@ postscript("Manuscript/figure/figure_3.eps", width = 10, height = 5)
 
 load(paste(getwd(), "/Output/pathgrid.RData", sep = ""))
 sub <- out[abs(out$delta - 0.3) < 0.001 & abs(out$nu - 0.2) < 0.001, ]
+sub$longevity <- round(sub$longevity, 1)
 
 S <- ddply(sub, c("longevity", "treatment"), summarise, 
            med = median(S.pop), 
@@ -120,36 +121,36 @@ tot <- ddply(sub, c("longevity", "treatment"), summarise,
            min = min(S.pop + I.pop),
            max = max(S.pop + I.pop))
 
-pS <- ggplot(S, aes(x = factor(log10(longevity)), y = med))
+pS <- ggplot(S, aes(x = factor(longevity), y = med))
 pS <- pS + geom_point(aes(colour = factor(treatment)), position = position_dodge(width = 0.4)) +
              geom_point(aes(colour = factor(treatment), y = min), shape = 45, size = 5, position = position_dodge(width = 0.4)) +
              geom_point(aes(colour = factor(treatment), y = max), shape = 45, size = 5, position = position_dodge(width = 0.4)) +
              geom_errorbar(aes(colour = factor(treatment), ymin = lowq, ymax = highq), 
                            position = position_dodge(width = 0.4), width = 0)
 pS <- pS + scale_y_continuous(limits = c(0, 125), expand = c(0, 0.1)) +
-             ylab("S population") + xlab("log(longevity)") + ggtitle("a") +
+             ylab("S population") + xlab("longevity") + ggtitle("a") +
              theme_classic() + theme(legend.position = "none")
 
 
-pI <- ggplot(I, aes(x = factor(log10(longevity)), y = med))
+pI <- ggplot(I, aes(x = factor(longevity), y = med))
 pI <- pI + geom_point(aes(colour = factor(treatment)), position = position_dodge(width = 0.4)) +
            geom_point(aes(colour = factor(treatment), y = min), shape = 45, size = 5, position = position_dodge(width = 0.4)) +
            geom_point(aes(colour = factor(treatment), y = max), shape = 45, size = 5, position = position_dodge(width = 0.4)) +
            geom_errorbar(aes(colour = factor(treatment), ymin = lowq, ymax = highq), 
                          position = position_dodge(width = 0.4), width = 0)
 pI <- pI + scale_y_continuous(limits = c(0, 12), expand = c(0, 0.1)) +
-           ylab("I population") + xlab("log(longevity)") + ggtitle("b") +
+           ylab("I population") + xlab("longevity") + ggtitle("b") +
            theme_classic() + theme(legend.position = "none")
 
 
-ptot <- ggplot(tot, aes(x = factor(log10(longevity)), y = med))
+ptot <- ggplot(tot, aes(x = factor(longevity), y = med))
 ptot <- ptot + geom_point(aes(colour = factor(treatment)), position = position_dodge(width = 0.4)) +
                geom_point(aes(colour = factor(treatment), y = min), shape = 45, size = 5, position = position_dodge(width = 0.4)) +
                geom_point(aes(colour = factor(treatment), y = max), shape = 45, size = 5, position = position_dodge(width = 0.4)) +
                geom_errorbar(aes(colour = factor(treatment), ymin = lowq, ymax = highq), 
                              position = position_dodge(width = 0.4), width = 0)
 ptot <- ptot + scale_y_continuous(limits = c(0, 125), expand = c(0, 0.1)) +
-               ylab("Total population") + xlab("log(longevity)") + ggtitle("c") +
+               ylab("Total population") + xlab("longevity") + ggtitle("c") +
                theme_classic() + theme(legend.position = "none")
 
 grid.arrange(pS, pI, ptot, ncol = 3)
