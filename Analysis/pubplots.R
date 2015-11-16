@@ -12,7 +12,7 @@ library(plyr)
 
 postscript("Manuscript/figure/figure_1.eps", width = 10, height = 6)
 
-load(paste(getwd(), "/Output/pathgrid.RData", sep = ""))
+load(paste(getwd(), "/Output/pathgrid(lattice).RData", sep = ""))
 
 dat <- ddply(out, c("longevity", "treatment", "delta", "nu"), summarise, susc = median(S.pop))
 
@@ -52,7 +52,7 @@ rm(list = ls())
 
 postscript("Manuscript/figure/figure_2.eps", width = 10, height = 4)
 
-load(paste(getwd(), "/Output/pathgrid.RData", sep = ""))
+load(paste(getwd(), "/Output/pathgrid(lattice).RData", sep = ""))
 
 out$pop<- out$S.pop + out$I.pop
 
@@ -96,8 +96,8 @@ rm(list = ls())
 
 postscript("Manuscript/figure/figure_3.eps", width = 10, height = 5)
 
-load(paste(getwd(), "/Output/pathgrid.RData", sep = ""))
-sub <- out[abs(out$delta - 0.3) < 0.001 & abs(out$nu - 0.2) < 0.001, ]
+load(paste(getwd(), "/Output/pathgrid(lattice).RData", sep = ""))
+sub <- out[abs(out$delta - 0.5) < 0.001 & abs(out$nu - 0.2) < 0.001, ]
 sub$longevity <- round(sub$longevity, 1)
 
 S <- ddply(sub, c("longevity", "treatment"), summarise, 
@@ -169,7 +169,7 @@ rm(list = ls())
 
 postscript("Manuscript/figure/supplement_1.eps", width = 10, height = 6)
 
-load(paste(getwd(), "/Output/pathgrid(lattice).RData", sep = ""))
+load(paste(getwd(), "/Output/pathgrid.RData", sep = ""))
 
 dat <- ddply(out, c("longevity", "treatment", "delta", "nu"), summarise, susc = median(S.pop))
 
@@ -210,7 +210,7 @@ rm(list = ls())
 
 postscript("Manuscript/figure/supplement_2.eps", width = 10, height = 4)
 
-load(paste(getwd(), "/Output/pathgrid(lattice).RData", sep = ""))
+load(paste(getwd(), "/Output/pathgrid.RData", sep = ""))
 
 out$pop<- out$S.pop + out$I.pop
 
@@ -255,7 +255,7 @@ rm(list = ls())
 
 postscript("Manuscript/figure/supplement_3.eps", width = 8, height = 4)
 
-load(paste(getwd(), "/Output/trap.RData", sep = ""))
+load(paste(getwd(), "/Output/trap(lattice).RData", sep = ""))
 
 longs <- unique(out$longevity)[c(4, 7, 10)]
 labels <- c("a", "b", "c")
@@ -286,7 +286,7 @@ rm(list = ls())
 
 postscript("Manuscript/figure/supplement_4.eps", width = 8, height = 4)
 
-load(paste(getwd(), "/Output/trap.RData", sep = ""))
+load(paste(getwd(), "/Output/trap(lattice).RData", sep = ""))
 
 longs <- unique(out$longevity)[c(4, 7, 10)]
 labels <- c("a", "b", "c")

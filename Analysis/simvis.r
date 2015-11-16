@@ -3,21 +3,26 @@
 
 source("Code/contSPOM(rates).r")
 
-set.seed(123)
+set.seed(8358)
 
 # Defines fixed inputs for diseaseSPOM
 parms<-data.frame("xi_im" = 0.5, 
                   "xi_em" = 0.5,      
-                  "D" = 5, 
+                  "D" = 2, 
                   "alpha" = 1,
                   "es" = 0.1,
                   "nu" = 0.2,
-                  "delta" = 0.3,
+                  "delta" = 0.5,
                   "gamma0" = 0.5)
 
 #Fully connected matrix
-distance<-matrix(1,nrow=100,ncol=100)
-diag(distance)<-0
+# distance<-matrix(1,nrow=100,ncol=100)
+# diag(distance)<-0
+
+# Lattice matrix (on a torus)
+library(igraph)
+distance<-get.adjacency(graph.lattice(c(10,10),directed=F,circular=T))
+distance<-as.matrix(distance)
 
 # Initial conditions
 initial<-c(1:100)
@@ -74,7 +79,7 @@ library(reshape2)
 library(gridExtra)
 
 state <- state[, order(quality)]
-rownames(state) <- c(1:5001)
+rownames(state) <- c(1:(timesteps + 1))
 colnames(state) <- c(1:100)
 
 state <- melt(state)
@@ -88,7 +93,7 @@ p1 <- ggplot(state, aes(x = Time, y = Patch)) + geom_tile(fill = state$color) +
               theme_classic()
 
 
-tseries <- data.frame(Time = rep(c(1:5001), 2), Occupancy = c(S, I), class = rep(c("S", "I"), each = 5001))
+tseries <- data.frame(Time = rep(c(1:(timesteps + 1)), 2), Occupancy = c(S, I), class = rep(c("S", "I"), each = (timesteps + 1)))
 
 p2 <- ggplot(tseries, aes(x = Time, y = Occupancy, group = class, color = class)) + geom_line() + 
               scale_color_manual(values = c("#ee2c2c", "#1874cd")) +

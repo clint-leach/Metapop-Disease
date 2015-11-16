@@ -9,10 +9,11 @@
 #    xi_em (2 values)
 #
 # Habitat quality distribution fixed with patches evenly spaced from 0.2 to 1.8 
-# and connectivity matrix fixed at fully connected.
+# and connectivity matrix specified as either lattice or fully connected
+# (see specification of distance matrix below).
 #
-# Generates results stored in "Output/trap.RData" that are used to generate 
-# Figures 5 - 6.
+# Generates results stored in "Output/trap.RData" and "Output/trap(lattice).RData"
+# that are used to generate Figures 3 - 6.
 
 library(foreach)
 library(doSNOW)
@@ -53,21 +54,21 @@ par.reps <- cbind(par.reps, simID)
 range <- c(0.2, 1.8)
 
 # Defines fixed inputs for diseaseSPOM
-parms<-data.frame("D" = 5, 
+parms<-data.frame("D" = 2, 
                   "alpha" = 1,
                   "es" = 0.1,
                   "nu" = 0.2,
-                  "delta" = 0.3,
+                  "delta" = 0.5,
                   "gamma0" = 0.5)
 
 # Fully connected matrix
-distance <- matrix(1, nrow=100, ncol=100)
-diag(distance) <- 0
+# distance <- matrix(1, nrow=100, ncol=100)
+# diag(distance) <- 0
 
 # Lattice matrix (on a torus)
-# library(igraph)
-# distance<-get.adjacency(graph.lattice(c(10,10),directed=F,circular=T))
-# distance<-as.matrix(distance)
+library(igraph)
+distance<-get.adjacency(graph.lattice(c(10,10),directed=F,circular=T))
+distance<-as.matrix(distance)
 
 # Initial conditions
 initial<-c(1:100)
