@@ -41,7 +41,7 @@ patch.collect <- function(longevity, range, k, parms, distance, initial, timeste
 	# Generates quality vector with desired range
   max <- range[2]
   min <- range[1]
-  quality <- seq(min, max, length.out = 100)
+  quality <- sample(seq(min, max, length.out = 100), 100, replace = F)
 	
 	# Converts longevity (half-life in units of occupancy time) to decay rate in natural time
   long.nat <- longevity / parms$es

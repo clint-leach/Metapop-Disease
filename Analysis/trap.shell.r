@@ -93,7 +93,7 @@ getDoParWorkers()
 out <- foreach(i = 1:length(par.reps[, 1]), .verbose=TRUE, .combine="rbind") %dopar% {
   parms["xi_im"] <- par.reps[i, 2]
   parms["xi_em"] <- par.reps[i, 3]
-  patch.collect(par.reps[i, 1], range,par.reps[i, 4], parms, distance, initial, timesteps)
+  patch.collect(par.reps[i, 1], range, par.reps[i, 4], parms, distance, initial, timesteps)
   }
 
 stopCluster(w)
