@@ -57,7 +57,10 @@ Many, if not all, of the pathogens listed above affect spatially structured host
 
 \subsection{Stochastic patch occupancy model}
 
-To address the above questions, we developed a stochastic patch occupancy model (SPOM) in which each patch can be in one of three possible states: occupied by susceptible hosts (S), occupied by infectious hosts (I), and unoccupied by the host ($\emptyset$).  State transitions are governed by host colonization, extinction, and transmission rates, where a susceptible population can become infectious either through direct contact with infectious immigrants, or through a local environmental pathogen reservoir (Table~\ref{transitions}).
+To address the above questions, we developed a model based on the stochastic patch occupancy model (SPOM) framework.
+This approach, based on a well-developed body of theory, models the occupancy state of discrete patches of suitable habitat.
+Though this prevents us from modeling the dynamics of local populations, this approach is able to capture realistic spatial structure while remaining relatively tractable (\cite{Ovaskainen2004}).
+To incorporate disease transmission, we expand on existing SPOM models and allow each patch to be in one of three possible states: occupied by susceptible hosts (S), occupied by infectious hosts (I), and unoccupied by the host ($\emptyset$).  State transitions are governed by host colonization, extinction, and transmission rates, where a susceptible population can become infectious either through direct contact with infectious immigrants, or through a local environmental pathogen reservoir (Table~\ref{transitions}).
 
 We assume that the host population size supported by a patch is proportional to its quality ($A_i$), and that a proportion, $\nu$, of hosts survive when a population is infected (i.e. the size of infectious populations is reduced by a factor of $\nu$).  Building on the framework developed by \cite{Hanski2003} then, the rates at which patch \emph{i}, with quality (or equivalently population size) $A_i$, is colonized by susceptible and infectious individuals, respectively, is given by its connectivity:
 \begin{align}
