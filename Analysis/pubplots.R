@@ -6,6 +6,7 @@ library(RColorBrewer)
 library(ggplot2)
 library(ggthemes)
 library(plyr)
+library(grid)
 
 #===============================================================================
 ### Figure 1
@@ -249,33 +250,70 @@ grid.text("Longevity = 3.2", x = unit(0.74, units = "npc"), y = unit(0.96, units
 dev.off()
 
 #===============================================================================
-### Supplemental figure 3
+### Supplemendtal figure 3
 
 rm(list = ls())
 
-postscript("Manuscript/figure/supplement_3.eps", width = 8, height = 4)
+postscript("Manuscript/figure/supplement_3.eps", width = 10, height = 5)
 
-load(paste(getwd(), "/Output/trap(lattice).RData", sep = ""))
+load(paste(getwd(), "/Output/pathgrid.RData", sep = ""))
+sub <- out[abs(out$delta - 0.3) < 0.001 & abs(out$nu - 0.2) < 0.001, ]
+sub$longevity <- round(sub$longevity, 1)
 
-longs <- unique(out$longevity)[c(4, 7, 10)]
-labels <- c("a", "b", "c")
+S <- ddply(sub, c("longevity", "treatment"), summarise, 
+           med = median(S.pop), 
+           lowq = quantile(S.pop, 0.25),
+           highq = quantile(S.pop, 0.75),
+           min = min(S.pop),
+           max = max(S.pop))
 
-dat <- subset(out, xi_em == 0.5 & longevity %in% longs)
+I <- ddply(sub, c("longevity", "treatment"), summarise, 
+           med = median(I.pop), 
+           lowq = quantile(I.pop, 0.25),
+           highq = quantile(I.pop, 0.75),
+           min = min(I.pop),
+           max = max(I.pop))
 
-S <- ddply(dat, .(xi_im, longevity, quality), summarise, occ = median(S))
+tot <- ddply(sub, c("longevity", "treatment"), summarise, 
+             med = median(S.pop + I.pop), 
+             lowq = quantile(S.pop + I.pop, 0.25),
+             highq = quantile(S.pop + I.pop, 0.75),
+             min = min(S.pop + I.pop),
+             max = max(S.pop + I.pop))
 
-xyplot(occ ~ quality | longevity, groups = xi_im, data = S,
-        xlab = list(label = "Quality", cex = 1.2),
-        ylab = list(label = "Probability susceptible", cex = 1.2),
-        scales = list(alternating = F, cex = 1.2),
-        strip = F,
-        pch = 4,
-        col = c("black", "brown"),
-        panel=function(...){
-          panel.xyplot(...)
-          panel.text(0.15, 0.97, labels[panel.number()], cex = 1.2, col = "black")
-        }
-      )
+pS <- ggplot(S, aes(x = factor(longevity), y = med))
+pS <- pS + geom_point(aes(colour = factor(treatment)), position = position_dodge(width = 0.4)) +
+  geom_point(aes(colour = factor(treatment), y = min), shape = 45, size = 5, position = position_dodge(width = 0.4)) +
+  geom_point(aes(colour = factor(treatment), y = max), shape = 45, size = 5, position = position_dodge(width = 0.4)) +
+  geom_errorbar(aes(colour = factor(treatment), ymin = lowq, ymax = highq), 
+                position = position_dodge(width = 0.4), width = 0)
+pS <- pS + scale_y_continuous(limits = c(0, 125), expand = c(0, 0.1)) +
+  ylab("S population") + xlab("longevity") + ggtitle("a") +
+  theme_classic() + theme(legend.position = "none")
+
+
+pI <- ggplot(I, aes(x = factor(longevity), y = med))
+pI <- pI + geom_point(aes(colour = factor(treatment)), position = position_dodge(width = 0.4)) +
+  geom_point(aes(colour = factor(treatment), y = min), shape = 45, size = 5, position = position_dodge(width = 0.4)) +
+  geom_point(aes(colour = factor(treatment), y = max), shape = 45, size = 5, position = position_dodge(width = 0.4)) +
+  geom_errorbar(aes(colour = factor(treatment), ymin = lowq, ymax = highq), 
+                position = position_dodge(width = 0.4), width = 0)
+pI <- pI + scale_y_continuous(limits = c(0, 12), expand = c(0, 0.1)) +
+  ylab("I population") + xlab("longevity") + ggtitle("b") +
+  theme_classic() + theme(legend.position = "none")
+
+
+ptot <- ggplot(tot, aes(x = factor(longevity), y = med))
+ptot <- ptot + geom_point(aes(colour = factor(treatment)), position = position_dodge(width = 0.4)) +
+  geom_point(aes(colour = factor(treatment), y = min), shape = 45, size = 5, position = position_dodge(width = 0.4)) +
+  geom_point(aes(colour = factor(treatment), y = max), shape = 45, size = 5, position = position_dodge(width = 0.4)) +
+  geom_errorbar(aes(colour = factor(treatment), ymin = lowq, ymax = highq), 
+                position = position_dodge(width = 0.4), width = 0)
+ptot <- ptot + scale_y_continuous(limits = c(0, 125), expand = c(0, 0.1)) +
+  ylab("Total population") + xlab("longevity") + ggtitle("c") +
+  theme_classic() + theme(legend.position = "none")
+
+grid.arrange(pS, pI, ptot, ncol = 3)
 
 dev.off()
 
@@ -293,7 +331,100 @@ labels <- c("a", "b", "c")
 
 dat <- subset(out, xi_em == 0.5 & longevity %in% longs)
 
-I <- ddply(dat, .(xi_im, longevity, quality), summarise, occ = median(I))
+S <- ddply(dat, .(xi_im, longevity, quality), summarise, occ = mean(S))
+
+xyplot(occ ~ quality | longevity, groups = xi_im, data = S,
+        xlab = list(label = "Quality", cex = 1.2),
+        ylab = list(label = "Probability susceptible", cex = 1.2),
+        scales = list(alternating = F, cex = 1.2),
+        strip = F,
+        pch = 4,
+        col = c("black", "brown"),
+        panel=function(...){
+          panel.xyplot(...)
+          panel.text(0.15, 0.90, labels[panel.number()], cex = 1.2, col = "black")
+        }
+      )
+
+dev.off()
+
+#===============================================================================
+### Supplemental figure 5
+
+rm(list = ls())
+
+postscript("Manuscript/figure/supplement_5.eps", width = 8, height = 4)
+
+load(paste(getwd(), "/Output/trap(lattice).RData", sep = ""))
+
+longs <- unique(out$longevity)[c(4, 7, 10)]
+labels <- c("a", "b", "c")
+
+dat <- subset(out, xi_em == 0.5 & longevity %in% longs)
+
+I <- ddply(dat, .(xi_im, longevity, quality), summarise, occ = mean(I))
+
+xyplot(occ ~ quality | longevity, groups = xi_im, data = I,
+       xlab = list(label = "Quality", cex = 1.2),
+       ylab = list(label = "Probability infectious", cex = 1.2),
+       scales = list(alternating = F, cex = 1.2),
+       strip = F,
+       pch = 4,
+       col = c("black", "brown"),
+       panel=function(...){
+         panel.xyplot(...)
+         panel.text(0.15, 0.12, labels[panel.number()], cex = 1.2, col = "black")
+       }
+)
+
+dev.off()
+
+#===============================================================================
+### Supplemental figure 6
+
+rm(list = ls())
+
+postscript("Manuscript/figure/supplement_6.eps", width = 8, height = 4)
+
+load(paste(getwd(), "/Output/trap.RData", sep = ""))
+
+longs <- unique(out$longevity)[c(4, 7, 10)]
+labels <- c("a", "b", "c")
+
+dat <- subset(out, xi_em == 0.5 & longevity %in% longs)
+
+S <- ddply(dat, .(xi_im, longevity, quality), summarise, occ = mean(S))
+
+xyplot(occ ~ quality | longevity, groups = xi_im, data = S,
+       xlab = list(label = "Quality", cex = 1.2),
+       ylab = list(label = "Probability susceptible", cex = 1.2),
+       scales = list(alternating = F, cex = 1.2),
+       strip = F,
+       pch = 4,
+       col = c("black", "brown"),
+       panel=function(...){
+         panel.xyplot(...)
+         panel.text(0.15, 0.95, labels[panel.number()], cex = 1.2, col = "black")
+       }
+)
+
+dev.off()
+
+#===============================================================================
+### Supplemental figure 7
+
+rm(list = ls())
+
+postscript("Manuscript/figure/supplement_7.eps", width = 8, height = 4)
+
+load(paste(getwd(), "/Output/trap.RData", sep = ""))
+
+longs <- unique(out$longevity)[c(4, 7, 10)]
+labels <- c("a", "b", "c")
+
+dat <- subset(out, xi_em == 0.5 & longevity %in% longs)
+
+I <- ddply(dat, .(xi_im, longevity, quality), summarise, occ = mean(I))
 
 xyplot(occ ~ quality | longevity, groups = xi_im, data = I,
        xlab = list(label = "Quality", cex = 1.2),
@@ -309,5 +440,4 @@ xyplot(occ ~ quality | longevity, groups = xi_im, data = I,
 )
 
 dev.off()
-
 

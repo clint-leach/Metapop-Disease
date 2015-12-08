@@ -3,7 +3,7 @@
 
 source("Code/contSPOM(rates).r")
 
-set.seed(8358)
+set.seed(8689)
 
 # Defines fixed inputs for diseaseSPOM
 parms<-data.frame("xi_im" = 0.5, 
@@ -31,7 +31,7 @@ initial[51:100]<-"E"
 
 timesteps<-5000
 
-longevity <- 1
+longevity <- 10 ^ 0.5
 variance <- 0.2
 
 #===============================================================================
