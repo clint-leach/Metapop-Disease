@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/20434/clint-leach/Metapop-Disease.svg)](https://zenodo.org/badge/latestdoi/20434/clint-leach/Metapop-Disease)
+
 When environmentally persistent pathogens transform good habitat into ecological traps
 ===============
 
